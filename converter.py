@@ -80,7 +80,8 @@ class Converter:
             song_idxs.append(folder_array.shape[0] if folder_array is not None else 0)  # So we know here songs start
 
             sliced_song_array = self.slice_song(song_2d_array)
-            folder_array = np.concatenate([folder_array, sliced_song_array]) if folder_array is not None else sliced_song_array
+            if sliced_song_array is not None:
+                folder_array = np.concatenate([folder_array, sliced_song_array]) if folder_array is not None else sliced_song_array
 
         return folder_array, np.array(song_idxs)
 
