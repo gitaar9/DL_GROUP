@@ -69,8 +69,12 @@ class Converter:
             except midi.MidiException:
                 print('Skipping {} due to midi exception'.format(filename))
                 continue
+            try:
+                song_stream = midi.translate.midiFileToStream(midi_file)
+            except IndexError:
+                print('Skipping {} due to midi -> stream translation error'.format(filename))
+                continue
 
-            song_stream = midi.translate.midiFileToStream(midi_file)
             song_2d_array = self.stream_to_2d_array(song_stream)
 
             song_idxs.append(folder_array.shape[0] if folder_array is not None else 0)  # So we know here songs start
