@@ -3,6 +3,7 @@ from collections import OrderedDict
 
 import torch.nn as nn
 import torch.utils.model_zoo as model_zoo
+from torch._thnn import backend as thnn_backend
 from torchvision.models.densenet import _DenseBlock, _Transition, DenseNet as BaseDenseNet, \
     model_urls as dense_model_urls
 from torchvision.models.resnet import BasicBlock, model_urls as res_model_urls, ResNet as BaseResNet
@@ -25,8 +26,17 @@ class DenseNet(BaseDenseNet):
 
     def __init__(self, growth_rate=32, block_config=(6, 12, 24, 16),
                  num_init_features=64, bn_size=4, drop_rate=0, num_classes=1000):
-
-        super(DenseNet, self).__init__()
+        # replace call to init of module
+        self._backend = thnn_backend
+        self._parameters = OrderedDict()
+        self._buffers = OrderedDict()
+        self._backward_hooks = OrderedDict()
+        self._forward_hooks = OrderedDict()
+        self._forward_pre_hooks = OrderedDict()
+        self._state_dict_hooks = OrderedDict()
+        self._load_state_dict_pre_hooks = OrderedDict()
+        self._modules = OrderedDict()
+        self.training = True
 
         # First convolution
         self.features = nn.Sequential(OrderedDict([
