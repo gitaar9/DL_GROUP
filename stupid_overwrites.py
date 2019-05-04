@@ -26,7 +26,7 @@ class DenseNet(BaseDenseNet):
     def __init__(self, *args, **kwargs):
 
         super(DenseNet, self).__init__(*args, **kwargs)
-        self.features[0] = nn.Conv2d(3, self.features[0].out_channels, kernel_size=7, stride=2, padding=3, bias=False)
+        self.features[0] = nn.Conv2d(1, self.features[0].out_channels, kernel_size=7, stride=2, padding=3, bias=False)
         print(self.features[0])
 
 
