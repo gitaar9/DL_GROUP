@@ -33,8 +33,8 @@ class BaseNet:
 
     @staticmethod
     def get_data_loaders(train_batch_size, val_batch_size):
-        train_loader = DataLoader(MidiClassicMusic(folder_path="./data/four_composers", train=True), batch_size=train_batch_size, shuffle=True)
-        val_loader = DataLoader(MidiClassicMusic(folder_path="./data/four_composers", train=False), batch_size=val_batch_size, shuffle=False)
+        train_loader = DataLoader(MidiClassicMusic(folder_path="./data/ten_composers", train=True), batch_size=train_batch_size, shuffle=True)
+        val_loader = DataLoader(MidiClassicMusic(folder_path="./data/ten_composers", train=False), batch_size=val_batch_size, shuffle=False)
         return train_loader, val_loader
 
     def freeze_all_layers(self):
@@ -138,8 +138,7 @@ class OurResNet(BaseNet):
         self.model = resnet18(pretrained=pretrained)
         if feature_extract:
             self.freeze_all_layers()
-        if pretrained:
-            self.model.fc = nn.Linear(512, num_classes)
+        self.model.fc = nn.Linear(512, num_classes)
 
         super().__init__(**kwargs)
 
@@ -150,13 +149,12 @@ class OurDenseNet(BaseNet):
         self.model = densenet121(pretrained=pretrained)
         if feature_extract:
             self.freeze_all_layers()
-        if pretrained:
-            self.model.classifier = nn.Linear(1024, num_classes)
+        self.model.classifier = nn.Linear(1024, num_classes)
 
         super().__init__(**kwargs)
 
 
 if __name__ == '__main__':
-    dense = OurDenseNet(num_classes=4, pretrained=False, epochs=100)
+    dense = OurResNet(num_classes=10, pretrained=False, epochs=200)
     #print(dense.model.conv1)
     metrics = dense.run()
