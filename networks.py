@@ -8,7 +8,7 @@ from torch import nn, optim
 from torch.utils.data import DataLoader
 
 from datasets import MidiClassicMusic
-from stupid_overwrites import densenet121, resnet18
+from stupid_overwrites import densenet121
 
 
 class BaseNet:
