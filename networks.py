@@ -135,9 +135,12 @@ class BaseNet:
 class OurResNet(BaseNet):
     def __init__(self, num_classes=10, pretrained=True, feature_extract=False, **kwargs):
         # load the model
-        self.model = resnet18(pretrained=pretrained)
+        self.model = models.resnet50(pretrained=pretrained)
+        # Change input layer to 1 channel
+        self.model.conv1 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
         if feature_extract:
             self.freeze_all_layers()
+        # Change output layer
         self.model.fc = nn.Linear(512, num_classes)
 
         super().__init__(**kwargs)

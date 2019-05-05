@@ -31,7 +31,7 @@ class MidiClassicMusic(Dataset):
 
     def __len__(self):
         if self.train:
-            return len(self.song_idxs_array) * 1000
+            return 4000
         else:
             return len(self.validation_labels)
 

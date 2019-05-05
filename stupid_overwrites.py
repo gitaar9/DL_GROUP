@@ -54,17 +54,3 @@ def densenet121(pretrained=False, **kwargs):
                 del state_dict[key]
         model.load_state_dict(state_dict)
     return model
-
-
-# CHANGE RESNET TO USE A SINGLE CHANNEL INPUT #
-def resnet18(pretrained=False, **kwargs):
-    """Constructs a ResNet-18 model.
-
-    Args:
-        pretrained (bool): If True, returns a model pre-trained on ImageNet
-    """
-    model = ResNet(BasicBlock, [2, 2, 2, 2], **kwargs)
-    model.conv1 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)  # This change the input channels
-    if pretrained:
-        model.load_state_dict(model_zoo.load_url(res_model_urls['resnet18']))
-    return model
