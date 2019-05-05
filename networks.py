@@ -141,7 +141,7 @@ class OurResNet(BaseNet):
         if feature_extract:
             self.freeze_all_layers()
         # Change output layer
-        self.model.fc = nn.Linear(512, num_classes)
+        self.model.fc = nn.Linear(2048, num_classes)  # 512 for resnet18, 2048 for resnet50
 
         super().__init__(**kwargs)
 
