@@ -53,11 +53,11 @@ class MidiClassicMusic(Dataset):
 
         start_of_part = randrange(song_length_in_slizes - self.slices)
         song_image = np.concatenate(song_slices[start_of_part:start_of_part + self.slices], axis=1)
-        torch_data = torch.from_numpy(song_image).unsqueeze(0).float()
+        torch_data = torch.from_numpy(song_image - 0.01).unsqueeze(0).float()
         return torch_data, index
 
     def get_validation_item(self, index):
-        torch_data = torch.from_numpy(self.data_array[index]).unsqueeze(0).float()
+        torch_data = torch.from_numpy(self.data_array[index] - 0.01).unsqueeze(0).float()
         return torch_data, self.validation_labels[index]
 
     def __getitem__(self, index):
