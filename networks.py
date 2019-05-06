@@ -137,7 +137,7 @@ class OurResNet(BaseNet):
         # load the model
         self.model = models.resnet50(pretrained=pretrained)
         # Change input layer to 1 channel
-        self.model.conv1 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
+        self.model.conv1 = nn.Conv2d(1, 64, kernel_size=12, stride=2, padding=3, bias=False)
         if feature_extract:
             self.freeze_all_layers()
         # Change output layer
@@ -158,6 +158,6 @@ class OurDenseNet(BaseNet):
 
 
 if __name__ == '__main__':
-    dense = OurResNet(num_classes=10, pretrained=False, epochs=100, train_batch_size=10)
+    dense = OurResNet(num_classes=10, pretrained=False, epochs=100, train_batch_size=50)
     #print(dense.model.conv1)
     metrics = dense.run()
