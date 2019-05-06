@@ -23,7 +23,7 @@ class Converter:
         while height >= self.array_height:
             height -= 12
         for time_slice in range(offset, offset + int(duration * self.precision)):
-            array[height][time_slice] = 1
+            array[height][time_slice] += 1 if time_slice == offset else 0.5  # Only 1 one the first
 
     def load_midi_file(self, folder_path, filename):
         mf = midi.MidiFile()
@@ -56,13 +56,15 @@ class Converter:
 
         return sliced_array
 
-    def folder_to_3d_array(self, folder_name):
+    def folder_to_3d_array(self, folder_name, write_to_data_dict=True):
         folder_path = os.path.join(self.base_path, folder_name)
         filenames = [f for f in os.listdir(folder_path) if f.endswith(".mid") or f.endswith(".MID")]
         print("Found {} midi files for {}".format(len(filenames), folder_name))
 
         song_idxs = []
         folder_array = None
+        # Songs with 10+ slices, song with 20+ slices
+        metrics = [0, 0]
         for filename in filenames:
             try:
                 midi_file = self.load_midi_file(folder_path, filename)
@@ -81,18 +83,27 @@ class Converter:
 
             sliced_song_array = self.slice_song(song_2d_array)
             if sliced_song_array is not None:
+                metrics[0] = metrics[0] + 1 if sliced_song_array.shape[0] >= 10 else metrics[0]
+                metrics[1] = metrics[0] + 1 if sliced_song_array.shape[0] >= 20 else metrics[1]
                 folder_array = np.concatenate([folder_array, sliced_song_array]) if folder_array is not None else sliced_song_array
+
+        # Save some information like songs with 10+ slices, 20+ slices and total amount of slices
+        if write_to_data_dict:
+            with open('data/data_dict.csv', 'a+') as f:
+                f.write("{}, {}, {}, {}\n".format(folder_name, folder_array.shape[0], metrics[0], metrics[1]))
 
         return folder_array, np.array(song_idxs)
 
 
 if __name__ == '__main__':
     midi_directory = "./data/midi-classic-music/"
+    npy_save_directory = "./data/midi_files_npy/"
+
     folders = [o for o in os.listdir(midi_directory) if os.path.isdir(os.path.join(midi_directory, o))]
-    con = Converter()
+    con = Converter(base_path=midi_directory)
     for folder_name in folders:
         try:
-            np.load(os.path.join(midi_directory, folder_name, "{}_song_idxs.npy".format(folder_name)))
+            np.load(os.path.join(npy_save_directory, "{}_song_idxs.npy".format(folder_name)))
             print("npy file already exists for {}".format(folder_name))
             continue
         except FileNotFoundError:
@@ -103,6 +114,6 @@ if __name__ == '__main__':
 
         # save the parsed midi as a .npy file
         folder_path = os.path.join(midi_directory, folder_name)
-        np.save(os.path.join(folder_path, "{}_data".format(folder_name)), array_3d)
-        np.save(os.path.join(folder_path, "{}_song_idxs".format(folder_name)), song_idxs)
+        np.save(os.path.join(npy_save_directory, "{}_data".format(folder_name)), array_3d)
+        np.save(os.path.join(npy_save_directory, "{}_song_idxs".format(folder_name)), song_idxs)
         print("3D Array shape: {}\n{} song indexes: {}".format(array_3d.shape, len(song_idxs), song_idxs))
