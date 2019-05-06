@@ -158,6 +158,6 @@ class OurDenseNet(BaseNet):
 
 
 if __name__ == '__main__':
-    dense = OurResNet(num_classes=10, pretrained=False, epochs=200)
+    dense = OurResNet(num_classes=10, pretrained=False, epochs=100, train_batch_size=10)
     #print(dense.model.conv1)
     metrics = dense.run()
