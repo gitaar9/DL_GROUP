@@ -53,6 +53,7 @@ class MidiClassicMusic(Dataset):
 
         start_of_part = randrange(song_length_in_slizes - self.slices)
         song_image = np.concatenate(song_slices[start_of_part:start_of_part + self.slices], axis=1)
+        song_image += np.random.normal(loc=0, scale=0.01, size=song_image.shape)  # Add some noise
         torch_data = torch.from_numpy(song_image).unsqueeze(0).float()
         return torch_data, index
 
