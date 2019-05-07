@@ -84,7 +84,7 @@ class Converter:
             sliced_song_array = self.slice_song(song_2d_array)
             if sliced_song_array is not None:
                 metrics[0] = metrics[0] + 1 if sliced_song_array.shape[0] >= 10 else metrics[0]
-                metrics[1] = metrics[0] + 1 if sliced_song_array.shape[0] >= 20 else metrics[1]
+                metrics[1] = metrics[1] + 1 if sliced_song_array.shape[0] >= 20 else metrics[1]
                 folder_array = np.concatenate([folder_array, sliced_song_array]) if folder_array is not None else sliced_song_array
 
         # Save some information like songs with 10+ slices, 20+ slices and total amount of slices

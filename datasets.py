@@ -10,10 +10,12 @@ class MidiClassicMusic(Dataset):
     """
     MidiClassicMusic dataset for PyTorch
     """
-    def __init__(self, folder_path, train=True, slices=7):
+    def __init__(self, folder_path, composers, train=True, slices=7, add_noise=True):
         self.slices = slices
         self.train = train
+        self.composers = composers
         self.data_array, self.song_idxs_array = self.load_npy_files(folder_path)
+        self.add_noise = add_noise
 
         # For validation data we keep it a little bit simpler
         if not self.train:
@@ -26,7 +28,7 @@ class MidiClassicMusic(Dataset):
                     while (slice_idx + self.slices) < length:
                         validation_data.append(np.concatenate(song_slices[slice_idx:slice_idx + self.slices], axis=1))
                         self.validation_labels.append(composer_idx)
-                        slice_idx += self.slices
+                        slice_idx += 1
             self.data_array = np.array(validation_data)
 
     def __len__(self):
@@ -53,7 +55,9 @@ class MidiClassicMusic(Dataset):
 
         start_of_part = randrange(song_length_in_slizes - self.slices)
         song_image = np.concatenate(song_slices[start_of_part:start_of_part + self.slices], axis=1)
-        song_image += np.random.normal(loc=0, scale=0.01, size=song_image.shape)  # Add some noise
+        if self.add_noise:
+            song_image += np.random.normal(loc=0, scale=0.01, size=song_image.shape)  # Add some noise
+
         torch_data = torch.from_numpy(song_image).unsqueeze(0).float()
         return torch_data, index
 
@@ -65,7 +69,8 @@ class MidiClassicMusic(Dataset):
         return self.get_train_item(index) if self.train else self.get_validation_item(index)
 
     def load_npy_files(self, folder_path):
-        data_filenames = [f for f in os.listdir(folder_path) if f.endswith("_data.npy")]
+        data_filenames = ["{}_data.npy".format(composer) for composer in self.composers]
+        # data_filenames = [f for f in os.listdir(folder_path) if f.endswith("_data.npy")]
         data_array = []
         song_idxs_array = []
 
