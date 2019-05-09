@@ -162,13 +162,13 @@ class OurDenseNet(BaseNet):
 class OurInception(BaseNet):
     def __init__(self, num_classes=10, pretrained=True, feature_extract=False, **kwargs):
         # load the model
-        self.model = models.inception_v3(pretrained=pretrained)
+        self.model = models.inception_v3(pretrained=pretrained, transform_input=False)
         if feature_extract:
             self.freeze_all_layers()
         self.model.AuxLogits.fc = nn.Linear(768, num_classes)
         self.model.fc = nn.Linear(2048, num_classes)
         super().__init__(**kwargs)
-        self.Conv2d_1a_3x3 = BasicConv2d(1, 32, kernel_size=3, stride=2)
+        self.model.Conv2d_1a_3x3 = BasicConv2d(1, 32, kernel_size=3, stride=2)
 
     def train(self):
         total_loss = 0
