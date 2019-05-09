@@ -35,8 +35,8 @@ class BaseNet:
     @staticmethod
     def get_data_loaders(train_batch_size, val_batch_size):
         composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-        train_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=4, composers=composers), batch_size=train_batch_size, shuffle=True)
-        val_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=False, slices=4, composers=composers), batch_size=val_batch_size, shuffle=False)
+        train_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=16, composers=composers), batch_size=train_batch_size, shuffle=True)
+        val_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=False, slices=16, composers=composers), batch_size=val_batch_size, shuffle=False)
         return train_loader, val_loader
 
     def freeze_all_layers(self):
@@ -201,7 +201,7 @@ class OurInception(BaseNet):
 
 
 if __name__ == '__main__':
-    dense = OurDenseNet(num_classes=10, pretrained=False, epochs=100, train_batch_size=10, val_batch_size=10)
+    dense = OurDenseNet(num_classes=10, pretrained=False, epochs=100, train_batch_size=30, val_batch_size=30)
     print('Finished initializing')
     #print(dense.model.conv1)
     metrics = dense.run()
