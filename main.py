@@ -24,5 +24,5 @@ def composer_with_at_least(folder_path, slices, songs):
 
 
 if __name__ == '__main__':
-    composers = composer_with_at_least('./data/midi_files_npy/', 16, 30)
+    composers = composer_with_at_least('./data/midi_files_npy/', 16, 10)
     print(len(composers), composers)

@@ -6,6 +6,7 @@ import torchvision.models as models
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 from torch import nn, optim
 from torch.utils.data import DataLoader
+from torchvision.models.inception import BasicConv2d
 
 from datasets import MidiClassicMusic
 from stupid_overwrites import densenet121
@@ -34,8 +35,8 @@ class BaseNet:
     @staticmethod
     def get_data_loaders(train_batch_size, val_batch_size):
         composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-        train_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=8, composers=composers), batch_size=train_batch_size, shuffle=True)
-        val_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=False, slices=8, composers=composers), batch_size=val_batch_size, shuffle=False)
+        train_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=16, composers=composers), batch_size=train_batch_size, shuffle=True)
+        val_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=False, slices=16, composers=composers), batch_size=val_batch_size, shuffle=False)
         return train_loader, val_loader
 
     def freeze_all_layers(self):
@@ -158,7 +159,48 @@ class OurDenseNet(BaseNet):
         super().__init__(**kwargs)
 
 
+class OurInception(BaseNet):
+    def __init__(self, num_classes=10, pretrained=True, feature_extract=False, **kwargs):
+        # load the model
+        self.model = models.inception_v3(pretrained=pretrained)
+        if feature_extract:
+            self.freeze_all_layers()
+        self.model.AuxLogits.fc = nn.Linear(768, num_classes)
+        self.model.fc = nn.Linear(2048, num_classes)
+        super().__init__(**kwargs)
+        self.Conv2d_1a_3x3 = BasicConv2d(1, 32, kernel_size=3, stride=2)
+
+    def train(self):
+        total_loss = 0
+        self.model.train()
+        if self.cuda_available:
+            self.model.cuda()
+        for i, data in enumerate(self.train_loader):
+            X, y = data[0].to(self.device), data[1].to(self.device)
+            # training step for single batch
+            self.model.zero_grad()
+            outputs, aux_outputs = self.model(X)
+
+            loss1 = self.loss_function(outputs, y)
+            loss2 = self.loss_function(aux_outputs, y)
+            loss = loss1 + 0.4 * loss2
+            loss.backward()
+            self.optimizer.step()
+
+            # getting training quality data
+            current_loss = loss.item()
+            total_loss += current_loss
+
+            if not self.cuda_available:
+                print(total_loss / (i + 1))
+
+        # releasing unceseccary memory in GPU
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+        return total_loss
+
+
 if __name__ == '__main__':
-    dense = OurResNet(num_classes=10, pretrained=False, epochs=100, train_batch_size=50)
+    dense = OurInception(num_classes=10, pretrained=False, epochs=100, train_batch_size=50)
     #print(dense.model.conv1)
     metrics = dense.run()
