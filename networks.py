@@ -202,6 +202,5 @@ class OurInception(BaseNet):
 
 if __name__ == '__main__':
     dense = OurDenseNet(num_classes=10, pretrained=False, epochs=100, train_batch_size=30, val_batch_size=30)
-    print('Finished initializing')
     #print(dense.model.conv1)
     metrics = dense.run()
