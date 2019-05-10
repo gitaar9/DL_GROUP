@@ -201,7 +201,7 @@ class OurInception(BaseNet):
 
 if __name__ == '__main__':
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-    dense = OurDenseNet(composers=composers, num_classes=10, pretrained=False, epochs=100, train_batch_size=30,
-                        val_batch_size=30)
+    dense = OurDenseNet(composers=composers, num_classes=len(composers), pretrained=False, epochs=100,
+                        train_batch_size=30, val_batch_size=30)
     metrics = dense.run()
     print(metrics)
