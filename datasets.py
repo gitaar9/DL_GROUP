@@ -10,12 +10,14 @@ class MidiClassicMusic(Dataset):
     """
     MidiClassicMusic dataset for PyTorch
     """
-    def __init__(self, folder_path, composers, train=True, slices=7, add_noise=True):
+    def __init__(self, folder_path, composers, train=True, slices=7, add_noise=True, unsqueeze=True):
         self.slices = slices
         self.train = train
         self.composers = composers
+        self.amount_of_composers = len(composers)
         self.data_array, self.song_idxs_array = self.load_npy_files(folder_path)
         self.add_noise = add_noise
+        self.unsqueeze = unsqueeze
 
         # For validation data we keep it a little bit simpler
         if not self.train:
@@ -44,7 +46,7 @@ class MidiClassicMusic(Dataset):
         return composer_array[song_start:song_start + song_length_in_slices], song_length_in_slices
 
     def get_train_item(self, index):
-        index = index % 4
+        index = index % self.amount_of_composers
         song_idxs = self.song_idxs_array[index]
         composer_data = self.data_array[index]
 
@@ -58,12 +60,18 @@ class MidiClassicMusic(Dataset):
         if self.add_noise:
             song_image += np.random.normal(loc=0, scale=0.01, size=song_image.shape)  # Add some noise
 
-        torch_data = torch.from_numpy(song_image).unsqueeze(0).float()
+        torch_data = self.unsqueeze_tensor(torch.from_numpy(song_image)).float()
         return torch_data, index
 
     def get_validation_item(self, index):
-        torch_data = torch.from_numpy(self.data_array[index]).unsqueeze(0).float()
+        torch_data = self.unsqueeze_tensor(torch.from_numpy(self.data_array[index])).float()
         return torch_data, self.validation_labels[index]
+
+    def unsqueeze_tensor(self, tensor):
+        if self.unsqueeze:
+            return tensor.unsqueeze(0)
+        else:
+            return tensor
 
     def __getitem__(self, index):
         return self.get_train_item(index) if self.train else self.get_validation_item(index)

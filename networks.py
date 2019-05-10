@@ -13,10 +13,11 @@ from stupid_overwrites import densenet121
 
 
 class BaseNet:
-    def __init__(self, epochs, train_batch_size=100, val_batch_size=100, optimizer='Adadelta'):
+    def __init__(self, epochs, composers, train_batch_size=100, val_batch_size=100, optimizer='Adadelta'):
         #params you need to specify:
         self.epochs = epochs
         # put your data loader here
+        self.composers = composers
         self.train_loader, self.val_loader = self.get_data_loaders(train_batch_size, val_batch_size)
         self.loss_function = nn.CrossEntropyLoss() # your loss function, cross entropy works well for multi-class problems
 
@@ -32,11 +33,9 @@ class BaseNet:
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.cuda_available = torch.cuda.is_available()
 
-    @staticmethod
-    def get_data_loaders(train_batch_size, val_batch_size):
-        composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-        train_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=16, composers=composers), batch_size=train_batch_size, shuffle=True)
-        val_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=False, slices=16, composers=composers), batch_size=val_batch_size, shuffle=False)
+    def get_data_loaders(self, train_batch_size, val_batch_size):
+        train_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=16, composers=self.composers), batch_size=train_batch_size, shuffle=True)
+        val_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=False, slices=16, composers=self.composers), batch_size=val_batch_size, shuffle=False)
         return train_loader, val_loader
 
     def freeze_all_layers(self):
@@ -201,6 +200,8 @@ class OurInception(BaseNet):
 
 
 if __name__ == '__main__':
-    dense = OurDenseNet(num_classes=10, pretrained=False, epochs=100, train_batch_size=30, val_batch_size=30)
-    #print(dense.model.conv1)
+    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
+    dense = OurDenseNet(composers=composers, num_classes=10, pretrained=False, epochs=100, train_batch_size=30,
+                        val_batch_size=30)
     metrics = dense.run()
+    print(metrics)
