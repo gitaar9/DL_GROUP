@@ -78,8 +78,8 @@ if __name__ == '__main__':
         composers=composers,
         num_classes=len(composers),
         epochs=100,
-        train_batch_size=1,
-        val_batch_size=1,
+        train_batch_size=100,
+        val_batch_size=100,
         num_layers=num_layers,
         hidden_size=hidden_size,
         verbose=False
