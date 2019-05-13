@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#SBATCH --time=10:00:00
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:1
+#SBATCH --mem=16GB
+
+ml Python/3.6.4-foss-2018a
+ml CUDA/9.1.85
+
+source ../venv/bin/activate
+
+python -u networks.py
