@@ -79,6 +79,8 @@ if __name__ == '__main__':
         epochs=100,
         train_batch_size=100,
         val_batch_size=100,
+        num_layers=num_layers,
+        hidden_size=hidden_size,
         verbose=False
     )
     metrics = lstm.run()
