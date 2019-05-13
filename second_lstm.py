@@ -1,3 +1,5 @@
+import argparse
+
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
@@ -13,7 +15,7 @@ class RNN(nn.Module):
         super(RNN, self).__init__()
         self.hidden_size = hidden_size
         self.num_layers = num_layers
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
+        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=.5, batch_first=True)
         self.fc = nn.Linear(hidden_size, num_classes)
 
     def forward(self, x):
@@ -53,8 +55,32 @@ class OurLSTM(BaseNet):
         return train_loader, val_loader
 
 
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Test some lstms on the midi database.')
+    parser.add_argument('--epochs', type=int, default=100,
+                        help='The amount of epochs that the model will be trained.')
+    parser.add_argument('--num_layers', type=int, default=1,
+                        help='The lstm layers.')
+    parser.add_argument('--hidden_size', type=int, default=8,
+                        help='The amount of blocks in every lstm layer.')
+
+    args = parser.parse_args()
+
+    return args.epochs, args.num_layers, args.hidden_size
+
+
 if __name__ == '__main__':
-    composers = ['Brahms', 'Mozart', 'Schubert'] # , 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-    lstm = OurLSTM(composers=composers, num_classes=3, epochs=100, train_batch_size=30, val_batch_size=30, verbose=False)
+    epochs, num_layers, hidden_size = parse_arguments()
+
+    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn']  # , 'Haydn', 'Beethoven', 'Bach', 'Chopin']
+    lstm = OurLSTM(
+        composers=composers,
+        num_classes=4,
+        epochs=100,
+        train_batch_size=100,
+        val_batch_size=100,
+        verbose=False
+    )
     metrics = lstm.run()
+    lstm.save_metrics("lstm_test_{}_{}_{}".format(epochs, num_layers, hidden_size), metrics)
 
