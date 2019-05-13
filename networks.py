@@ -13,7 +13,7 @@ from stupid_overwrites import densenet121
 
 
 class BaseNet:
-    def __init__(self, epochs, composers, train_batch_size=100, val_batch_size=100, optimizer='Adadelta'):
+    def __init__(self, epochs, composers, train_batch_size=100, val_batch_size=100, optimizer='Adadelta', verbose=True):
         #params you need to specify:
         self.epochs = epochs
         # put your data loader here
@@ -32,6 +32,7 @@ class BaseNet:
         # See if we use CPU or GPU
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.cuda_available = torch.cuda.is_available()
+        self.verbose = verbose
 
     def get_data_loaders(self, train_batch_size, val_batch_size):
         train_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=16, composers=self.composers), batch_size=train_batch_size, shuffle=True)
@@ -61,7 +62,7 @@ class BaseNet:
             current_loss = loss.item()
             total_loss += current_loss
 
-            if not self.cuda_available:
+            if not self.cuda_available and self.verbose:
                 print(total_loss/(i+1))
             
         # releasing unceseccary memory in GPU
