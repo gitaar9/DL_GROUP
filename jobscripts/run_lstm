@@ -10,11 +10,11 @@ ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u second_lstm.py --num_layers=1 hidden_size=8
-python -u second_lstm.py --num_layers=1 hidden_size=16
-python -u second_lstm.py --num_layers=1 hidden_size=32
-python -u second_lstm.py --num_layers=1 hidden_size=64
-python -u second_lstm.py --num_layers=2 hidden_size=8
-python -u second_lstm.py --num_layers=2 hidden_size=16
-python -u second_lstm.py --num_layers=2 hidden_size=32
-python -u second_lstm.py --num_layers=2 hidden_size=64
+python -u second_lstm.py --num_layers=1 --hidden_size=8
+python -u second_lstm.py --num_layers=1 --hidden_size=16
+python -u second_lstm.py --num_layers=1 --hidden_size=32
+python -u second_lstm.py --num_layers=1 --hidden_size=64
+python -u second_lstm.py --num_layers=2 --hidden_size=8
+python -u second_lstm.py --num_layers=2 --hidden_size=16
+python -u second_lstm.py --num_layers=2 --hidden_size=32
+python -u second_lstm.py --num_layers=2 --hidden_size=64
