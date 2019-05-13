@@ -43,23 +43,13 @@ class OurLSTM(BaseNet):
         super().__init__(**kwargs)
 
     def get_data_loaders(self, train_batch_size, val_batch_size):
-        # train_loader = DataLoader(
-        #     MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=16, composers=self.composers, unsqueeze=False),
-        #     batch_size=train_batch_size,
-        #     shuffle=True
-        # )
-        # val_loader = DataLoader(
-        #     MidiClassicMusic(folder_path="./data/midi_files_npy", train=False, slices=16, composers=self.composers, unsqueeze=False),
-        #     batch_size=val_batch_size,
-        #     shuffle=False
-        # )
         train_loader = DataLoader(
-            AUSLAN(train=True, unsqueeze=False),
+            MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=16, composers=self.composers, unsqueeze=False),
             batch_size=train_batch_size,
             shuffle=True
         )
         val_loader = DataLoader(
-            AUSLAN(train=False, unsqueeze=False),
+            MidiClassicMusic(folder_path="./data/midi_files_npy", train=False, slices=16, composers=self.composers, unsqueeze=False),
             batch_size=val_batch_size,
             shuffle=False
         )
@@ -86,13 +76,12 @@ if __name__ == '__main__':
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn']  # , 'Haydn', 'Beethoven', 'Bach', 'Chopin']
     lstm = OurLSTM(
         composers=composers,
-        num_classes=96,
+        num_classes=len(composers),
         epochs=100,
         train_batch_size=1,
         val_batch_size=1,
         num_layers=num_layers,
         hidden_size=hidden_size,
-        input_size=22,
         verbose=False
     )
     metrics = lstm.run()
