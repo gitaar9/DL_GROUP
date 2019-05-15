@@ -10,10 +10,10 @@ def parse_arguments():
                         help='The amount of runs we did.')
     parser.add_argument('--filename', type=str, default='default',
                         help='The base filename of the files we want to read in.')
-    parser.add_argument('--everything', default=False, action='store_true')
+    parser.add_argument('--plot_lstm_test_100', default=False, action='store_true')
 
     args = parser.parse_args()
-    return args.amount_of_files, args.filename, args.everything
+    return args.amount_of_files, args.filename, args.plot_lstm_test_100
 
 
 def read_in_file(filename):
@@ -50,7 +50,7 @@ def plot_multiple_file_data_arrays(list_of_averages, filenames, collumn=5, ylabe
     plt.show()
 
 
-def plot_everything():
+def plot_lstm_test_100():
     layer_options = ['1', '2']
     hidden_size_options = ['8', '16', '32', '64']
     filenames = ["results/lstm_test_100_{}_{}".format(l, h) for l in layer_options for h in hidden_size_options]
@@ -72,10 +72,10 @@ def print_accuracies_and_stds(filenames):
 
 
 if __name__ == '__main__':
-    amount_of_files, filename, everything = parse_arguments()
+    amount_of_files, filename, plot_lstm_test = parse_arguments()
 
-    if everything:
-        plot_everything()
+    if plot_lstm_test:
+        plot_lstm_test_100()
     else:
         averages = read_in_files_to_average(filename, amount_of_files)[0]
         plot_collumn(averages, 5, 'Accuracy')
