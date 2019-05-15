@@ -2,10 +2,11 @@ import argparse
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
-from datasets import MidiClassicMusic, AUSLAN
+from datasets import MidiClassicMusic
 from networks import BaseNet
 
 
@@ -16,23 +17,29 @@ class RNN(nn.Module):
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=.5, batch_first=True)
-        self.fc = nn.Linear(hidden_size, num_classes)
+        self.fc1 = nn.Linear(hidden_size, 256)
+        self.fc2 = nn.Linear(256, num_classes)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     def forward(self, x):
         # Put the input in the right order
         x = x.permute(0, 2, 1)
 
-        # Set initial states
+        # Set initial states <-- This might be unnecessary
         h0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device))
         c0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device))
 
         # Forward propagate RNN
-        out, _ = self.lstm(x, (h0, c0))
+        x, _ = self.lstm(x, (h0, c0))
+        x = F.dropout(x, p=0.5, training=self.training)  # Dropout over the output of the lstm
 
-        # Decode hidden state of last time step
-        out = self.fc(out[:, -1, :])
-        return out
+        # The last hidden state of the last time step goes into the first fully connected layer
+        x = self.fc1(x[:, -1, :])
+        x = F.relu(x)
+
+        # Pass to the last fully connected layer (SoftMax)
+        x = self.fc2(x)
+        return x
 
 
 class OurLSTM(BaseNet):
@@ -73,7 +80,7 @@ def parse_arguments():
 if __name__ == '__main__':
     epochs, num_layers, hidden_size = parse_arguments()
 
-    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn']  # , 'Haydn', 'Beethoven', 'Bach', 'Chopin']
+    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
     lstm = OurLSTM(
         composers=composers,
         num_classes=len(composers),
@@ -85,5 +92,5 @@ if __name__ == '__main__':
         verbose=False
     )
     metrics = lstm.run()
-    lstm.save_metrics("lstm_test_{}_{}_{}".format(epochs, num_layers, hidden_size), metrics)
+    lstm.save_metrics("results/lstm_test2_{}_{}_{}".format(epochs, num_layers, hidden_size), metrics)
 
