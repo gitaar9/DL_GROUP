@@ -33,7 +33,7 @@ class RNN(nn.Module):
         x, _ = self.lstm(x, (h0, c0))
         x = F.dropout(x, p=0.5, training=self.training)  # Dropout over the output of the lstm
 
-        # The last hidden state of the last time step goes into the first fully connected layer
+        # The output of the lstm for the last time step goes into the first fully connected layer
         x = self.fc1(x[:, -1, :])
         x = F.relu(x)
 
