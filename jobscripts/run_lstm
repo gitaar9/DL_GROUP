@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#SBATCH --time=20:00:00
+#SBATCH --time=23:00:00
 #SBATCH --partition=gpu
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:v100:1
 #SBATCH --mem=8GB
 
 ml Python/3.6.4-foss-2018a
@@ -10,11 +10,9 @@ ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u second_lstm.py --num_layers=1 --hidden_size=8
-python -u second_lstm.py --num_layers=1 --hidden_size=16
-python -u second_lstm.py --num_layers=1 --hidden_size=32
-python -u second_lstm.py --num_layers=1 --hidden_size=64
-python -u second_lstm.py --num_layers=2 --hidden_size=8
-python -u second_lstm.py --num_layers=2 --hidden_size=16
-python -u second_lstm.py --num_layers=2 --hidden_size=32
-python -u second_lstm.py --num_layers=2 --hidden_size=64
+python -u second_lstm.py --num_layers 1 --hidden_size 512 --epochs 200
+python -u second_lstm.py --num_layers 2 --hidden_size 256 --epochs 200
+python -u second_lstm.py --num_layers 2 --hidden_size 512 --epochs 200
+python -u second_lstm.py --num_layers 2 --hidden_size 1024 --epochs 200
+python -u second_lstm.py --num_layers 2 --hidden_size 1024 --epochs 200 --dropout 0.7
+python -u second_lstm.py --num_layers 3 --hidden_size 512 --epochs 200
