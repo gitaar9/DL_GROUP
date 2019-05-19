@@ -71,7 +71,7 @@ class MidiClassicMusic(Dataset):
     def __getitem__(self, index):
         torch_data, label = self.get_train_item(index) if self.train else self.get_validation_item(index)
         if self.unsqueeze:
-            torch_data.unsqueeze(0)
+            torch_data = torch_data.unsqueeze(0)
         return torch_data, label
 
     def load_npy_files(self, folder_path):
@@ -152,5 +152,5 @@ class AUSLAN(Dataset):
 
         torch_data = torch.from_numpy(np_data).float()
         if self.unsqueeze:
-            torch_data.unsqueeze(0)
+            torch_data = torch_data.unsqueeze(0)
         return torch_data, self.labels[index]

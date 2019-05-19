@@ -35,8 +35,16 @@ class BaseNet:
         self.verbose = verbose
 
     def get_data_loaders(self, train_batch_size, val_batch_size):
-        train_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=16, composers=self.composers), batch_size=train_batch_size, shuffle=True)
-        val_loader = DataLoader(MidiClassicMusic(folder_path="./data/midi_files_npy", train=False, slices=16, composers=self.composers), batch_size=val_batch_size, shuffle=False)
+        train_loader = DataLoader(
+            MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=16, composers=self.composers),
+            batch_size=train_batch_size,
+            shuffle=True
+        )
+        val_loader = DataLoader(MidiClassicMusic(
+            folder_path="./data/midi_files_npy", train=False, slices=16, composers=self.composers),
+            batch_size=val_batch_size,
+            shuffle=False
+        )
         return train_loader, val_loader
 
     def freeze_all_layers(self):

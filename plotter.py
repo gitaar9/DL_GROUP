@@ -53,7 +53,7 @@ def plot_multiple_file_data_arrays(list_of_averages, filenames, collumn=5, ylabe
 def plot_lstm_test_100():
     layer_options = ['1', '2']
     hidden_size_options = ['8', '16', '32', '64']
-    filenames = ["results/lstm_test_100_{}_{}".format(l, h) for l in layer_options for h in hidden_size_options]
+    filenames = ["results/lstm_test2_100_{}_{}".format(l, h) for l in layer_options for h in hidden_size_options]
     all_averages = [read_in_file(filename) for filename in filenames]
     plot_multiple_file_data_arrays(all_averages, filenames, 5, 'Accuracy')
     plot_multiple_file_data_arrays(all_averages, filenames, 0, 'Training loss', 'upper right')
