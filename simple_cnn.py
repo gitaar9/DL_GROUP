@@ -9,13 +9,13 @@ from networks import BaseNet
 
 # Simple CNN implementation
 class SimpleCNN(nn.Module):
-    def __init__(self, num_classes, use_batch_norm=True, dropout=0.4, input_size=(72, 1600)):
+    def __init__(self, num_classes, use_batch_norm=True, dropout=0.4, kernel_size=5, input_size=(72, 1600)):
         super().__init__()
-        self.conv1 = nn.Conv2d(1, 32, kernel_size=5, bias=False)
+        self.conv1 = nn.Conv2d(1, 32, kernel_size=kernel_size, bias=False)
         self.bn1 = nn.BatchNorm2d(32)
         self.maxpool1 = nn.MaxPool2d(2)
 
-        self.conv2 = nn.Conv2d(32, 16, kernel_size=5, bias=False)
+        self.conv2 = nn.Conv2d(32, 16, kernel_size=kernel_size, bias=False)
         self.bn2 = nn.BatchNorm2d(16)
         self.maxpool2 = nn.MaxPool2d(2)
 
@@ -52,9 +52,14 @@ class SimpleCNN(nn.Module):
 
 
 class OurSimpleCNN(BaseNet):
-    def __init__(self, num_classes=10, use_batch_norm=True, dropout=0.4, **kwargs):
+    def __init__(self, num_classes=10, use_batch_norm=True, dropout=0.4, kernel_size=5, **kwargs):
         # load the model
-        self.model = SimpleCNN(num_classes=num_classes, use_batch_norm=use_batch_norm, dropout=dropout)
+        self.model = SimpleCNN(
+            num_classes=num_classes,
+            use_batch_norm=use_batch_norm,
+            dropout=dropout,
+            kernel_size=kernel_size
+        )
 
         super().__init__(**kwargs)
 
@@ -68,14 +73,16 @@ def parse_arguments():
     parser.add_argument('--dropout', type=float, default=0.4,
                         help='The dropout percentage used after the first fully-connected layer, this-0.1 is used as '
                              'dropout percentage for the last conv layer.')
+    parser.add_argument('--kernel_size', type=int, default=5,
+                        help='The amount of epochs that the model will be trained.')
 
     args = parser.parse_args()
 
-    return args.epochs, args.use_bn, args.dropout
+    return args.epochs, args.use_bn, args.dropout, args.kernel_size
 
 
 if __name__ == '__main__':
-    epochs, use_bn, dropout = parse_arguments()
+    epochs, use_bn, dropout, kernel_size = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
     net = OurSimpleCNN(
@@ -86,8 +93,9 @@ if __name__ == '__main__':
         val_batch_size=100,
         verbose=False,
         use_batch_norm=use_bn,
-        dropout=dropout
+        dropout=dropout,
+        kernel_size=kernel_size
     )
     metrics = net.run()
-    net.save_metrics("results/cnn_test3_{}_{}_{}".format(epochs, "bn" if use_bn else "", dropout), metrics)
+    net.save_metrics("results/cnn_test3_{}_{}_{}_{}".format(epochs, "bn" if use_bn else "", dropout, kernel_size), metrics)
 

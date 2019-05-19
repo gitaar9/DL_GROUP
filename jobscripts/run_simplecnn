@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --time=20:00:00
+#SBATCH --time=23:00:00
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:1
 #SBATCH --mem=8GB
@@ -10,4 +10,7 @@ ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u simple_cnn.py
+python -u simple_cnn.py --use_bn --dropout 0.4 --epochs 200 --kernel_size 5
+python -u simple_cnn.py --use_bn --dropout 0.4 --epochs 200 --kernel_size 7
+python -u simple_cnn.py --use_bn --dropout 0.2 --epochs 200 --kernel_size 5
+python -u simple_cnn.py --dropout 0.4 --epochs 200 --kernel_size 5
