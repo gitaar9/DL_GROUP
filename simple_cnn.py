@@ -59,18 +59,14 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description='Test some lstms on the midi database.')
     parser.add_argument('--epochs', type=int, default=100,
                         help='The amount of epochs that the model will be trained.')
-    parser.add_argument('--num_layers', type=int, default=1,
-                        help='The lstm layers.')
-    parser.add_argument('--hidden_size', type=int, default=8,
-                        help='The amount of blocks in every lstm layer.')
 
     args = parser.parse_args()
 
-    return args.epochs, args.num_layers, args.hidden_size
+    return args.epochs
 
 
 if __name__ == '__main__':
-    epochs, num_layers, hidden_size = parse_arguments()
+    epochs = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
     lstm = OurSimpleCNN(
@@ -82,5 +78,5 @@ if __name__ == '__main__':
         verbose=False
     )
     metrics = lstm.run()
-    lstm.save_metrics("results/cnn_test_{}_{}_{}".format(epochs, num_layers, hidden_size), metrics)
+    lstm.save_metrics("results/cnn_test2_{}".format(epochs), metrics)
 
