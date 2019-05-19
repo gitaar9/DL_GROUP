@@ -17,8 +17,11 @@ class RNN(nn.Module):
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
+        self.add_module('lstm', self.lstm)
         self.fc1 = nn.Linear(hidden_size, 256)
+        self.add_module('fc1', self.fc1)
         self.fc2 = nn.Linear(256, num_classes)
+        self.add_module('fc2', self.fc2)
         self.dropout = dropout
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
