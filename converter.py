@@ -8,6 +8,13 @@ class Converter:
 
     def __init__(self, base_path="./data/midi-classic-music/", lowest_octave=1, highest_octave=6, precision=4,
                  slice_size=100):
+        """
+        :param base_path: The path where the midi files can be found
+        :param lowest_octave: Midi notes with octaves lower then this will be transposed to this octave
+        :param highest_octave: Same as lowest_octave but the other way around
+        :param precision: How precise the created npy file is for a precision of 1 all notes played in the same bar are put together
+        :param slice_size: <-- this should go, but for now it tells the converter to slice songs in parts of this size.
+        """
         self.base_path = base_path
         self.lowest_octave = lowest_octave
         self.highest_octave = highest_octave

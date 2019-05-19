@@ -6,7 +6,6 @@ import torchvision.models as models
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 from torch import nn, optim
 from torch.utils.data import DataLoader
-from torchvision.models.inception import BasicConv2d
 
 from datasets import MidiClassicMusic
 from stupid_overwrites import densenet121
