@@ -1,7 +1,7 @@
 # DL_GROUP
 Composer prediction based on midi files
 
-converter.py
+converter.py ->
 This file reads in the midi files and stores them in npy files that can be easily read in while training a network.
 There are several options of how to do this: precision, lowest/highest octave.
 At the moment a song is sliced in parts of 100 timesteps wide, this should be refactored.
