@@ -62,7 +62,7 @@ def plot_multiple_accuracies(list_of_averages, legend_names, colors=None):
         plt.plot(averages[:, 5], colors[idx])
     plt.ylabel('Accuracy (%)')
     plt.xlabel('Epochs')
-    # plt.axis([-1, 400, .65, 1])
+    plt.xlim([-1, averages.shape[0]])
     plt.legend(legend_names, loc='lower right')
     plt.show()
 
@@ -74,7 +74,7 @@ def plot_multiple_loss(list_of_averages, legend_names, colors=None):
         plt.plot(averages[:, 1], color=colors[idx], label=legend_names[idx]+' validation loss')
     plt.ylabel('Loss')
     plt.xlabel('Epochs')
-    # plt.axis([-1, 400, 0, 1.5])
+    plt.xlim([-1, averages.shape[0]])
     plt.legend(loc='upper right')
     plt.show()
 
@@ -104,7 +104,3 @@ if __name__ == '__main__':
     amount_of_files, filename, everything, legend_names = parse_arguments()
 
     plot_selecting(filename, amount_of_files, legend_names)
-
-
-# python plotter.py --filename results/lstm_test2_100_2_8 results/lstm_test2_100_2_16 results/lstm_test2_100_2_32 results/lstm_test2_100_2_64
-# python plotter.py --filename results/lstm_test2_100_1_8 results/lstm_test2_100_1_16 results/lstm_test2_100_1_32 results/lstm_test2_100_1_64
