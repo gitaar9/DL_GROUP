@@ -27,6 +27,12 @@ class SimpleCNN(nn.Module):
         self.use_batch_norm = use_batch_norm
         self.dropout = dropout
 
+        # Add the modules for train()/eval() to work
+        for name, module in [('conv1', self.conv1), ('bn1', self.bn1), ('maxpool1', self.maxpool1),
+                             ('conv2', self.conv2), ('bn2', self.bn2), ('maxpool2', self.maxpool2),
+                             ('fc1', self.fc1), ('fc2', self.fc2)]:
+            self.add_module(name, module)
+
     def forward(self, x):
         x = self.conv1(x)
         if self.use_batch_norm:
