@@ -35,25 +35,31 @@ class SimpleCNN(nn.Module):
             self.add_module(name, module)
 
     def forward(self, x):
+        # First convolutional layer conv -> batch_norm -> relu -> maxpool
         x = self.conv1(x)
         if self.use_batch_norm:
             x = self.bn1(x)
         x = F.relu(x)
         x = self.maxpool1(x)
 
+        # Second convolutional layer conv -> batch_norm -> relu -> maxpool
         x = self.conv2(x)
         if self.use_batch_norm:
             x = self.bn2(x)
         x = F.relu(x)
         x = self.maxpool2(x)
 
+        # Flatten the output of conv2 to fit in a fully connected layer
         x = x.view(x.size()[0], -1)
-        x = F.dropout(x, p=self.dropout - 0.1 if self.dropout > 0.1 else 0, training=self.training)  # Dropout after second pooling layer 30%
+        # Dropout after second pooling layer 30% in original paper
+        x = F.dropout(x, p=self.dropout - 0.1 if self.dropout > 0.1 else 0, training=self.training)
 
+        # First fully connected layer with relu and dropout
         x = self.fc1(x)
         x = F.relu(x)
         x = F.dropout(x, p=self.dropout, training=self.training)  # Dropout after first fully connected layer 40%
 
+        # The softmax output layer
         x = self.fc2(x)
         return x
 
