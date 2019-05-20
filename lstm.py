@@ -105,5 +105,5 @@ if __name__ == '__main__':
         verbose=False
     )
     metrics = lstm.run()
-    lstm.save_metrics("results/lstm_test3_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout), metrics)
+    lstm.save_metrics("results/lstm_test4_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout), metrics)
 
