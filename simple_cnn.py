@@ -15,7 +15,7 @@ class SimpleCNN(nn.Module):
         self.bn1 = nn.BatchNorm2d(filters)
         self.maxpool1 = nn.MaxPool2d(2)
 
-        self.conv2 = nn.Conv2d(32, int(filters / 2), kernel_size=kernel_size, bias=False)
+        self.conv2 = nn.Conv2d(filters, int(filters / 2), kernel_size=kernel_size, bias=False)
         self.bn2 = nn.BatchNorm2d(int(filters / 2))
         self.maxpool2 = nn.MaxPool2d(2)
 
