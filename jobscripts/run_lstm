@@ -16,3 +16,9 @@ python -u second_lstm.py --num_layers 2 --hidden_size 512 --epochs 200
 python -u second_lstm.py --num_layers 2 --hidden_size 1024 --epochs 200
 python -u second_lstm.py --num_layers 2 --hidden_size 1024 --epochs 200 --dropout 0.7
 python -u second_lstm.py --num_layers 3 --hidden_size 512 --epochs 200
+
+
+python -u second_lstm.py --num_layers 2 --hidden_size 128 --epochs 300 --dropout 0.8
+python -u second_lstm.py --num_layers 2 --hidden_size 256 --epochs 300 --dropout 0.8
+python -u second_lstm.py --num_layers 2 --hidden_size 512 --epochs 300 --dropout 0.8
+python -u second_lstm.py --num_layers 2 --hidden_size 1024 --epochs 300 --dropout 0.8

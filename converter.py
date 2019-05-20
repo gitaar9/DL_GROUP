@@ -100,7 +100,7 @@ if __name__ == '__main__':
     npy_save_directory = "./data/midi_files_npy/"
 
     folders = [o for o in os.listdir(midi_directory) if os.path.isdir(os.path.join(midi_directory, o))]
-    con = Converter(base_path=midi_directory)
+    con = Converter(base_path=midi_directory, precision=8, slice_size=40)
     for folder_name in folders:
         try:
             np.load(os.path.join(npy_save_directory, "{}_song_idxs.npy".format(folder_name)))
