@@ -12,9 +12,9 @@ from networks import BaseNet
 # Simple CNN implementation
 class SimpleDenseCNN(nn.Module):
     def __init__(self, growth_rate=32, block_config=(2, 2), num_init_features=64, bn_size=4,
-                 drop_rate=0, num_classes=1000):
+                 drop_rate=0.0, num_classes=1000):
         super().__init__()
-        self.drop_rate=drop_rate
+        self.drop_rate = drop_rate
         # First convolution
         self.features = nn.Sequential(OrderedDict([
             ('conv0', nn.Conv2d(1, num_init_features, kernel_size=12, stride=2, padding=3, bias=False)),
@@ -48,7 +48,8 @@ class SimpleDenseCNN(nn.Module):
             elif isinstance(m, nn.Linear):
                 nn.init.constant_(m.bias, 0)
 
-        self.fc1 = nn.Linear(25344, 512)  # 25344 is the amount of values after the convolution
+        # For input size of (1600, 72) and block_config (2, 2) the flattened size is 25344
+        self.fc1 = nn.Linear(25344, 512)
         self.fc2 = nn.Linear(512, num_classes)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -77,10 +78,13 @@ class SimpleDenseCNN(nn.Module):
 
 
 class OurSimpleDenseCNN(BaseNet):
-    def __init__(self, num_classes=10, **kwargs):
+    def __init__(self, num_classes=10, dropout=0.0, block_config=None, **kwargs):
+        block_config = block_config or [2, 2]
         # load the model
         self.model = SimpleDenseCNN(
-            num_classes=num_classes
+            num_classes=num_classes,
+            drop_rate=dropout,
+            block_config=block_config
         )
 
         super().__init__(**kwargs)
@@ -90,14 +94,19 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description='Test some lstms on the midi database.')
     parser.add_argument('--epochs', type=int, default=100,
                         help='The amount of epochs that the model will be trained.')
+    parser.add_argument('--dropout', type=float, default=0,
+                        help='The dropout percentage used after the first fully-connected layer, this-0.1 is used as '
+                             'dropout percentage for the last conv layer.')
+    parser.add_argument('--block_config', type=int, default=[2, 2], nargs='+',
+                        help='The configuration of the dense blocks.')
 
     args = parser.parse_args()
 
-    return args.epochs
+    return args.epochs, args.dropout, args.block_config
 
 
 if __name__ == '__main__':
-    epochs = parse_arguments()
+    epochs, dropout, block_config = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
     net = OurSimpleDenseCNN(
@@ -106,9 +115,12 @@ if __name__ == '__main__':
         epochs=epochs,
         train_batch_size=50,
         val_batch_size=50,
-        verbose=False
+        verbose=False,
+        dropout=dropout,
+        block_config=block_config
     )
     metrics = net.run()
-    filename = "results/dense_cnn_test1_{}".format(epochs)
+    block_config_string = '(' + '),('.join([str(i) for i in block_config]) + ')'
+    filename = "results/dense_cnn_test1_{}_{}_{}".format(epochs, dropout, block_config_string)
     net.save_metrics(filename, metrics)
 
