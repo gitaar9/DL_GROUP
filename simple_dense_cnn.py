@@ -12,7 +12,7 @@ from networks import BaseNet
 # Simple CNN implementation
 class SimpleDenseCNN(nn.Module):
     def __init__(self, growth_rate=32, block_config=(2, 2), num_init_features=64, bn_size=4,
-                 drop_rate=0, num_classes=1000, input_size=(72, 1600)):
+                 drop_rate=0, num_classes=1000):
         super().__init__()
         self.drop_rate=drop_rate
         # First convolution
@@ -48,10 +48,7 @@ class SimpleDenseCNN(nn.Module):
             elif isinstance(m, nn.Linear):
                 nn.init.constant_(m.bias, 0)
 
-        # convolution_loss = int(kernel_size / 2) * 2
-        # after_maxpool_height = int((((input_size[0] - convolution_loss) / 2 - convolution_loss) / 2))
-        # after_maxpool_width = int((((input_size[1] - convolution_loss) / 2 - convolution_loss) / 2))
-        self.fc1 = nn.Linear(num_features*10, 512)
+        self.fc1 = nn.Linear(25344, 512)  # 25344 is the amount of values after the convolution
         self.fc2 = nn.Linear(512, num_classes)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
