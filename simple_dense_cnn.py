@@ -62,7 +62,6 @@ class SimpleDenseCNN(nn.Module):
 
         # Flatten the output of features to fit in a fully connected layer
         x = x.view(x.size()[0], -1)
-        print(x.shape)
         if self.drop_rate > 0:
             x = F.dropout(x, p=self.drop_rate, training=self.training)
 
