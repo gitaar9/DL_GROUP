@@ -24,8 +24,14 @@ A pytorch implementation of the LSTM part of the Acoustic scene classification p
 simple_cnn.py:
 An implementation of the CNN part of the Acoustic scene classification paper.
 
+simple_dense_cnn.py:
+Adapted the simple_cnn.py to work with densely connected blocks
+
 stupid_overwrites.py:
-Some changes to make the standard DenseNet work with 1 channel data <--
+Some changes to make the standard DenseNet work with 1 channel data <-- can be done simpler
+
+plotter.py:
+A python script to plot the results, use --help option for arguments
 
 
 # Interesting papers
