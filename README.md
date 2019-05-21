@@ -1,5 +1,4 @@
-# DL_GROUP
-Composer prediction based on midi files
+# Composer prediction based on midi files
 
 converter.py:
 This file reads in the midi files and stores them in npy files that can be easily read in while training a network.
@@ -29,7 +28,7 @@ stupid_overwrites.py:
 Some changes to make the standard DenseNet work with 1 channel data <--
 
 
-Interesting papers:
+# Interesting papers
 
 Acoustic Scene Classification Using Parallel Combination of LSTM and CNN:
 https://pdfs.semanticscholar.org/4e7d/ad845bd9e1d399bf729724442cb7404549d1.pdf?_ga=2.233794461.2002662107.1557307441-282061435.1556630897
