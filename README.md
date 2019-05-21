@@ -26,4 +26,13 @@ simple_cnn.py:
 An implementation of the CNN part of the Acoustic scene classification paper.
 
 stupid_overwrites.py:
-Some changes to make the standard DenseNet work with 1 channel data <-- This can be done much easier.
+Some changes to make the standard DenseNet work with 1 channel data <--
+
+
+Interesting papers:
+
+Acoustic Scene Classification Using Parallel Combination of LSTM and CNN:
+https://pdfs.semanticscholar.org/4e7d/ad845bd9e1d399bf729724442cb7404549d1.pdf?_ga=2.233794461.2002662107.1557307441-282061435.1556630897
+
+Multivariate LSTM-FCNs for Time Series Classification:
+https://paperswithcode.com/paper/multivariate-lstm-fcns-for-time-series
