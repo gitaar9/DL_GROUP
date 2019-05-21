@@ -10,8 +10,6 @@ ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u lstm.py --num_layers 2 --hidden_size 64 --epochs 400 --dropout 0.8
-python -u lstm.py --num_layers 2 --hidden_size 64 --epochs 400 --dropout 0.9
 python -u lstm.py --num_layers 2 --hidden_size 128 --epochs 400 --dropout 0.9
 python -u lstm.py --num_layers 2 --hidden_size 256 --epochs 400 --dropout 0.9
 python -u lstm.py --num_layers 2 --hidden_size 512 --epochs 400 --dropout 0.9
