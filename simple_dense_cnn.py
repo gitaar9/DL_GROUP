@@ -27,7 +27,7 @@ class SimpleDenseCNN(nn.Module):
         num_features = num_init_features
         for i, num_layers in enumerate(block_config):
             block = _DenseBlock(num_layers=num_layers, num_input_features=num_features,
-                                bn_size=bn_size, growth_rate=growth_rate, drop_rate=drop_rate)
+                                bn_size=bn_size, growth_rate=growth_rate, drop_rate=0.0)
             self.features.add_module('denseblock%d' % (i + 1), block)
             num_features = num_features + num_layers * growth_rate
             # + avg pooling
@@ -63,13 +63,11 @@ class SimpleDenseCNN(nn.Module):
 
         # Flatten the output of features to fit in a fully connected layer
         x = x.view(x.size()[0], -1)
-        if self.drop_rate > 0:
-            x = F.dropout(x, p=self.drop_rate, training=self.training)
 
         # First fully connected layer with relu and dropout
         x = self.fc1(x)
         x = F.relu(x)
-        if self.drop_rate > 0:
+        if self.drop_rate > 0.0:
             x = F.dropout(x, p=self.drop_rate, training=self.training)
 
         # The softmax output layer
@@ -120,7 +118,7 @@ if __name__ == '__main__':
         block_config=block_config
     )
     metrics = net.run()
-    block_config_string = '(' + '),('.join([str(i) for i in block_config]) + ')'
+    block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
     filename = "results/dense_cnn_test1_{}_{}_{}".format(epochs, dropout, block_config_string)
     net.save_metrics(filename, metrics)
 
