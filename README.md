@@ -1,5 +1,4 @@
-# DL_GROUP
-Composer prediction based on midi files
+# Composer prediction based on midi files
 
 converter.py:
 This file reads in the midi files and stores them in npy files that can be easily read in while training a network.
@@ -25,5 +24,20 @@ A pytorch implementation of the LSTM part of the Acoustic scene classification p
 simple_cnn.py:
 An implementation of the CNN part of the Acoustic scene classification paper.
 
+simple_dense_cnn.py:
+Adapted the simple_cnn.py to work with densely connected blocks
+
 stupid_overwrites.py:
-Some changes to make the standard DenseNet work with 1 channel data <-- This can be done much easier.
+Some changes to make the standard DenseNet work with 1 channel data <-- can be done simpler
+
+plotter.py:
+A python script to plot the results, use --help option for arguments
+
+
+# Interesting papers
+
+Acoustic Scene Classification Using Parallel Combination of LSTM and CNN:
+https://pdfs.semanticscholar.org/4e7d/ad845bd9e1d399bf729724442cb7404549d1.pdf?_ga=2.233794461.2002662107.1557307441-282061435.1556630897
+
+Multivariate LSTM-FCNs for Time Series Classification:
+https://paperswithcode.com/paper/multivariate-lstm-fcns-for-time-series
