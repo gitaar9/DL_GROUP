@@ -48,8 +48,18 @@ class SimpleDenseCNN(nn.Module):
             elif isinstance(m, nn.Linear):
                 nn.init.constant_(m.bias, 0)
 
+        linear_units = 1
         # For input size of (1600, 72) and block_config (2, 2) the flattened size is 25344
-        self.fc1 = nn.Linear(25344, 512)
+        if block_config == [2, 2]:
+            linear_units = 25344
+        elif block_config == [2, 2, 2]:
+            linear_units = 6272
+        elif block_config == [3, 3, 3]:
+            linear_units = 9016
+        elif block_config == [3, 4, 3, 2]:
+            linear_units = 1968
+
+        self.fc1 = nn.Linear(linear_units, 512)
         self.fc2 = nn.Linear(512, num_classes)
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
