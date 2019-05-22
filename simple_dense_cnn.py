@@ -50,8 +50,16 @@ class SimpleDenseCNN(nn.Module):
 
         linear_units = 1
         # For input size of (1600, 72) and block_config (2, 2) the flattened size is 25344
-        if block_config == [2, 2]:
-            linear_units = 25344
+        if block_config == [2]:
+            linear_units = 101888
+        if block_config == [1, 1]:
+            linear_units = 15840
+        if block_config == [3, 3]:
+            linear_units = 34848
+        if block_config == [3, 3]:
+            linear_units = 34848
+        if block_config == [4, 4]:
+            linear_units = 44352
         elif block_config == [2, 2, 2]:
             linear_units = 6272
         elif block_config == [3, 3, 3]:
@@ -129,6 +137,6 @@ if __name__ == '__main__':
     )
     metrics = net.run()
     block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
-    filename = "results/dense_cnn_test1_{}_{}_{}".format(epochs, dropout, block_config_string)
+    filename = "results/dense_cnn_test2_{}_{}_{}".format(epochs, dropout, block_config_string)
     net.save_metrics(filename, metrics)
 
