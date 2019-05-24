@@ -17,7 +17,7 @@ class SimpleDenseCNN(nn.Module):
         self.drop_rate = drop_rate
         # First convolution
         self.features = nn.Sequential(OrderedDict([
-            ('conv0', nn.Conv2d(1, num_init_features, kernel_size=12, stride=2, padding=3, bias=False)),
+            ('conv0', nn.Conv2d(1, num_init_features, kernel_size=5, stride=2, padding=3, bias=False)),
             ('norm0', nn.BatchNorm2d(num_init_features)),
             ('relu0', nn.ReLU(inplace=True)),
             ('pool0', nn.MaxPool2d(kernel_size=3, stride=2, padding=1)),
@@ -52,14 +52,14 @@ class SimpleDenseCNN(nn.Module):
         # For input size of (1600, 72) and block_config (2, 2) the flattened size is 25344
         if block_config == [2]:
             linear_units = 101888
-        if block_config == [1, 1]:
+        elif block_config == [1, 1]:
             linear_units = 15840
-        if block_config == [3, 3]:
+        elif block_config == [3, 3]:
             linear_units = 34848
-        if block_config == [3, 3]:
-            linear_units = 34848
-        if block_config == [4, 4]:
+        elif block_config == [4, 4]:
             linear_units = 44352
+        elif block_config == [2, 2]:
+            linear_units = 25344
         elif block_config == [2, 2, 2]:
             linear_units = 6272
         elif block_config == [3, 3, 3]:
@@ -137,6 +137,6 @@ if __name__ == '__main__':
     )
     metrics = net.run()
     block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
-    filename = "results/dense_cnn_test2_{}_{}_{}".format(epochs, dropout, block_config_string)
+    filename = "results/dense_cnn_test3_{}_{}_{}".format(epochs, dropout, block_config_string)
     net.save_metrics(filename, metrics)
 
