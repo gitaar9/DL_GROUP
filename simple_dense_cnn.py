@@ -49,23 +49,13 @@ class SimpleDenseCNN(nn.Module):
                 nn.init.constant_(m.bias, 0)
 
         linear_units = 1
-        # For input size of (1600, 72) and block_config (2, 2) the flattened size is 25344
-        if block_config == [2]:
-            linear_units = 101888
-        elif block_config == [1, 1]:
-            linear_units = 15840
-        elif block_config == [3, 3]:
-            linear_units = 34848
-        elif block_config == [4, 4]:
-            linear_units = 44352
-        elif block_config == [2, 2]:
-            linear_units = 25344
+        # For input size of (1600, 72) and block_config (2, 2) the flattened size is 25600
+        if block_config == [2, 2]:
+            linear_units = 25600
         elif block_config == [2, 2, 2]:
-            linear_units = 6272
-        elif block_config == [3, 3, 3]:
-            linear_units = 9016
+            linear_units = 6400
         elif block_config == [3, 4, 3, 2]:
-            linear_units = 1968
+            linear_units = 2050
 
         self.fc1 = nn.Linear(linear_units, 512)
         self.fc2 = nn.Linear(512, num_classes)
