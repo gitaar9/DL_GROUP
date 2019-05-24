@@ -42,7 +42,8 @@ https://pdfs.semanticscholar.org/4e7d/ad845bd9e1d399bf729724442cb7404549d1.pdf?_
 Multivariate LSTM-FCNs for Time Series Classification:
 https://paperswithcode.com/paper/multivariate-lstm-fcns-for-time-series
 
-#Interesting trying - LSTM-CNN model
+# Interesting trying - LSTM-CNN model
+
 He tried sentiment analysis using CNN-LSTM / LSTM-CNN models.
 His results represents LSTM-CNN model has the best performance. 
  
