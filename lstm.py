@@ -12,19 +12,25 @@ from networks import BaseNet
 
 
 # RNN Model (Many-to-One)
-class RNN(nn.Module):
+class LSTM(nn.Module):
     def __init__(self, input_size, hidden_size, num_layers, num_classes, dropout):
-        super(RNN, self).__init__()
+        super(LSTM, self).__init__()
         self.hidden_size = hidden_size
         self.num_layers = num_layers
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
-        self.add_module('lstm', self.lstm)
-        self.fc1 = nn.Linear(hidden_size, 256)
-        self.add_module('fc1', self.fc1)
-        self.fc2 = nn.Linear(256, num_classes)
-        self.add_module('fc2', self.fc2)
         self.dropout = dropout
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+        # The LSTM layers
+        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
+        self.add_module('lstm', self.lstm)
+
+        # Fully connected layer 1
+        self.fc1 = nn.Linear(hidden_size, 256)
+        self.add_module('fc1', self.fc1)
+
+        # Fully connected layer 2
+        self.fc2 = nn.Linear(256, num_classes)
+        self.add_module('fc2', self.fc2)
 
     def forward(self, x):
         # Put the input in the right order
@@ -50,7 +56,7 @@ class RNN(nn.Module):
 class OurLSTM(BaseNet):
     def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0.5, **kwargs):
         # load the model
-        self.model = RNN(
+        self.model = LSTM(
             num_classes=num_classes,
             input_size=input_size,
             num_layers=num_layers,
@@ -61,6 +67,10 @@ class OurLSTM(BaseNet):
         super().__init__(**kwargs)
 
     def get_data_loaders(self, batch_size, cv_cyle):
+        """
+        This function is overwritten because the LSTM expects data without channels(in contrast to conv nets),
+        therefore the datasets should be constructed with unsqueeze=False.
+        """
         train_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy", mode=Mode.TRAIN, slices=16,
                              composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),

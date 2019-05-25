@@ -14,6 +14,14 @@ from stupid_overwrites import densenet121
 
 class BaseNet:
     def __init__(self, epochs, composers, batch_size=100, optimizer='Adadelta', verbose=True, cv_cycle=0):
+        """
+        :param epochs: The amount of epochs this network will be trained for when run() is called
+        :param composers: The names of the composers that should be loaded as dataset
+        :param batch_size: The size of the train/validation/test batches
+        :param optimizer: The optimizer used either Adadelta or Adam
+        :param verbose: Print the loss after every train_batch when training on cpu
+        :param cv_cycle: How many steps the dataset should be cycled for the cross-validation to work
+        """
         self.epochs = epochs
 
         self.composers = composers

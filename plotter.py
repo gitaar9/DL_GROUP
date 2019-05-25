@@ -26,9 +26,9 @@ def read_in_file(filename):
 
 
 def read_in_files_to_average(filename, amount_of_files):
-    all_data = [read_in_file("results/{}_{}".format(filename, file_number)) for file_number in range(amount_of_files)]
-    until_epoch = 400
-    all_data = list(map(lambda r: r[:until_epoch], all_data))
+    all_data = [read_in_file("results/{}_run{}".format(filename, file_number)) for file_number in range(amount_of_files)]
+    # until_epoch = 400
+    # all_data = list(map(lambda r: r[:until_epoch], all_data))
 
     # u = E(x) / n
     averages = sum(all_data) / amount_of_files
