@@ -6,8 +6,8 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
+from cross_validation_datasets import Mode, MidiClassicMusic
 from cross_validator import CrossValidator
-from datasets import MidiClassicMusic
 from networks import BaseNet
 
 
@@ -60,18 +60,26 @@ class OurLSTM(BaseNet):
 
         super().__init__(**kwargs)
 
-    def get_data_loaders(self, train_batch_size, val_batch_size):
+    def get_data_loaders(self, batch_size, cv_cyle):
         train_loader = DataLoader(
-            MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=16, composers=self.composers, unsqueeze=False),
-            batch_size=train_batch_size,
+            MidiClassicMusic(folder_path="./data/midi_files_npy", mode=Mode.TRAIN, slices=16,
+                             composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
+            batch_size=batch_size,
             shuffle=True
         )
         val_loader = DataLoader(
-            MidiClassicMusic(folder_path="./data/midi_files_npy", train=False, slices=16, composers=self.composers, unsqueeze=False),
-            batch_size=val_batch_size,
+            MidiClassicMusic(folder_path="./data/midi_files_npy", mode=Mode.VALIDATION, slices=16,
+                             composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
+            batch_size=batch_size,
             shuffle=False
         )
-        return train_loader, val_loader
+        test_loader = DataLoader(
+            MidiClassicMusic(folder_path="./data/midi_files_npy", mode=Mode.TEST, slices=16,
+                             composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
+            batch_size=batch_size,
+            shuffle=False
+        )
+        return train_loader, val_loader, test_loader
 
 
 def parse_arguments():
@@ -103,7 +111,7 @@ if __name__ == '__main__':
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        batch_size=50,
+        batch_size=100,
         num_layers=num_layers,
         hidden_size=hidden_size,
         dropout=dropout,
@@ -111,6 +119,3 @@ if __name__ == '__main__':
     )
 
     cv.cross_validate()
-
-
-
