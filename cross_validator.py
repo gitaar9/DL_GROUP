@@ -1,5 +1,3 @@
-
-
 class CrossValidator:
 
     def __init__(self, model_class, file_name, **model_kwargs):
