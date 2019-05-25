@@ -12,11 +12,11 @@ from stupid_overwrites import densenet121
 
 
 class BaseNet:
-    def __init__(self, epochs, composers, batch_size=100, optimizer='Adadelta', verbose=True, cv_cyle=0):
+    def __init__(self, epochs, composers, batch_size=100, optimizer='Adadelta', verbose=True, cv_cycle=0):
         self.epochs = epochs
 
         self.composers = composers
-        self.train_loader, self.val_loader, self.test_loader = self.get_data_loaders(batch_size, cv_cyle)
+        self.train_loader, self.val_loader, self.test_loader = self.get_data_loaders(batch_size, cv_cycle)
         self.loss_function = nn.CrossEntropyLoss()  # cross entropy works well for multi-class problems
 
         # optimizer: Adadelta or Adam
