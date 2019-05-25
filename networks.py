@@ -115,7 +115,7 @@ class BaseNet:
         batches = len(self.train_loader)
         val_batches = len(self.val_loader)
         test_batches = len(self.test_loader)
-        print("batchs: {}, val_batches: {}, test_batches".format(batches, val_batches, test_batches))
+        print("batchs: {}, val_batches: {}, test_batches: {}".format(batches, val_batches, test_batches))
 
         for epoch in range(self.epochs):
             total_loss = self.train()
