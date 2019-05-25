@@ -48,7 +48,8 @@ def plot_multiple_accuracies(list_of_averages, legend_names, colors=None):
     colors = plt.rcParams['axes.prop_cycle'].by_key()['color'] if colors is None else colors
     for idx, averages in enumerate(list_of_averages):
         plt.plot(averages[:, 5], colors[idx])
-        plt.plot(averages[:, 6], colors[idx], linestyle='--', label=legend_names[idx]+' test')
+        if averages.shape[1] > 6:
+            plt.plot(averages[:, 6], colors[idx], linestyle='--', label=legend_names[idx]+' test')
         if averages.shape[1] == 8:
             plt.plot(averages[:, 7], colors[idx], linestyle=':', label=legend_names[idx] + ' best')
     plt.ylabel('Accuracy (%)')
