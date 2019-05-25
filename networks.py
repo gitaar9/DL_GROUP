@@ -193,6 +193,7 @@ if __name__ == '__main__':
         num_classes=len(composers),
         epochs=epochs,
         batch_size=30,
+        pretrained=False,
         verbose=False
     )
 
