@@ -7,16 +7,16 @@ from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_sc
 from torch import nn, optim
 from torch.utils.data import DataLoader
 
-from datasets import MidiClassicMusic
+from cross_validation_datasets import MidiClassicMusic, Mode
 from stupid_overwrites import densenet121
 
 
 class BaseNet:
-    def __init__(self, epochs, composers, train_batch_size=100, val_batch_size=100, optimizer='Adadelta', verbose=True):
+    def __init__(self, epochs, composers, batch_size=100, optimizer='Adadelta', verbose=True, cv_cyle=0):
         self.epochs = epochs
 
         self.composers = composers
-        self.train_loader, self.val_loader = self.get_data_loaders(train_batch_size, val_batch_size)
+        self.train_loader, self.val_loader, self.test_loader = self.get_data_loaders(batch_size, cv_cyle)
         self.loss_function = nn.CrossEntropyLoss()  # cross entropy works well for multi-class problems
 
         # optimizer: Adadelta or Adam
@@ -32,18 +32,26 @@ class BaseNet:
         self.cuda_available = torch.cuda.is_available()
         self.verbose = verbose
 
-    def get_data_loaders(self, train_batch_size, val_batch_size):
+    def get_data_loaders(self, batch_size, cv_cyle):
         train_loader = DataLoader(
-            MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=16, composers=self.composers),
-            batch_size=train_batch_size,
+            MidiClassicMusic(folder_path="./data/midi_files_npy", mode=Mode.TRAIN, slices=16, composers=self.composers,
+                             cv_cycle=cv_cyle),
+            batch_size=batch_size,
             shuffle=True
         )
-        val_loader = DataLoader(MidiClassicMusic(
-            folder_path="./data/midi_files_npy", train=False, slices=16, composers=self.composers),
-            batch_size=val_batch_size,
+        val_loader = DataLoader(
+            MidiClassicMusic(folder_path="./data/midi_files_npy", mode=Mode.VALIDATION, slices=16,
+                             composers=self.composers, cv_cycle=cv_cyle),
+            batch_size=batch_size,
             shuffle=False
         )
-        return train_loader, val_loader
+        test_loader = DataLoader(
+            MidiClassicMusic(folder_path="./data/midi_files_npy", mode=Mode.TEST, slices=16, composers=self.composers,
+                             cv_cycle=cv_cyle),
+            batch_size=batch_size,
+            shuffle=False
+        )
+        return train_loader, val_loader, test_loader
 
     def freeze_all_layers(self):
         for param in self.model.parameters():
@@ -69,52 +77,58 @@ class BaseNet:
             total_loss += current_loss
 
             if not self.cuda_available and self.verbose:
-                print(total_loss/(i+1))
-            
+                print(total_loss / (i + 1))
+
         # releasing unceseccary memory in GPU
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
         return total_loss
-        
-    def validate(self):
+
+    def validate(self, data_loader):
         val_losses = 0
         precision, recall, f1, accuracy = [], [], [], []
         self.model.eval()
 
         with torch.no_grad():
-            for i, data in enumerate(self.val_loader):
+            for i, data in enumerate(data_loader):
                 X, y = data[0].to(self.device), data[1].to(self.device)
 
-                outputs = self.model(X) # this get's the prediction from the network
+                outputs = self.model(X)  # this get's the prediction from the network
 
                 val_losses += self.loss_function(outputs, y)
 
-                predicted_classes = torch.max(outputs, 1)[1] # get class from network's prediction
-                
+                predicted_classes = torch.max(outputs, 1)[1]  # get class from network's prediction
+
                 # calculate P/R/F1/A metrics for batch
-                for acc, metric in zip((precision, recall, f1, accuracy), 
-                                    (precision_score, recall_score, f1_score, accuracy_score)):
+                for acc, metric in zip((precision, recall, f1, accuracy),
+                                       (precision_score, recall_score, f1_score, accuracy_score)):
                     acc.append(
                         self.calculate_metric(metric, y.cpu(), predicted_classes.cpu())
                     )
         return val_losses, precision, recall, f1, accuracy
-    
+
     def run(self):
         start_ts = time.time()
-        
+
         metrics = []
         batches = len(self.train_loader)
         val_batches = len(self.val_loader)
+        test_batches = len(self.test_loader)
         print("batchs: {}, val_batches: {}".format(batches, val_batches))
-        
+
         for epoch in range(self.epochs):
             total_loss = self.train()
-            val_losses, precision, recall, f1, accuracy = self.validate()
-            
-            print(f"Epoch {epoch+1}/{self.epochs}, training loss: {total_loss/batches}, validation loss: {val_losses/val_batches}")
+            val_losses, precision, recall, f1, accuracy = self.validate(self.val_loader)
+            _, _, _, _, test_accuracy = self.validate(self.test_loader)
+
+            print(
+                f"Epoch {epoch+1}/{self.epochs}, training loss: {total_loss/batches}, validation loss: {val_losses/val_batches}")
             self.print_scores(precision, recall, f1, accuracy, val_batches)
-            metrics.append((total_loss/batches, val_losses/val_batches, sum(precision)/val_batches, sum(recall)/val_batches, sum(f1)/val_batches, sum(accuracy)/val_batches)) # for plotting learning curve
-        
+            print("Test accuracy: {}".format(sum(test_accuracy) / test_batches))
+            metrics.append((total_loss / batches, val_losses / val_batches, sum(precision) / val_batches,
+                            sum(recall) / val_batches, sum(f1) / val_batches, sum(accuracy) / val_batches,
+                            sum(test_accuracy) / test_batches))  # for plotting learning curve
+
         print(f"Training time: {time.time()-start_ts}s")
         return metrics
 
@@ -125,7 +139,7 @@ class BaseNet:
             return metric_fn(true_y, pred_y, average="macro")
         else:
             return metric_fn(true_y, pred_y)
-    
+
     @staticmethod
     def print_scores(p, r, f1, a, batch_size):
         # just an utility printing function
@@ -135,7 +149,7 @@ class BaseNet:
     @staticmethod
     def save_metrics(name, metrics):
         with open(name, 'w') as f:
-            f.write('training_loss,validation_loss,precision,recall,f1,accuracy\n')
+            f.write('training_loss,validation_loss,precision,recall,f1,accuracy,test_accuracy\n')
             for training_loss, validation_loss, precision, recall, f1, accuracy in metrics:
                 f.write("{},{},{},{},{},{}\n".format(training_loss, validation_loss, precision, recall, f1, accuracy))
 
@@ -170,4 +184,3 @@ if __name__ == '__main__':
     dense = OurDenseNet(composers=composers, num_classes=len(composers), pretrained=False, epochs=100,
                         train_batch_size=30, val_batch_size=30)
     metrics = dense.run()
-    print(metrics)
