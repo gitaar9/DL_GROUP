@@ -9,7 +9,7 @@ class CrossValidator:
 
     def cross_validate(self):
         for fold in range(4):
-            print('#'*15, '\n', "Fold {} for {}".format(fold, self.file_name), '\n', '#'*15)
+            print(('#'*15) + '\n' + "Fold {} for {}".format(fold, self.file_name) + '\n' + ('#'*15))
             net = self.model_class(cv_cycle=fold, **self.model_kwargs)
             metrics = net.run()
             filename = "results/{}_run{}".format(self.file_name, fold)

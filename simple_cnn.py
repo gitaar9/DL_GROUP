@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    file_name = "results/cnn_test5_{}_{}_{}_{}_{}".format(epochs, "bn" if use_bn else "", dropout, kernel_size, filters)
+    file_name = "cnn_test5_{}_{}_{}_{}_{}".format(epochs, "bn" if use_bn else "", dropout, kernel_size, filters)
 
     cv = CrossValidator(
         model_class=OurSimpleCNN,

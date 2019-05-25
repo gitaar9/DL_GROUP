@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    file_name = "results/lstm_test5_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
+    file_name = "lstm_test5_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
 
     cv = CrossValidator(
         model_class=OurLSTM,
