@@ -114,17 +114,16 @@ class BaseNet:
         batches = len(self.train_loader)
         val_batches = len(self.val_loader)
         test_batches = len(self.test_loader)
-        print("batchs: {}, val_batches: {}".format(batches, val_batches))
+        print("batchs: {}, val_batches: {}, test_batches".format(batches, val_batches, test_batches))
 
         for epoch in range(self.epochs):
             total_loss = self.train()
             val_losses, precision, recall, f1, accuracy = self.validate(self.val_loader)
             _, _, _, _, test_accuracy = self.validate(self.test_loader)
 
-            print(
-                f"Epoch {epoch+1}/{self.epochs}, training loss: {total_loss/batches}, validation loss: {val_losses/val_batches}")
+            print(f"Epoch {epoch+1}/{self.epochs}, training loss: {total_loss/batches}, validation loss: {val_losses/val_batches}")
             self.print_scores(precision, recall, f1, accuracy, val_batches)
-            print("Test accuracy: {}".format(sum(test_accuracy) / test_batches))
+            print(f"\t{'test accuracy'.rjust(14, ' ')}: {sum(test_accuracy)/test_batches:.4f}")
             metrics.append((total_loss / batches, val_losses / val_batches, sum(precision) / val_batches,
                             sum(recall) / val_batches, sum(f1) / val_batches, sum(accuracy) / val_batches,
                             sum(test_accuracy) / test_batches))  # for plotting learning curve
