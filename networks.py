@@ -8,6 +8,7 @@ from torch import nn, optim
 from torch.utils.data import DataLoader
 
 from cross_validation_datasets import MidiClassicMusic, Mode
+from cross_validator import CrossValidator
 from stupid_overwrites import densenet121
 
 
@@ -179,7 +180,20 @@ class OurDenseNet(BaseNet):
 
 
 if __name__ == '__main__':
+    epochs = 400
+
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-    dense = OurDenseNet(composers=composers, num_classes=len(composers), pretrained=False, epochs=100,
-                        train_batch_size=30, val_batch_size=30)
-    metrics = dense.run()
+
+    file_name = "densenet_{}".format(epochs)
+
+    cv = CrossValidator(
+        model_class=OurDenseNet,
+        file_name=file_name,
+        composers=composers,
+        num_classes=len(composers),
+        epochs=epochs,
+        batch_size=30,
+        verbose=False
+    )
+
+    cv.cross_validate()
