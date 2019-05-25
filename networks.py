@@ -140,6 +140,14 @@ class BaseNet:
         print(f"Training time: {time.time()-start_ts}s")
         return metrics
 
+    def free(self):
+        del self.model
+        del self.train_loader
+        del self.val_loader
+        del self.test_loader
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
     @staticmethod
     def calculate_metric(metric_fn, true_y, pred_y):
         # multi class problems need to have averaging method

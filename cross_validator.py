@@ -19,6 +19,7 @@ class CrossValidator:
             metrics = net.run()
             filename = "results/{}_run{}".format(self.file_name, fold)
             net.save_metrics(filename, metrics)
+            net.free()
 
     def single_run(self):
         print("{}\nSingle run of {}\n{}".format('#' * 30, self.file_name, '#' * 30))
@@ -26,3 +27,4 @@ class CrossValidator:
         metrics = net.run()
         filename = "results/{}_single_run".format(self.file_name)
         net.save_metrics(filename, metrics)
+        net.free()

@@ -10,4 +10,4 @@ ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u simple_dense_cnn.py --epochs 50 --block_config 2 2
+python -u simple_dense_cnn.py --epochs 10 --block_config 2 2
