@@ -4,6 +4,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from cross_validator import CrossValidator
 from networks import BaseNet
 
 
@@ -101,19 +102,23 @@ if __name__ == '__main__':
     epochs, use_bn, dropout, kernel_size, filters = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-    net = OurSimpleCNN(
+
+    file_name = "results/cnn_test5_{}_{}_{}_{}_{}".format(epochs, "bn" if use_bn else "", dropout, kernel_size, filters)
+
+    cv = CrossValidator(
+        model_class=OurSimpleCNN,
+        file_name=file_name,
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        train_batch_size=50,
-        val_batch_size=50,
+        batch_size=50,
         verbose=False,
         use_batch_norm=use_bn,
         dropout=dropout,
         kernel_size=kernel_size,
         filters=filters
     )
-    metrics = net.run()
-    filename = "results/cnn_test4_{}_{}_{}_{}_{}".format(epochs, "bn" if use_bn else "", dropout, kernel_size, filters)
-    net.save_metrics(filename, metrics)
+
+    cv.cross_validate()
+
 

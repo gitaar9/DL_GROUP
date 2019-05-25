@@ -11,6 +11,3 @@ ml CUDA/9.1.85
 source ../venv/bin/activate
 
 python -u simple_cnn.py --use_bn --dropout 0.4 --epochs 200 --kernel_size 5 --filters 64
-python -u simple_cnn.py --use_bn --dropout 0.6 --epochs 200 --kernel_size 5 --filters 64
-python -u simple_cnn.py --use_bn --dropout 0.4 --epochs 200 --kernel_size 7 --filters 64
-python -u simple_cnn.py --use_bn --dropout 0.6 --epochs 200 --kernel_size 7 --filters 64
