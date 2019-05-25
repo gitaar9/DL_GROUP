@@ -158,8 +158,8 @@ class BaseNet:
     def save_metrics(name, metrics):
         with open(name, 'w') as f:
             f.write('training_loss,validation_loss,precision,recall,f1,accuracy,test_accuracy\n')
-            for training_loss, validation_loss, precision, recall, f1, accuracy in metrics:
-                f.write("{},{},{},{},{},{}\n".format(training_loss, validation_loss, precision, recall, f1, accuracy))
+            for training_loss, validation_loss, precision, recall, f1, accuracy, test_accuracy in metrics:
+                f.write("{},{},{},{},{},{},{}\n".format(training_loss, validation_loss, precision, recall, f1, accuracy, test_accuracy))
 
 
 class OurResNet(BaseNet):
