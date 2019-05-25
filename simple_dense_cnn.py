@@ -126,8 +126,7 @@ if __name__ == '__main__':
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        train_batch_size=50,
-        val_batch_size=50,
+        batch_size=50,
         verbose=False,
         dropout=dropout,
         block_config=block_config
