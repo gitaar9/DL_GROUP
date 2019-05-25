@@ -6,6 +6,7 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
+from cross_validator import CrossValidator
 from datasets import MidiClassicMusic
 from networks import BaseNet
 
@@ -93,17 +94,23 @@ if __name__ == '__main__':
     epochs, num_layers, hidden_size, dropout = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-    lstm = OurLSTM(
+
+    file_name = "results/lstm_test5_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
+
+    cv = CrossValidator(
+        model_class=OurLSTM,
+        file_name=file_name,
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        train_batch_size=100,
-        val_batch_size=100,
+        batch_size=100,
         num_layers=num_layers,
         hidden_size=hidden_size,
         dropout=dropout,
         verbose=False
     )
-    metrics = lstm.run()
-    lstm.save_metrics("results/lstm_test5_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout), metrics)
+
+    cv.cross_validate()
+
+
 
