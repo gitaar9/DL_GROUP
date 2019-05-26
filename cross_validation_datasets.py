@@ -142,7 +142,7 @@ class MidiClassicMusic(Dataset):
         """
         :param song_idx: The index of the song to be removed
         :param songs: Song slices array of one composer
-        :param song_idxs: The start of every song in songs
+        :param song_idxs: The start of every song in the songs array
         :return: songs and song_idxs but with the song_idxth song removed
         """
         if song_idx + 1 < len(song_idxs):  # We are not at the end of the array
