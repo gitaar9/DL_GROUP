@@ -7,6 +7,13 @@ import matplotlib.pyplot as plt
 def read_in_file(filename):
     with open(filename, 'r') as f:
         data = np.array(list(csv.reader(f))[1:]).astype(float)
+
+    if data.shape[1] == 7:
+        # If there is test accuracies, select the idx of the best validation accuracy and
+        # add the test accuracy with that index as a line to be plotted
+        test_accuracy = data[np.argmax(data[:, 5]), 6]
+        data = np.concatenate((data, np.ones((data.shape[0], 1)) * test_accuracy), axis=1)
+
     return data
 
 
@@ -19,12 +26,7 @@ def read_in_files_to_average(filename, amount_of_files):
     # std = sqrt( E((x - u)^2) / n)
     stds = np.sqrt(sum(map(lambda d: np.square(d-averages), all_data)) / amount_of_files)
 
-    # Get all test accuracies at max validation accuracy and plot the average as a line
-    best_test_accuracies = list(map(lambda d: d[np.argmax(d[:, 5]), 6], all_data))
-    avg_test_accuracy = sum(best_test_accuracies) / amount_of_files
-    last_collumn = np.ones((averages.shape[0], 1)) * avg_test_accuracy
-
-    return np.concatenate((averages, last_collumn), axis=1), stds
+    return averages, stds
 
 
 def plot_accuracy(averages, filename):
@@ -50,7 +52,6 @@ def plot_multiple_accuracies(list_of_averages, legend_names, colors=None):
         plt.plot(averages[:, 5], colors[idx])
         if averages.shape[1] > 6:
             plt.plot(averages[:, 6], colors[idx], linestyle='--', label=legend_names[idx]+' test')
-        if averages.shape[1] == 8:
             plt.plot(averages[:, 7], colors[idx], linestyle=':', label=legend_names[idx] + ' best')
     plt.ylabel('Accuracy (%)')
     plt.xlabel('Epochs')
@@ -73,7 +74,7 @@ def plot_multiple_loss(list_of_averages, legend_names, colors=None):
 
 def print_summary(filenames, amount_of_files):
     # Print final accuracies + stds
-    print("\t\t\t\t\ttraining_loss\tvalidation_loss\tprecision\trecall\t\tf1\t\taccuracy\ttest_accuracy")
+    print("\t\t\t\t\ttraining_loss\tvalidation_loss\tprecision\trecall\t\tf1\t\taccuracy\ttest_accuracy\tbest")
     averages_and_stds = [read_in_files_to_average(filename, amount_of_files) for filename in filenames]
     for filename, (averages, stds) in zip(filenames, averages_and_stds):
         s = filename + "\t" + ("\t" if "adam" in filename and "res_" in filename else "")

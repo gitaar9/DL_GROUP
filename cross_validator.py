@@ -15,7 +15,7 @@ class CrossValidator:
             print("{}\nFold {} for {}\n{}".format('#' * 30, fold, self.file_name, '#' * 30))
             net = self.model_class(cv_cycle=fold, **self.model_kwargs)
             metrics = net.run()
-            filename = "results/{}_run{}".format(self.file_name, fold)
+            filename = "cross_validated_results/{}_run{}".format(self.file_name, fold)
             net.save_metrics(filename, metrics)
             net.free()
 
