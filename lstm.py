@@ -121,7 +121,7 @@ if __name__ == '__main__':
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        batch_size=100,
+        batch_size=50,
         num_layers=num_layers,
         hidden_size=hidden_size,
         dropout=dropout,
