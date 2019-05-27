@@ -77,18 +77,21 @@ class OurLSTM(BaseNet):
             batch_size=batch_size,
             shuffle=True
         )
+        print("Loaded train set")
         val_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.VALIDATION, slices=40,
                              composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
             batch_size=batch_size,
             shuffle=False
         )
+        print("Loaded validation set")
         test_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TEST, slices=40,
                              composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
             batch_size=batch_size,
             shuffle=False
         )
+        print("Loaded test set")
         return train_loader, val_loader, test_loader
 
 

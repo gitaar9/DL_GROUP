@@ -25,7 +25,9 @@ class BaseNet:
         self.epochs = epochs
 
         self.composers = composers
+        print("Loading datasets")
         self.train_loader, self.val_loader, self.test_loader = self.get_data_loaders(batch_size, cv_cycle)
+        print("Done loading datasets")
         self.loss_function = nn.CrossEntropyLoss()  # cross entropy works well for multi-class problems
 
         # optimizer: Adadelta or Adam
@@ -43,19 +45,19 @@ class BaseNet:
 
     def get_data_loaders(self, batch_size, cv_cyle):
         train_loader = DataLoader(
-            MidiClassicMusic(folder_path="./data/midi_files_npy", mode=Mode.TRAIN, slices=16, composers=self.composers,
+            MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TRAIN, slices=40, composers=self.composers,
                              cv_cycle=cv_cyle),
             batch_size=batch_size,
             shuffle=True
         )
         val_loader = DataLoader(
-            MidiClassicMusic(folder_path="./data/midi_files_npy", mode=Mode.VALIDATION, slices=16,
+            MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.VALIDATION, slices=40,
                              composers=self.composers, cv_cycle=cv_cyle),
             batch_size=batch_size,
             shuffle=False
         )
         test_loader = DataLoader(
-            MidiClassicMusic(folder_path="./data/midi_files_npy", mode=Mode.TEST, slices=16, composers=self.composers,
+            MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TEST, slices=40, composers=self.composers,
                              cv_cycle=cv_cyle),
             batch_size=batch_size,
             shuffle=False
