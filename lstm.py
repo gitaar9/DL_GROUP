@@ -6,24 +6,40 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
-from datasets import MidiClassicMusic
+from cross_validation_datasets import Mode, MidiClassicMusic
+from cross_validator import CrossValidator
 from networks import BaseNet
 
 
+def memory_usage_psutil():
+    # return the memory usage in MB
+    import psutil
+    import os
+    process = psutil.Process(os.getpid())
+    # mem = process.get_memory_info()[0] / float(2 ** 20)
+    return str(process.memory_info())
+
+
 # RNN Model (Many-to-One)
-class RNN(nn.Module):
+class LSTM(nn.Module):
     def __init__(self, input_size, hidden_size, num_layers, num_classes, dropout):
-        super(RNN, self).__init__()
+        super(LSTM, self).__init__()
         self.hidden_size = hidden_size
         self.num_layers = num_layers
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
-        self.add_module('lstm', self.lstm)
-        self.fc1 = nn.Linear(hidden_size, 256)
-        self.add_module('fc1', self.fc1)
-        self.fc2 = nn.Linear(256, num_classes)
-        self.add_module('fc2', self.fc2)
         self.dropout = dropout
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+        # The LSTM layers
+        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
+        self.add_module('lstm', self.lstm)
+
+        # Fully connected layer 1
+        self.fc1 = nn.Linear(hidden_size, 256)
+        self.add_module('fc1', self.fc1)
+
+        # Fully connected layer 2
+        self.fc2 = nn.Linear(256, num_classes)
+        self.add_module('fc2', self.fc2)
 
     def forward(self, x):
         # Put the input in the right order
@@ -49,7 +65,7 @@ class RNN(nn.Module):
 class OurLSTM(BaseNet):
     def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0.5, **kwargs):
         # load the model
-        self.model = RNN(
+        self.model = LSTM(
             num_classes=num_classes,
             input_size=input_size,
             num_layers=num_layers,
@@ -59,18 +75,33 @@ class OurLSTM(BaseNet):
 
         super().__init__(**kwargs)
 
-    def get_data_loaders(self, train_batch_size, val_batch_size):
+    def get_data_loaders(self, batch_size, cv_cyle):
+        """
+        This function is overwritten because the LSTM expects data without channels(in contrast to conv nets),
+        therefore the datasets should be constructed with unsqueeze=False.
+        """
         train_loader = DataLoader(
-            MidiClassicMusic(folder_path="./data/midi_files_npy", train=True, slices=16, composers=self.composers, unsqueeze=False),
-            batch_size=train_batch_size,
+            MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TRAIN, slices=40,
+                             composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
+            batch_size=batch_size,
             shuffle=True
         )
+        print("Loaded train set\nCurrent memory: {}".format(memory_usage_psutil()))
         val_loader = DataLoader(
-            MidiClassicMusic(folder_path="./data/midi_files_npy", train=False, slices=16, composers=self.composers, unsqueeze=False),
-            batch_size=val_batch_size,
+            MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.VALIDATION, slices=40,
+                             composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
+            batch_size=batch_size,
             shuffle=False
         )
-        return train_loader, val_loader
+        print("Loaded validation set\nCurrent memory: {}".format(memory_usage_psutil()))
+        test_loader = DataLoader(
+            MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TEST, slices=40,
+                             composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
+            batch_size=batch_size,
+            shuffle=False
+        )
+        print("Loaded test set\nCurrent memory: {}".format(memory_usage_psutil()))
+        return train_loader, val_loader, test_loader
 
 
 def parse_arguments():
@@ -93,17 +124,20 @@ if __name__ == '__main__':
     epochs, num_layers, hidden_size, dropout = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-    lstm = OurLSTM(
+
+    file_name = "lstm_test_precision8_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
+
+    cv = CrossValidator(
+        model_class=OurLSTM,
+        file_name=file_name,
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        train_batch_size=100,
-        val_batch_size=100,
+        batch_size=100,
         num_layers=num_layers,
         hidden_size=hidden_size,
         dropout=dropout,
         verbose=False
     )
-    metrics = lstm.run()
-    lstm.save_metrics("results/lstm_test5_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout), metrics)
 
+    cv.cross_validate()

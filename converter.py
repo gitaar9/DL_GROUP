@@ -13,7 +13,7 @@ class Converter:
         :param lowest_octave: Midi notes with octaves lower then this will be transposed to this octave
         :param highest_octave: Same as lowest_octave but the other way around
         :param precision: How precise the created npy file is for a precision of 1 all notes played in the same bar are put together
-        :param slice_size: <-- this should go, but for now it tells the converter to slice songs in parts of this size.
+        :param slice_size: How many timesteps are saved together in one slice of a song
         """
         self.base_path = base_path
         self.lowest_octave = lowest_octave
@@ -30,7 +30,7 @@ class Converter:
         while height >= self.array_height:
             height -= 12
         for time_slice in range(offset, offset + int(duration * self.precision)):
-            array[height][time_slice] += 1 if time_slice == offset else 0.5  # Only 1 one the first
+            array[height][time_slice] += 1 if time_slice == offset else 0.5  # Only 1 on the first
 
     def load_midi_file(self, folder_path, filename):
         mf = midi.MidiFile()
