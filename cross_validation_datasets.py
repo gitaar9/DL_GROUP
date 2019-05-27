@@ -18,6 +18,16 @@ class MidiClassicMusic(Dataset):
     MidiClassicMusic dataset for PyTorch
     """
     def __init__(self, folder_path="./data/midi_files_npy_8_40", composers=['Brahms'], mode=Mode.TRAIN, slices=7, add_noise=True, unsqueeze=True, cv_cycle=0):
+        """
+        :param folder_path: The folder in which the .npy files can be found
+        :param composers: A list of names of composers that should be loaded
+        :param mode: How this dataset is used train/validation/test
+        :param slices: The amount of slices that should be concatenated for one data sample
+        :param add_noise: When True some extra noise is added to the data samples
+        :param unsqueeze: When using a CNN the input should be in the form of [height, width, channels],
+        when unsqueeze is True this dataset will output samples in that format otherwise just [height, width]
+        :param cv_cycle: Which parts are currently train and which are validation
+        """
         self.slices = slices
         self.mode = mode
         self.composers = composers
@@ -142,7 +152,7 @@ class MidiClassicMusic(Dataset):
         """
         :param song_idx: The index of the song to be removed
         :param songs: Song slices array of one composer
-        :param song_idxs: The start of every song in songs
+        :param song_idxs: The start of every song in the songs array
         :return: songs and song_idxs but with the song_idxth song removed
         """
         if song_idx + 1 < len(song_idxs):  # We are not at the end of the array

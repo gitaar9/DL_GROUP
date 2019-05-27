@@ -49,22 +49,22 @@ def plot_losses(averages, filename):
 def plot_multiple_accuracies(list_of_averages, legend_names, colors=None):
     colors = plt.rcParams['axes.prop_cycle'].by_key()['color'] if colors is None else colors
     for idx, averages in enumerate(list_of_averages):
-        plt.plot(averages[:, 5], colors[idx])
+        plt.plot(averages[:, 5], colors[idx], label=legend_names[idx])
         if averages.shape[1] > 6:
-            plt.plot(averages[:, 6], colors[idx], linestyle='--', label=legend_names[idx]+' test')
-            plt.plot(averages[:, 7], colors[idx], linestyle=':', label=legend_names[idx] + ' best')
+            # plt.plot(averages[:, 6], colors[idx], linestyle='--')
+            plt.plot(averages[:, 7], colors[idx], linestyle=':')
     plt.ylabel('Accuracy (%)')
     plt.xlabel('Epochs')
     plt.xlim([-1, averages.shape[0]])
-    plt.legend(legend_names, loc='lower right')
+    plt.legend(loc='lower right')
     plt.show()
 
 
 def plot_multiple_loss(list_of_averages, legend_names, colors=None):
     colors = plt.rcParams['axes.prop_cycle'].by_key()['color'] if colors is None else colors
     for idx, averages in enumerate(list_of_averages):
-        plt.plot(averages[:, 0], color=colors[idx], linestyle='--', label=legend_names[idx]+' test loss')
-        plt.plot(averages[:, 1], color=colors[idx], label=legend_names[idx]+' validation loss')
+        plt.plot(averages[:, 0], color=colors[idx], linestyle='--') #, label=legend_names[idx]+' train loss')
+        plt.plot(averages[:, 1], color=colors[idx], label=legend_names[idx])
     plt.ylabel('Loss')
     plt.xlabel('Epochs')
     plt.xlim([-1, averages.shape[0]])
@@ -74,10 +74,10 @@ def plot_multiple_loss(list_of_averages, legend_names, colors=None):
 
 def print_summary(filenames, amount_of_files):
     # Print final accuracies + stds
-    print("\t\t\t\t\ttraining_loss\tvalidation_loss\tprecision\trecall\t\tf1\t\taccuracy\ttest_accuracy\tbest")
+    print("\t\t\t\ttraining_loss\tvalidation_loss\tprecision\trecall\t\tf1\t\taccuracy\ttest_accuracy\tbest")
     averages_and_stds = [read_in_files_to_average(filename, amount_of_files) for filename in filenames]
     for filename, (averages, stds) in zip(filenames, averages_and_stds):
-        s = filename + "\t" + ("\t" if "adam" in filename and "res_" in filename else "")
+        s = filename.split('/')[-1] + "\t" + ("\t" if "adam" in filename and "res_" in filename else "")
         for average, std in zip(averages[-1, :], stds[-1, :]):
             s += "%0.3f+/-%0.3f\t" % (average, std)
         print(s)
