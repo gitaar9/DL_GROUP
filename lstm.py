@@ -72,19 +72,19 @@ class OurLSTM(BaseNet):
         therefore the datasets should be constructed with unsqueeze=False.
         """
         train_loader = DataLoader(
-            MidiClassicMusic(folder_path="./data/midi_files_npy", mode=Mode.TRAIN, slices=16,
+            MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TRAIN, slices=40,
                              composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
             batch_size=batch_size,
             shuffle=True
         )
         val_loader = DataLoader(
-            MidiClassicMusic(folder_path="./data/midi_files_npy", mode=Mode.VALIDATION, slices=16,
+            MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.VALIDATION, slices=40,
                              composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
             batch_size=batch_size,
             shuffle=False
         )
         test_loader = DataLoader(
-            MidiClassicMusic(folder_path="./data/midi_files_npy", mode=Mode.TEST, slices=16,
+            MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TEST, slices=40,
                              composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
             batch_size=batch_size,
             shuffle=False
@@ -113,7 +113,7 @@ if __name__ == '__main__':
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    file_name = "lstm_test5_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
+    file_name = "lstm_test_precision8_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
 
     cv = CrossValidator(
         model_class=OurLSTM,
