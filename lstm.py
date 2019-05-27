@@ -16,8 +16,8 @@ def memory_usage_psutil():
     import psutil
     import os
     process = psutil.Process(os.getpid())
-    mem = process.get_memory_info()[0] / float(2 ** 20)
-    return mem
+    # mem = process.get_memory_info()[0] / float(2 ** 20)
+    return str(process.memory_info())
 
 
 # RNN Model (Many-to-One)
