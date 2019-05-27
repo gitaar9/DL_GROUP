@@ -11,6 +11,15 @@ from cross_validator import CrossValidator
 from networks import BaseNet
 
 
+def memory_usage_psutil():
+    # return the memory usage in MB
+    import psutil
+    import os
+    process = psutil.Process(os.getpid())
+    mem = process.get_memory_info()[0] / float(2 ** 20)
+    return mem
+
+
 # RNN Model (Many-to-One)
 class LSTM(nn.Module):
     def __init__(self, input_size, hidden_size, num_layers, num_classes, dropout):
@@ -77,21 +86,21 @@ class OurLSTM(BaseNet):
             batch_size=batch_size,
             shuffle=True
         )
-        print("Loaded train set")
+        print("Loaded train set\nCurrent memory: {}".format(memory_usage_psutil()))
         val_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.VALIDATION, slices=40,
                              composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
             batch_size=batch_size,
             shuffle=False
         )
-        print("Loaded validation set")
+        print("Loaded validation set\nCurrent memory: {}".format(memory_usage_psutil()))
         test_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TEST, slices=40,
                              composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
             batch_size=batch_size,
             shuffle=False
         )
-        print("Loaded test set")
+        print("Loaded test set\nCurrent memory: {}".format(memory_usage_psutil()))
         return train_loader, val_loader, test_loader
 
 
