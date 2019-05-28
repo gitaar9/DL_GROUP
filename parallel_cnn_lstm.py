@@ -74,7 +74,7 @@ class ParallelCNNLSTM(nn.Module):
         print("LSTM output shape: ", lstm_activation.shape)
 
         ### FULLY CONNECTED PART ###
-        x = torch.cat((lstm_activation, densenet_activation))  # Concatenate the two outputs
+        x = torch.cat((lstm_activation, densenet_activation), dim=1)  # Concatenate the two outputs
         print("Concat shape: ", x.shape)
 
         x = self.fc1(x)
