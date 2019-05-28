@@ -136,7 +136,7 @@ class MidiClassicMusic(Dataset):
                 while (slice_idx + self.slices) < length:
                     validation_data.append(np.concatenate(song_slices[slice_idx:slice_idx + self.slices], axis=1))
                     self.validation_labels.append(composer_idx)
-                    slice_idx += 1
+                    slice_idx += int(self.slices / 8)
         self.data_array = np.array(validation_data)
 
     def find_to_small_song(self, songs, song_idxs):

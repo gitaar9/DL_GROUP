@@ -118,7 +118,7 @@ if __name__ == '__main__':
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
     block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
-    file_name = "dense_cnn_test3_{}_{}_{}".format(epochs, dropout, block_config_string)
+    file_name = "dense_cnn_test_precision8_{}_{}_{}".format(epochs, dropout, block_config_string)
 
     cv = CrossValidator(
         model_class=OurSimpleDenseCNN,
@@ -126,7 +126,7 @@ if __name__ == '__main__':
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        batch_size=50,
+        batch_size=100,
         verbose=False,
         dropout=dropout,
         block_config=block_config
