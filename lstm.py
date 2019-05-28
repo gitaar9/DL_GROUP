@@ -124,6 +124,7 @@ if __name__ == '__main__':
     epochs, num_layers, hidden_size, dropout = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
+    composers = ['Brahms', 'Schubert']
 
     file_name = "lstm_test_precision8_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
 
@@ -137,7 +138,7 @@ if __name__ == '__main__':
         num_layers=num_layers,
         hidden_size=hidden_size,
         dropout=dropout,
-        verbose=False
+        verbose=True # If I want to print all the results during learning -> True
     )
 
     cv.cross_validate()
