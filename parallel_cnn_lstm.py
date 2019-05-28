@@ -65,17 +65,11 @@ class ParallelCNNLSTM(nn.Module):
         lstm_activation = lstm_activation[:, -1, :]  # Use output for last timestep only
 
         ### DENSENET FORWARDING PART ###
-        print("Input shape: ", input.shape)
         densenet_activation = input.unsqueeze(1)
-        print("Dense input shape: ", densenet_activation.shape)
         densenet_activation = self.dense_net(densenet_activation)
-
-        print("Dense output shape: ", densenet_activation.shape)
-        print("LSTM output shape: ", lstm_activation.shape)
 
         ### FULLY CONNECTED PART ###
         x = torch.cat((lstm_activation, densenet_activation), dim=1)  # Concatenate the two outputs
-        print("Concat shape: ", x.shape)
 
         x = self.fc1(x)
         x = F.relu(x)
@@ -147,7 +141,6 @@ if __name__ == '__main__':
     epochs, num_layers, hidden_size, dropout = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-    composers = ['Chopin', 'Bach']
 
     file_name = "parallel_cnn_lstm_test_precision8_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
 
