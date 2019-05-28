@@ -6,6 +6,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchvision.models.densenet import _DenseBlock, _Transition
 
+from cross_validator import CrossValidator
 from networks import BaseNet
 
 
@@ -17,7 +18,7 @@ class SimpleDenseCNN(nn.Module):
         self.drop_rate = drop_rate
         # First convolution
         self.features = nn.Sequential(OrderedDict([
-            ('conv0', nn.Conv2d(1, num_init_features, kernel_size=5, stride=2, padding=3, bias=False)),
+            ('conv0', nn.Conv2d(1, num_init_features, kernel_size=7, stride=2, padding=3, bias=False)),
             ('norm0', nn.BatchNorm2d(num_init_features)),
             ('relu0', nn.ReLU(inplace=True)),
             ('pool0', nn.MaxPool2d(kernel_size=3, stride=2, padding=1)),
@@ -115,18 +116,20 @@ if __name__ == '__main__':
     epochs, dropout, block_config = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-    net = OurSimpleDenseCNN(
+
+    block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
+    file_name = "dense_cnn_test3_{}_{}_{}".format(epochs, dropout, block_config_string)
+
+    cv = CrossValidator(
+        model_class=OurSimpleDenseCNN,
+        file_name=file_name,
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        train_batch_size=50,
-        val_batch_size=50,
+        batch_size=50,
         verbose=False,
         dropout=dropout,
         block_config=block_config
     )
-    metrics = net.run()
-    block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
-    filename = "results/dense_cnn_test3_{}_{}_{}".format(epochs, dropout, block_config_string)
-    net.save_metrics(filename, metrics)
 
+    cv.cross_validate()

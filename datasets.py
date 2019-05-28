@@ -9,6 +9,7 @@ from torch.utils.data import Dataset
 
 class MidiClassicMusic(Dataset):
     """
+    NO LONGER USED!
     MidiClassicMusic dataset for PyTorch
     """
     def __init__(self, folder_path, composers, train=True, slices=7, add_noise=True, unsqueeze=True):
