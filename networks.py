@@ -202,7 +202,7 @@ if __name__ == '__main__':
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    file_name = "densenet_{}".format(epochs)
+    file_name = "densenet_precision8_{}".format(epochs)
 
     cv = CrossValidator(
         model_class=OurDenseNet,
@@ -210,7 +210,7 @@ if __name__ == '__main__':
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        batch_size=30,
+        batch_size=100,
         pretrained=False,
         verbose=False
     )
