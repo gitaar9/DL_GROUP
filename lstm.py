@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
-from cross_validation_datasets import Mode, MidiClassicMusic
+from datasets import Mode, MidiClassicMusic
 from cross_validator import CrossValidator
 from networks import BaseNet
 
