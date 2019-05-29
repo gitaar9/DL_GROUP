@@ -7,7 +7,7 @@ from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_sc
 from torch import nn, optim
 from torch.utils.data import DataLoader
 
-from cross_validation_datasets import MidiClassicMusic, Mode
+from datasets import MidiClassicMusic, Mode
 from cross_validator import CrossValidator
 from stupid_overwrites import densenet121
 
