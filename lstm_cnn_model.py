@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 from datasets import Mode, MidiClassicMusic
 from networks import BaseNet
 from stupid_overwrites import DenseNet
-
+from cross_validator import CrossValidator
 
 def memory_usage_psutil():
     # return the memory usage in MB
@@ -15,7 +15,6 @@ def memory_usage_psutil():
     process = psutil.Process(os.getpid())
     # mem = process.get_memory_info()[0] / float(2 ** 20)
     return str(process.memory_info())
-
 
 class LSTM_CNN_model(nn.Module):
     def __init__(self, num_classes, input_size, hidden_size, num_layers, dropout):
