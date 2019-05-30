@@ -187,7 +187,7 @@ class OurResNet(BaseNet):
 
 
 class OurDenseNet(BaseNet):
-    def __init__(self, num_classes=10, pretrained=True, feature_extract=True, **kwargs):
+    def __init__(self, num_classes=10, pretrained=True, feature_extract=False, **kwargs):
         # load the model
         self.model = densenet121(pretrained=pretrained)
         if feature_extract:
