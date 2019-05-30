@@ -41,7 +41,9 @@ class CnnLstmModel(nn.Module):
         self.add_module('fc2', self.fc2)
 
     def build_cnn(self, cnn_pretrained, feature_extract, lstm_input_size):
-        model = models.resnet50(pretrained=cnn_pretrained)
+        # TODO: try building our own simple convolution layers (just a couple)
+        model = models.resnet18(pretrained=cnn_pretrained)  # TODO: use densenet
+        # model = models.resnet50(pretrained=cnn_pretrained)
         # Change input layer to 1 channel
         model.conv1 = nn.Conv2d(1, 64, kernel_size=12, stride=2, padding=3, bias=False)
         if feature_extract:
@@ -53,22 +55,31 @@ class CnnLstmModel(nn.Module):
     def forward(self, x):
         # Put the input in the right order
         # x = x.permute(0, 2, 1)  # TODO:needed here?
+        n_chunks = 20
+        list_x = torch.chunk(x, n_chunks, 0)  # TODO: dimension 0 or 1??
 
-        # Forward pass through ResNet
-        x = self.cnn_model.conv1
-        x = self.cnn_model.conv1(x)
-        x = self.cnn_model.bn1(x)
-        x = self.cnn_model.relu(x)
-        x = self.cnn_model.maxpool(x)
+        # Forward pass through ResNet # TODO: will this be backpropagated ok?
+        # Initialize sliced tensor.
+        output_cnn = torch.empty((n_chunks, x.size[0], x.size[1]), device=self.device, requires_grad=True)
+        # Fill in sliced tensor
+        for i, chunk in enumerate(list_x):
+            output_cnn[i] = self.cnn_model.forward(chunk)
 
-        x = self.cnn_model.layer1(x)
-        x = self.cnn_model.layer2(x)
-        x = self.cnn_model.layer3(x)
-        x = self.cnn_model.layer4(x)
-
-        x = self.cnn_model.avgpool(x)
-        x = x.view(x.size(0), -1)
-        x = self.cnn_model.fc(x)
+        # x = self.cnn_model.forward(x)
+        # x = self.cnn_model.conv1
+        # x = self.cnn_model.conv1(x)
+        # x = self.cnn_model.bn1(x)
+        # x = self.cnn_model.relu(x)
+        # x = self.cnn_model.maxpool(x)
+        #
+        # x = self.cnn_model.layer1(x)
+        # x = self.cnn_model.layer2(x)
+        # x = self.cnn_model.layer3(x)
+        # x = self.cnn_model.layer4(x)
+        #
+        # x = self.cnn_model.avgpool(x)
+        # x = x.view(x.size(0), -1)
+        # x = self.cnn_model.fc(x)
 
         # Forward pass through LSTM
 
