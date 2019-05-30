@@ -1,20 +1,14 @@
 import argparse
+
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 from torch.utils.data import DataLoader
+
+from cross_validator import CrossValidator
 from datasets import Mode, MidiClassicMusic
 from networks import BaseNet
 from stupid_overwrites import DenseNet
-from cross_validator import CrossValidator
 
-def memory_usage_psutil():
-    # return the memory usage in MB
-    import psutil
-    import os
-    process = psutil.Process(os.getpid())
-    # mem = process.get_memory_info()[0] / float(2 ** 20)
-    return str(process.memory_info())
 
 class LSTM_CNN_model(nn.Module):
     def __init__(self, num_classes, input_size, hidden_size, num_layers, dropout):
@@ -43,8 +37,8 @@ class LSTM_CNN_model(nn.Module):
 
         # LSTM layers
         lstm_activation, _ = self.lstm(lstm_input, (h0, c0))
-        lstm_activation = F.dropout(lstm_activation, p=self.dropout,
-                                    training=self.training)  # Dropout over the output of the lstm
+        # lstm_activation = F.dropout(lstm_activation, p=self.dropout,
+        #                             training=self.training)  # Dropout over the output of the lstm
 
         lstm_output = lstm_activation
 
@@ -55,6 +49,7 @@ class LSTM_CNN_model(nn.Module):
         results = self.dense_net(densenet_activation)
 
         return results
+
 
 class Our_lstm_cnn(BaseNet):
     def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0.5, **kwargs):
@@ -78,21 +73,18 @@ class Our_lstm_cnn(BaseNet):
             batch_size=batch_size,
             shuffle=True
         )
-        print("Loaded train set\nCurrent memory: {}".format(memory_usage_psutil()))
         val_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.VALIDATION, slices=40,
                              composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
             batch_size=batch_size,
             shuffle=False
         )
-        print("Loaded validation set\nCurrent memory: {}".format(memory_usage_psutil()))
         test_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TEST, slices=40,
                              composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
             batch_size=batch_size,
             shuffle=False
         )
-        print("Loaded test set\nCurrent memory: {}".format(memory_usage_psutil()))
         return train_loader, val_loader, test_loader
 
 
@@ -127,11 +119,11 @@ if __name__ == '__main__':
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        batch_size=10,
+        batch_size=30,
         num_layers=num_layers,
         hidden_size=hidden_size,
         dropout=dropout,
-        verbose=True # If I want to print all the results during learning -> True
+        verbose=False  # If I want to print all the results during learning -> True
     )
 
     cv.cross_validate()
