@@ -2,6 +2,7 @@ import argparse
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
 from cross_validator import CrossValidator
@@ -37,8 +38,8 @@ class LSTM_CNN_model(nn.Module):
 
         # LSTM layers
         lstm_activation, _ = self.lstm(lstm_input, (h0, c0))
-        # lstm_activation = F.dropout(lstm_activation, p=self.dropout,
-        #                             training=self.training)  # Dropout over the output of the lstm
+        lstm_activation = F.dropout(lstm_activation, p=self.dropout,
+                                    training=self.training)  # Dropout over the output of the lstm
 
         lstm_output = lstm_activation
 
