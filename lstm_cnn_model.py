@@ -117,7 +117,6 @@ if __name__ == '__main__':
     epochs, num_layers, hidden_size, dropout, block_config = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-    composers = ['Brahms', 'Schubert']
 
     block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
     file_name = "lstm_cnn_test_precision8_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout, block_config_string)
@@ -128,7 +127,7 @@ if __name__ == '__main__':
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        batch_size=50,
+        batch_size=10,
         num_layers=num_layers,
         hidden_size=hidden_size,
         dropout=dropout,
