@@ -13,7 +13,7 @@ from stupid_overwrites import densenet121
 
 
 class BaseNet:
-    def __init__(self, epochs, composers, batch_size=100, optimizer='Adadelta', verbose=True, cv_cycle=0):
+    def __init__(self, epochs, composers, batch_size=100, optimizer='Adam', verbose=True, cv_cycle=0):
         """
         :param epochs: The amount of epochs this network will be trained for when run() is called
         :param composers: The names of the composers that should be loaded as dataset
@@ -187,7 +187,7 @@ class OurResNet(BaseNet):
 
 
 class OurDenseNet(BaseNet):
-    def __init__(self, num_classes=10, pretrained=True, feature_extract=False, **kwargs):
+    def __init__(self, num_classes=10, pretrained=True, feature_extract=True, **kwargs):
         # load the model
         self.model = densenet121(pretrained=pretrained)
         if feature_extract:
