@@ -5,43 +5,48 @@ import torch.nn as nn
 import torchvision.models as models
 import torch.nn.functional as F
 from torch.autograd import Variable
-from torch.utils.data import DataLoader
 from collections import OrderedDict
 
-from cross_validation_datasets import Mode, MidiClassicMusic
 from cross_validator import CrossValidator
 from networks import BaseNet
-from lstm import memory_usage_psutil
-# from lstm import OurLSTM
-import lstm
-import networks
 
 
 class SinglePassCnnLstmModel(nn.Module):
     def __init__(self, cnn_pretrained, feature_extract,
                  lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout):
         super().__init__()
-        self.cnn_model = self.build_cnn(cnn_pretrained, feature_extract, lstm_input_size)
-        # TODO: work to be done to fix the sequence dimension..
-        self.lstm_model = nn.LSTM(lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout=dropout)
-
-        # self.classifier = nn.Linear(256, num_classes)
-        # self.classifier.add_module('fc2', nn.Linear(256, num_classes))
-
+        # We build the convolution network for our model.
+        self.cnn_model = self.build_cnn(cnn_pretrained,
+                                        feature_extract,
+                                        lstm_input_size)
+        # We build a LSTM network for our model.
+        self.lstm_model = nn.LSTM(lstm_input_size,
+                                  lstm_hidden_size,
+                                  num_lstm_layers,
+                                  dropout=dropout)
         self.model = nn.Sequential(OrderedDict([
             ('cnn', self.cnn_model),
             ('lstm', self.lstm_model),
         ]))
-        # self.lstm_fc1 =nn.Linear(lstm_hidden_size, 256)
-        # self.classifier = nn.Linear(256, num_classes)
 
     def forward(self, inputs):
+        """
+        The data is divided into the input data for the CNN
+        (size batch_size x 72 x 1600/n_chunks) and the hidden and cell
+        state of the LSTM from the previous time step. Then it passes this
+        data through the CNN-LSTM network.
+        Args:
+            inputs: tuple of next chunk of input data and output of lstm in t-1
+
+        Returns:
+            tuple of hidden and cell state of LSTM
+        """
         inputs, (h_n, c_n) = inputs
         cnn_output = self.cnn_model(inputs)
         output, (h_n, c_n) = self.lstm_model(cnn_output.unsqueeze(dim=0), (h_n, c_n))
         return (h_n, c_n)
 
-    # From densenet forward function:
+    # This is densenet forward function:
     # def forward(self, x):
     #     features = self.features(x)
     #     out = F.relu(features, inplace=True)
@@ -87,16 +92,31 @@ class CnnLstmModel(nn.Module):
         ]))
 
     def forward(self, x):
-        # Set initial states <-- This might be unnecessary
-        h = Variable(torch.zeros(self.num_lstm_layers, x.size(0), self.lstm_hidden_size).to(self.device))
-        c = Variable(torch.zeros(self.num_lstm_layers, x.size(0), self.lstm_hidden_size).to(self.device))
+        """
+        Divides the input data into smaller chunks. Then passes sequentially
+        the chunks of data trough the CNN-LSTM network, while the LSTM also
+        takes as inputs the hidden_state of the last layer of the LSTM in the
+        previous time step. Hopefully it will classify the composer.
+        Args:
+            x: input data
 
+        Returns:
+            The activations of the last fully connected layer.
+
+        """
+        # Set initial states # TODO: could be random initialization, instead of zeroes
+        h = Variable(torch.zeros(self.num_lstm_layers, x.size(0),
+                                 self.lstm_hidden_size).to(self.device))
+        c = Variable(torch.zeros(self.num_lstm_layers, x.size(0),
+                                 self.lstm_hidden_size).to(self.device))
+        # We divide the input data into chunks, then run them through the cnn_lstm model 1 by 1
         n_chunks = 20
         for chunk in torch.chunk(x, n_chunks, 3):
             h, c = self.cnn_lstm((chunk, (h, c)))
         # TODO: dropout should be here?
-        output = F.dropout(h, p=self.dropout, training=self.training)  # Dropout over the output of the lstm
-        # The output of the lstm goes into the first fully connected layer
+        # Dropout over the output of the lstm
+        output = F.dropout(h, p=self.dropout, training=self.training)
+        # The output of the last layer of the lstm goes into the first fully connected layer
         output = self.fc1(output[-1])
         output = F.relu(output)
         # Pass to the last fully connected layer (SoftMax)
