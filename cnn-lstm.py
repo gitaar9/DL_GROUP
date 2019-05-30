@@ -167,10 +167,13 @@ def parse_arguments():
 if __name__ == '__main__':
     epochs, num_lstm_layers, lstm_hidden_size, dropout, lstm_input_size = parse_arguments()
 
-    # composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-    composers = ['Brahms', 'Mozart', 'Schubert']
+    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    file_name = "lstm_test_precision8_{}_{}_{}_{}_{}".format(epochs, num_lstm_layers, lstm_input_size, lstm_hidden_size, dropout)
+    file_name = "lstm_test_precision8_{}_{}_{}_{}_{}".format(epochs,
+                                                             num_lstm_layers,
+                                                             lstm_input_size,
+                                                             lstm_hidden_size,
+                                                             dropout)
 
     cv = CrossValidator(
         model_class=OurCnnLstm,
@@ -178,7 +181,7 @@ if __name__ == '__main__':
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        batch_size=32,
+        batch_size=100,
         num_lstm_layers=num_lstm_layers,
         lstm_hidden_size=lstm_hidden_size,
         dropout=dropout,
