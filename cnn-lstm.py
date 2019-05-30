@@ -29,12 +29,10 @@ class SinglePassCnnLstmModel(nn.Module):
         # self.classifier = nn.Linear(256, num_classes)
         # self.classifier.add_module('fc2', nn.Linear(256, num_classes))
 
-        # # First convolution
-        # self.model = nn.Sequential(OrderedDict([
-        #     ('cnn', cnn_model),
-        #     ('lstm', nn.LSTM(lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout=dropout, batch_first=True)),
-        #     # ('fc1', nn.Linear(lstm_hidden_size, 256)),
-        # ]))
+        self.model = nn.Sequential(OrderedDict([
+            ('cnn', self.cnn_model),
+            ('lstm', self.lstm_model),
+        ]))
         # self.lstm_fc1 =nn.Linear(lstm_hidden_size, 256)
         # self.classifier = nn.Linear(256, num_classes)
 
@@ -69,6 +67,11 @@ class CnnLstmModel(nn.Module):
     def __init__(self, num_classes, input_size, cnn_pretrained, feature_extract,
                  lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout):
         super().__init__()
+        self.lstm_hidden_size = lstm_hidden_size
+        self.num_lstm_layers = num_lstm_layers
+        self.dropout = dropout
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
         self.cnn_lstm = SinglePassCnnLstmModel(num_classes,
                                                input_size,
                                                cnn_pretrained,
@@ -77,25 +80,35 @@ class CnnLstmModel(nn.Module):
                                                lstm_hidden_size,
                                                num_lstm_layers,
                                                dropout)
-        self.add_module('cnn_lstm', self.cnn_lstm)
-        self.classifier = nn.Linear(hidden_size, 256)
-        self.classifier.add_module('fc2', nn.Linear(256, num_classes))
-        self.add_module('classifier', self.classifier)
+        self.fc1 = nn.Linear(lstm_hidden_size, 256)
+        self.classifier = nn.Linear(256, num_classes)
+        self.model = nn.Sequential(OrderedDict([
+            ('cnn_lstm', self.cnn_lstm),
+            ('fc1', self.fc1),
+            ('classifier', self.classifier),
+        ]))
 
     def forward(self, x):
         # Set initial states <-- This might be unnecessary
-        h = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device))
-        c = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device))
+        h = Variable(torch.zeros(self.num_lstm_layers, x.size(0), self.lstm_hidden_size).to(self.device))
+        c = Variable(torch.zeros(self.num_lstm_layers, x.size(0), self.lstm_hidden_size).to(self.device))
 
         n_chunks = 20
         for chunk in torch.chunk(x, n_chunks, 0):
             h, c = self.cnn_lstm((chunk, (h, c)))
-        return self.classifier(h)
+        # TODO: dropout should be here?
+        output = F.dropout(h, p=self.dropout, training=self.training)  # Dropout over the output of the lstm
+        # The output of the lstm goes into the first fully connected layer
+        output = self.fc1(output)
+        output = F.relu(output)
+        # Pass to the last fully connected layer (SoftMax)
+        output = self.classifier(output)
+        return output
 
 
 class OurCnnLstm(BaseNet):
     def __init__(self, num_classes=10, input_size=72, cnn_pretrained=False,
-                 feature_extract=False, lstm_input_size=512, lstm_hidden_size=8,
+                 feature_extract=False, lstm_input_size=512, lstm_hidden_size=256,
                  num_lstm_layers=1, dropout=0.5, **kwargs):
         # load the model
         self.model = CnnLstmModel(
@@ -146,7 +159,7 @@ def parse_arguments():
                         help='The amount of epochs that the model will be trained.')
     parser.add_argument('--num_layers', type=int, default=1,
                         help='The number of lstm layers.')
-    parser.add_argument('--hidden_size', type=int, default=512,
+    parser.add_argument('--lstm_hidden_size', type=int, default=256,
                         help='The amount of blocks in every lstm layer.')
     parser.add_argument('--dropout', type=float, default=.5,
                         help='The dropout rate after each lstm layer.')
@@ -154,7 +167,7 @@ def parse_arguments():
     #                     help='If the CNN network uses pretrained weights.')
     # parser.add_argument('--feature_extract', type=bool, default=False,
     #                     help='If the CNN freezes the weights so no more training.')
-    parser.add_argument('--lstm_input_size', type=int, default=100,
+    parser.add_argument('--lstm_input_size', type=int, default=512,
                         help='The output size of the CNN, as well as the input size of the LSTM.')
     args = parser.parse_args()
 
@@ -162,12 +175,12 @@ def parse_arguments():
 
 
 if __name__ == '__main__':
-    epochs, num_layers, hidden_size, dropout, lstm_input_size = parse_arguments()
+    epochs, num_layers, lstm_hidden_size, dropout, lstm_input_size = parse_arguments()
 
     # composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
     composers = ['Brahms', 'Mozart', 'Schubert']
 
-    file_name = "lstm_test_precision8_{}_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout, lstm_input_size)
+    file_name = "lstm_test_precision8_{}_{}_{}_{}_{}".format(epochs, num_layers, lstm_hidden_size, dropout, lstm_input_size)
 
     cv = CrossValidator(
         model_class=OurCnnLstm,
@@ -177,7 +190,7 @@ if __name__ == '__main__':
         epochs=epochs,
         batch_size=100,
         num_layers=num_layers,
-        hidden_size=hidden_size,
+        lstm_hidden_size=lstm_hidden_size,
         dropout=dropout,
         lstm_input_size=lstm_input_size,
         verbose=False
