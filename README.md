@@ -41,3 +41,9 @@ https://pdfs.semanticscholar.org/4e7d/ad845bd9e1d399bf729724442cb7404549d1.pdf?_
 
 Multivariate LSTM-FCNs for Time Series Classification:
 https://paperswithcode.com/paper/multivariate-lstm-fcns-for-time-series
+
+# How to run on peregrine
+1. create a venv folder in root directory ./
+2. clone the DL_GROUP in root direcrtory or atleast at the same level as the venv(this is important for the jobscripts to activate the venv)
+3. unzip the datafile you want to use
+4. run sbatch yourjobscriopt
