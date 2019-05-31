@@ -53,7 +53,7 @@ class LSTM_CNN_model(nn.Module):
 
 
 class Our_lstm_cnn(BaseNet):
-    def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0.5, **kwargs):
+    def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=2, dropout=0, **kwargs):
         self.model = LSTM_CNN_model(
             num_classes=num_classes,
             input_size=input_size,
