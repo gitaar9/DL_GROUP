@@ -52,6 +52,7 @@ class DenseNet(nn.Module):
 
         # Linear layer
         self.classifier = nn.Linear(num_features, num_classes)
+        self.output_size = num_features
 
         # Official init from torch repo.
         for m in self.modules():
