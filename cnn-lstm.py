@@ -14,14 +14,9 @@ class SinglePassCnnLstmModel(nn.Module):
                  lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout):
         super().__init__()
         # We build the convolution network for our model.
-        self.cnn_model = self.build_cnn(cnn_pretrained,
-                                        feature_extract,
-                                        lstm_input_size)
+        self.cnn_model = self.build_cnn(cnn_pretrained, feature_extract, lstm_input_size)
         # We build a LSTM network for our model.
-        self.lstm_model = nn.LSTM(lstm_input_size,
-                                  lstm_hidden_size,
-                                  num_lstm_layers,
-                                  dropout=dropout)
+        self.lstm_model = nn.LSTM(lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout=dropout)
 
         self.add_module('cnn', self.cnn_model)
         self.add_module('lstm', self.lstm_model)
@@ -40,10 +35,8 @@ class SinglePassCnnLstmModel(nn.Module):
         """
         inputs, (h_n, c_n) = inputs
         cnn_output = self.cnn_model(inputs)
-        # Flatten the output of cnn to fit in a lstm
-        cnn_output = cnn_output.unsqueeze(0)
+        output, (h_n, c_n) = self.lstm_model(cnn_output.unsqueeze(0), (h_n, c_n))
 
-        output, (h_n, c_n) = self.lstm_model(cnn_output, (h_n, c_n))
         return output, (h_n, c_n)
 
     def build_cnn(self, cnn_pretrained, feature_extract, lstm_input_size):
@@ -106,9 +99,11 @@ class CnnLstmModel(nn.Module):
         # Dropout over the output of the lstm
         output = output.squeeze(0)
         output = F.dropout(output, p=self.dropout, training=self.training)
+
         # The output of the last layer of the lstm goes into the first fully connected layer
         output = self.fc1(output)
         output = F.relu(output)
+
         # Pass to the last fully connected layer (SoftMax)
         output = self.classifier(output)
         return output
