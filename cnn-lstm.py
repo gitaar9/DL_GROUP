@@ -45,7 +45,8 @@ class SinglePassCnnLstmModel(nn.Module):
         """
         inputs, (h_n, c_n) = inputs
         cnn_output = self.cnn_model(inputs)
-        output, (h_n, c_n) = self.lstm_model(cnn_output.squeeze(dim=1), (h_n, c_n))
+        print('CNN output: ', cnn_output.shape)
+        output, (h_n, c_n) = self.lstm_model(cnn_output, (h_n, c_n))
         return output, (h_n, c_n)
 
     # This is densenet forward function:
