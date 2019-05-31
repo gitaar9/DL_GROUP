@@ -31,12 +31,13 @@ class BaseNet:
         self.loss_function = nn.CrossEntropyLoss()  # cross entropy works well for multi-class problems
 
         # optimizer: Adadelta or Adam
-        if optimizer == "Adadelta":
-            self.optimizer = optim.Adadelta(self.model.parameters())
-        elif optimizer == "Adam":
-            self.optimizer = optim.Adam(self.model.parameters())
-        else:
-            raise Exception('You misspelled the optimizer:(')
+        # if optimizer == "Adadelta":
+        #     self.optimizer = optim.Adadelta(self.model.parameters())
+        # elif optimizer == "Adam":
+        #     self.optimizer = optim.Adam(self.model.parameters())
+        # else:
+        #     raise Exception('You misspelled the optimizer:(')
+        self.optimizer = optim.Adam(self.model.parameters())
 
         # See if we use CPU or GPU
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -202,7 +203,7 @@ if __name__ == '__main__':
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    file_name = "densenet_precision8_{}".format(epochs)
+    file_name = "densenet_adam_precision8_{}".format(epochs)
 
     cv = CrossValidator(
         model_class=OurDenseNet,
