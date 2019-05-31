@@ -45,10 +45,8 @@ class SinglePassCnnLstmModel(nn.Module):
         """
         inputs, (h_n, c_n) = inputs
         cnn_output = self.cnn_model(inputs)
-        print('CNN output: ', cnn_output.shape)
         # Flatten the output of cnn to fit in a lstm
         cnn_output = cnn_output.unsqueeze(0)
-        print('Unsqeeuzed output: ', cnn_output.shape)
 
         output, (h_n, c_n) = self.lstm_model(cnn_output, (h_n, c_n))
         return output, (h_n, c_n)
@@ -122,10 +120,7 @@ class CnnLstmModel(nn.Module):
             output, (h, c) = self.cnn_lstm((chunk, (h, c)))
         # TODO: dropout should be here?
         # Dropout over the output of the lstm
-        print(output.shape)
         output = output.squeeze(0)
-        print(output.shape)
-
         output = F.dropout(output, p=self.dropout, training=self.training)
         # The output of the last layer of the lstm goes into the first fully connected layer
         output = self.fc1(output)
