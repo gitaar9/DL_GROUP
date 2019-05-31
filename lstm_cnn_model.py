@@ -123,7 +123,7 @@ if __name__ == '__main__':
         batch_size=50,
         num_layers=num_layers,
         hidden_size=hidden_size,
-        dropout=dropout,
+        dropout=0,
         verbose=False  # If I want to print all the results during learning -> True
     )
 
