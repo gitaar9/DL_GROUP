@@ -24,10 +24,12 @@ class SinglePassCnnLstmModel(nn.Module):
                                   lstm_hidden_size,
                                   num_lstm_layers,
                                   dropout=dropout)
-        self.model = nn.Sequential(OrderedDict([
-            ('cnn', self.cnn_model),
-            ('lstm', self.lstm_model),
-        ]))
+        # self.model = nn.Sequential(OrderedDict([
+        #     ('cnn', self.cnn_model),
+        #     ('lstm', self.lstm_model),
+        # ]))
+        self.add_module('cnn', self.cnn_model)
+        self.add_module('lstm', self.lstm_model)
 
     def forward(self, inputs):
         """
@@ -43,8 +45,8 @@ class SinglePassCnnLstmModel(nn.Module):
         """
         inputs, (h_n, c_n) = inputs
         cnn_output = self.cnn_model(inputs)
-        output, (h_n, c_n) = self.lstm_model(cnn_output.unsqueeze(dim=0), (h_n, c_n))
-        return (h_n, c_n)
+        output, (h_n, c_n) = self.lstm_model(cnn_output.squeeze(dim=1), (h_n, c_n))
+        return output, (h_n, c_n)
 
     # This is densenet forward function:
     # def forward(self, x):
@@ -90,6 +92,7 @@ class CnnLstmModel(nn.Module):
             ('fc1', self.fc1),
             ('classifier', self.classifier),
         ]))
+        self.add_module('model', self.model)
 
     def forward(self, x):
         """
@@ -105,19 +108,19 @@ class CnnLstmModel(nn.Module):
 
         """
         # Set initial states # TODO: could be random initialization, instead of zeroes
-        h = Variable(torch.zeros(self.num_lstm_layers, x.size(0),
-                                 self.lstm_hidden_size).to(self.device))
-        c = Variable(torch.zeros(self.num_lstm_layers, x.size(0),
-                                 self.lstm_hidden_size).to(self.device))
+        h = torch.zeros(self.num_lstm_layers, x.size(0), self.lstm_hidden_size).to(self.device)
+        c = torch.zeros(self.num_lstm_layers, x.size(0), self.lstm_hidden_size).to(self.device)
+
         # We divide the input data into chunks, then run them through the cnn_lstm model 1 by 1
         n_chunks = 20
         for chunk in torch.chunk(x, n_chunks, 3):
-            h, c = self.cnn_lstm((chunk, (h, c)))
+            output, (h, c) = self.cnn_lstm((chunk, (h, c)))
         # TODO: dropout should be here?
         # Dropout over the output of the lstm
-        output = F.dropout(h, p=self.dropout, training=self.training)
+        output = F.dropout(output, p=self.dropout, training=self.training)
         # The output of the last layer of the lstm goes into the first fully connected layer
-        output = self.fc1(output[-1])
+        print(output.shape)
+        output = self.fc1(output)
         output = F.relu(output)
         # Pass to the last fully connected layer (SoftMax)
         output = self.classifier(output)
