@@ -3,21 +3,21 @@ import argparse
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
-from datasets import Mode, MidiClassicMusic
 from cross_validator import CrossValidator
+from datasets import Mode, MidiClassicMusic
 from networks import BaseNet
 
 
 # RNN Model (Many-to-One)
 class LSTM(nn.Module):
-    def __init__(self, input_size, hidden_size, num_layers, num_classes, dropout):
+    def __init__(self, input_size, hidden_size, num_layers, num_classes, dropout, n_chunks):
         super(LSTM, self).__init__()
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.dropout = dropout
+        self.n_chunks = n_chunks
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # The LSTM layers
@@ -25,7 +25,7 @@ class LSTM(nn.Module):
         self.add_module('lstm', self.lstm)
 
         # Fully connected layer 1
-        self.fc1 = nn.Linear(hidden_size * 10, 256)
+        self.fc1 = nn.Linear(hidden_size * self.n_chunks, 256)
         self.add_module('fc1', self.fc1)
 
         # Fully connected layer 2
@@ -42,7 +42,7 @@ class LSTM(nn.Module):
 
         outputs = []
         # Forward propagate RNN
-        for chunk in torch.chunk(x, 10, 1):
+        for chunk in torch.chunk(x, self.n_chunks, 1):
             output, (h, c) = self.lstm(chunk, (h, c))
             outputs.append(output[:, -1, :])
 
@@ -59,14 +59,15 @@ class LSTM(nn.Module):
 
 
 class OurLSTM(BaseNet):
-    def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0.5, **kwargs):
+    def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0.5, n_chunks=10, **kwargs):
         # load the model
         self.model = LSTM(
             num_classes=num_classes,
             input_size=input_size,
             num_layers=num_layers,
             hidden_size=hidden_size,
-            dropout=dropout
+            dropout=dropout,
+            n_chunks=n_chunks
         )
 
         super().__init__(**kwargs)
@@ -107,19 +108,21 @@ def parse_arguments():
                         help='The amount of blocks in every lstm layer.')
     parser.add_argument('--dropout', type=float, default=.5,
                         help='The dropout rate after each lstm layer.')
+    parser.add_argument('--chunks', type=int, default=10,
+                        help='How many chunks to make of the input sequence.')
 
     args = parser.parse_args()
 
-    return args.epochs, args.num_layers, args.hidden_size, args.dropout
+    return args.epochs, args.num_layers, args.hidden_size, args.dropout, args.chunks
 
 
 if __name__ == '__main__':
-    epochs, num_layers, hidden_size, dropout = parse_arguments()
+    epochs, num_layers, hidden_size, dropout, chunks = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
     #composers = ['Rachmaninov', 'Liszt']
 
-    file_name = "advanced_lstm_test_precision8_adam_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
+    file_name = "advanced_lstm_test_precision8_adam_{}_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout, chunks)
 
     cv = CrossValidator(
         model_class=OurLSTM,
@@ -131,6 +134,7 @@ if __name__ == '__main__':
         num_layers=num_layers,
         hidden_size=hidden_size,
         dropout=dropout,
+        n_chunks=chunks,
         verbose=False
     )
 

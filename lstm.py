@@ -46,8 +46,8 @@ class LSTM(nn.Module):
         x = x.permute(0, 2, 1)
 
         # Set initial states <-- This might be unnecessary
-        h0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device))
-        c0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device))
+        h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device)
+        c0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device)
 
         # Forward propagate RNN
         x, _ = self.lstm(x, (h0, c0))
