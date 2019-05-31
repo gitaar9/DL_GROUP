@@ -47,7 +47,7 @@ class SinglePassCnnLstmModel(nn.Module):
         cnn_output = self.cnn_model(inputs)
         print('CNN output: ', cnn_output.shape)
         # Flatten the output of cnn to fit in a lstm
-        cnn_output = cnn_output.unsqeeuze(0)
+        cnn_output = cnn_output.unsqueeze(0)
         print('Unsqeeuzed output: ', cnn_output.shape)
 
         output, (h_n, c_n) = self.lstm_model(cnn_output, (h_n, c_n))
