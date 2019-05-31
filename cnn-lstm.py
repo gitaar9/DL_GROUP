@@ -24,10 +24,7 @@ class SinglePassCnnLstmModel(nn.Module):
                                   lstm_hidden_size,
                                   num_lstm_layers,
                                   dropout=dropout)
-        # self.model = nn.Sequential(OrderedDict([
-        #     ('cnn', self.cnn_model),
-        #     ('lstm', self.lstm_model),
-        # ]))
+
         self.add_module('cnn', self.cnn_model)
         self.add_module('lstm', self.lstm_model)
 
@@ -50,14 +47,6 @@ class SinglePassCnnLstmModel(nn.Module):
 
         output, (h_n, c_n) = self.lstm_model(cnn_output, (h_n, c_n))
         return output, (h_n, c_n)
-
-    # This is densenet forward function:
-    # def forward(self, x):
-    #     features = self.features(x)
-    #     out = F.relu(features, inplace=True)
-    #     out = F.adaptive_avg_pool2d(out, (1, 1)).view(features.size(0), -1)
-    #     out = self.classifier(out)
-    #     return out
 
     def build_cnn(self, cnn_pretrained, feature_extract, lstm_input_size):
         # TODO: try building our own simple convolution layers (just a couple)
@@ -89,13 +78,10 @@ class CnnLstmModel(nn.Module):
                                                dropout=dropout)
         self.fc1 = nn.Linear(lstm_hidden_size, 256)
         self.classifier = nn.Linear(256, num_classes)
-        # Not really necessary but it looks easier to understand..
-        self.model = nn.Sequential(OrderedDict([
-            ('cnn_lstm', self.cnn_lstm),
-            ('fc1', self.fc1),
-            ('classifier', self.classifier),
-        ]))
-        self.add_module('model', self.model)
+
+        self.add_module('cnn_lstm', self.cnn_lstm)
+        self.add_module('fc1', self.fc1)
+        self.add_module('classifier', self.classifier)
 
     def forward(self, x):
         """
