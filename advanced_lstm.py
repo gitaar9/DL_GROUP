@@ -40,18 +40,13 @@ class LSTM(nn.Module):
         h = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device)
         c = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device)
 
-        print("X: ", x.shape)
         outputs = []
         # Forward propagate RNN
         for chunk in torch.chunk(x, 10, 1):
-            print("Chunk: ", chunk.shape)
             output, (h, c) = self.lstm(chunk, (h, c))
-            print("lstm output: ", output.shape)
-            print('last lstm output: ', output[:, -1, :].shape)
             outputs.append(output[:, -1, :])
 
         x = torch.cat(outputs, dim=1)  # Concatenate all outputs
-        print("Concatenated shape: ", x.shape)
         x = F.dropout(x, p=self.dropout, training=self.training)  # Dropout over the output of the lstm
 
         # The output of the lstm for the last time step goes into the first fully connected layer
