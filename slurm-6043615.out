@@ -1,0 +1,2723 @@
+##############################
+Fold 0 for lstm_cnn_test_precision8_400_1_128_0.8
+##############################
+/home/s3475743/venv/lib/python3.6/site-packages/torch/nn/modules/rnn.py:46: UserWarning: dropout option adds dropout after all but last recurrent layer, so non-zero dropout expects num_layers greater than 1, but got dropout=0.8 and num_layers=1
+  "num_layers={}".format(dropout, num_layers))
+Loading datasets
+Done loading datasets
+batches: 80, val_batches: 61, test_batches: 37
+/home/s3475743/venv/lib/python3.6/site-packages/sklearn/metrics/classification.py:1145: UndefinedMetricWarning: Recall is ill-defined and being set to 0.0 in labels with no true samples.
+  'recall', 'true', average, warn_for)
+/home/s3475743/venv/lib/python3.6/site-packages/sklearn/metrics/classification.py:1145: UndefinedMetricWarning: F-score is ill-defined and being set to 0.0 in labels with no true samples.
+  'recall', 'true', average, warn_for)
+/home/s3475743/venv/lib/python3.6/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn_for)
+/home/s3475743/venv/lib/python3.6/site-packages/sklearn/metrics/classification.py:1143: UndefinedMetricWarning: F-score is ill-defined and being set to 0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn_for)
+Epoch 1/400, training loss: 1.8606008991599083, validation loss: 1.8223267793655396
+	     precision: 0.1984
+	        recall: 0.0970
+	            F1: 0.1179
+	      accuracy: 0.2839
+	 test accuracy: 0.1827
+Epoch 2/400, training loss: 1.4045386426150799, validation loss: 2.0406441688537598
+	     precision: 0.2738
+	        recall: 0.1194
+	            F1: 0.1507
+	      accuracy: 0.3351
+	 test accuracy: 0.2492
+Epoch 3/400, training loss: 1.1469689421355724, validation loss: 1.9336066246032715
+	     precision: 0.2471
+	        recall: 0.1100
+	            F1: 0.1364
+	      accuracy: 0.3170
+	 test accuracy: 0.3114
+Epoch 4/400, training loss: 0.9116814687848092, validation loss: 2.3930439949035645
+	     precision: 0.2346
+	        recall: 0.0908
+	            F1: 0.1213
+	      accuracy: 0.3277
+	 test accuracy: 0.3119
+Epoch 5/400, training loss: 0.7384370256215333, validation loss: 2.6476082801818848
+	     precision: 0.2873
+	        recall: 0.1442
+	            F1: 0.1722
+	      accuracy: 0.3640
+	 test accuracy: 0.4043
+Epoch 6/400, training loss: 0.5128500705584884, validation loss: 2.8501176834106445
+	     precision: 0.2400
+	        recall: 0.1022
+	            F1: 0.1329
+	      accuracy: 0.3708
+	 test accuracy: 0.3789
+Epoch 7/400, training loss: 0.3981232920661569, validation loss: 2.5679917335510254
+	     precision: 0.2551
+	        recall: 0.1251
+	            F1: 0.1490
+	      accuracy: 0.3623
+	 test accuracy: 0.4335
+Epoch 8/400, training loss: 0.296843964420259, validation loss: 2.2810816764831543
+	     precision: 0.2792
+	        recall: 0.1326
+	            F1: 0.1685
+	      accuracy: 0.4252
+	 test accuracy: 0.3846
+Epoch 9/400, training loss: 0.2670965130440891, validation loss: 6.9732842445373535
+	     precision: 0.2135
+	        recall: 0.0787
+	            F1: 0.0970
+	      accuracy: 0.1711
+	 test accuracy: 0.2222
+Epoch 10/400, training loss: 0.2357699957676232, validation loss: 3.5333309173583984
+	     precision: 0.2560
+	        recall: 0.1232
+	            F1: 0.1490
+	      accuracy: 0.3603
+	 test accuracy: 0.4392
+Epoch 11/400, training loss: 0.15534069302957504, validation loss: 4.502668380737305
+	     precision: 0.2564
+	        recall: 0.1109
+	            F1: 0.1387
+	      accuracy: 0.3046
+	 test accuracy: 0.3546
+Epoch 12/400, training loss: 0.1984669387107715, validation loss: 2.8180081844329834
+	     precision: 0.2563
+	        recall: 0.1329
+	            F1: 0.1624
+	      accuracy: 0.4368
+	 test accuracy: 0.4865
+Epoch 13/400, training loss: 0.1302703103981912, validation loss: 2.8035359382629395
+	     precision: 0.2698
+	        recall: 0.1370
+	            F1: 0.1703
+	      accuracy: 0.4180
+	 test accuracy: 0.4714
+Epoch 14/400, training loss: 0.12289055803557858, validation loss: 3.896841526031494
+	     precision: 0.3182
+	        recall: 0.1718
+	            F1: 0.2012
+	      accuracy: 0.4321
+	 test accuracy: 0.3770
+Epoch 15/400, training loss: 0.1360010253614746, validation loss: 2.9309966564178467
+	     precision: 0.2425
+	        recall: 0.1155
+	            F1: 0.1478
+	      accuracy: 0.4128
+	 test accuracy: 0.5162
+Epoch 16/400, training loss: 0.09251981695415452, validation loss: 4.178998947143555
+	     precision: 0.3003
+	        recall: 0.1381
+	            F1: 0.1730
+	      accuracy: 0.3967
+	 test accuracy: 0.4059
+Epoch 17/400, training loss: 0.08242134713218548, validation loss: 3.957700729370117
+	     precision: 0.2886
+	        recall: 0.1693
+	            F1: 0.1915
+	      accuracy: 0.4000
+	 test accuracy: 0.4462
+Epoch 18/400, training loss: 0.08106815370265394, validation loss: 3.8575870990753174
+	     precision: 0.2427
+	        recall: 0.1268
+	            F1: 0.1528
+	      accuracy: 0.3967
+	 test accuracy: 0.5259
+Epoch 19/400, training loss: 0.08811437071417458, validation loss: 3.1188955307006836
+	     precision: 0.2800
+	        recall: 0.1641
+	            F1: 0.1923
+	      accuracy: 0.4508
+	 test accuracy: 0.5868
+Epoch 20/400, training loss: 0.06863684916752391, validation loss: 3.9662835597991943
+	     precision: 0.3436
+	        recall: 0.1749
+	            F1: 0.2038
+	      accuracy: 0.3934
+	 test accuracy: 0.4276
+Epoch 21/400, training loss: 0.055247471760958435, validation loss: 3.1476545333862305
+	     precision: 0.2685
+	        recall: 0.1379
+	            F1: 0.1683
+	      accuracy: 0.4266
+	 test accuracy: 0.4838
+Epoch 22/400, training loss: 0.06691375890659401, validation loss: 3.1783952713012695
+	     precision: 0.2825
+	        recall: 0.1507
+	            F1: 0.1837
+	      accuracy: 0.4685
+	 test accuracy: 0.5076
+Epoch 23/400, training loss: 0.07097036767518147, validation loss: 3.0806076526641846
+	     precision: 0.2894
+	        recall: 0.1715
+	            F1: 0.2011
+	      accuracy: 0.4836
+	 test accuracy: 0.5546
+Epoch 24/400, training loss: 0.05802298039779998, validation loss: 3.3668863773345947
+	     precision: 0.3273
+	        recall: 0.1972
+	            F1: 0.2276
+	      accuracy: 0.4792
+	 test accuracy: 0.5249
+Epoch 25/400, training loss: 0.042175032537488735, validation loss: 3.6312997341156006
+	     precision: 0.2989
+	        recall: 0.1798
+	            F1: 0.2058
+	      accuracy: 0.4656
+	 test accuracy: 0.5178
+Epoch 26/400, training loss: 0.04242185885086656, validation loss: 3.053152084350586
+	     precision: 0.3257
+	        recall: 0.1935
+	            F1: 0.2232
+	      accuracy: 0.4682
+	 test accuracy: 0.5368
+Epoch 27/400, training loss: 0.04602952642962919, validation loss: 3.023904800415039
+	     precision: 0.2860
+	        recall: 0.1593
+	            F1: 0.1943
+	      accuracy: 0.4990
+	 test accuracy: 0.5411
+Epoch 28/400, training loss: 0.028736698521242943, validation loss: 3.703490972518921
+	     precision: 0.2850
+	        recall: 0.1492
+	            F1: 0.1824
+	      accuracy: 0.4495
+	 test accuracy: 0.4443
+Epoch 29/400, training loss: 0.050277041157823985, validation loss: 3.510438919067383
+	     precision: 0.2591
+	        recall: 0.1422
+	            F1: 0.1709
+	      accuracy: 0.4515
+	 test accuracy: 0.5324
+Epoch 30/400, training loss: 0.0459295107255457, validation loss: 4.701841831207275
+	     precision: 0.2709
+	        recall: 0.1204
+	            F1: 0.1528
+	      accuracy: 0.3895
+	 test accuracy: 0.3859
+Epoch 31/400, training loss: 0.044339392181427684, validation loss: 3.340047597885132
+	     precision: 0.3134
+	        recall: 0.1824
+	            F1: 0.2147
+	      accuracy: 0.4807
+	 test accuracy: 0.5411
+Epoch 32/400, training loss: 0.020933631820298615, validation loss: 3.8756678104400635
+	     precision: 0.3153
+	        recall: 0.1934
+	            F1: 0.2221
+	      accuracy: 0.4850
+	 test accuracy: 0.5554
+Epoch 33/400, training loss: 0.01559753511864983, validation loss: 3.399935245513916
+	     precision: 0.3121
+	        recall: 0.1831
+	            F1: 0.2138
+	      accuracy: 0.4967
+	 test accuracy: 0.5405
+Epoch 34/400, training loss: 0.02945212386403, validation loss: 3.33174991607666
+	     precision: 0.2918
+	        recall: 0.1654
+	            F1: 0.1961
+	      accuracy: 0.4843
+	 test accuracy: 0.5649
+Epoch 35/400, training loss: 0.0338312565421802, validation loss: 3.7180960178375244
+	     precision: 0.2931
+	        recall: 0.1638
+	            F1: 0.1923
+	      accuracy: 0.4637
+	 test accuracy: 0.5470
+Epoch 36/400, training loss: 0.017838245548409758, validation loss: 3.6626927852630615
+	     precision: 0.2785
+	        recall: 0.1430
+	            F1: 0.1723
+	      accuracy: 0.4266
+	 test accuracy: 0.4800
+Epoch 37/400, training loss: 0.036147764776978876, validation loss: 3.180715799331665
+	     precision: 0.3021
+	        recall: 0.1824
+	            F1: 0.2148
+	      accuracy: 0.5170
+	 test accuracy: 0.5400
+Epoch 38/400, training loss: 0.019674695194407833, validation loss: 3.6417136192321777
+	     precision: 0.2850
+	        recall: 0.1575
+	            F1: 0.1899
+	      accuracy: 0.4839
+	 test accuracy: 0.5497
+Epoch 39/400, training loss: 0.022740856187738245, validation loss: 4.754295825958252
+	     precision: 0.3408
+	        recall: 0.1831
+	            F1: 0.2146
+	      accuracy: 0.4111
+	 test accuracy: 0.4189
+Epoch 40/400, training loss: 0.012104344243016384, validation loss: 3.949309825897217
+	     precision: 0.2836
+	        recall: 0.1574
+	            F1: 0.1890
+	      accuracy: 0.4574
+	 test accuracy: 0.5346
+Epoch 41/400, training loss: 0.022009718909612275, validation loss: 4.030394554138184
+	     precision: 0.3081
+	        recall: 0.1703
+	            F1: 0.1987
+	      accuracy: 0.4367
+	 test accuracy: 0.5178
+Epoch 42/400, training loss: 0.025947209178048068, validation loss: 4.323981285095215
+	     precision: 0.2690
+	        recall: 0.1423
+	            F1: 0.1753
+	      accuracy: 0.4492
+	 test accuracy: 0.4881
+Epoch 43/400, training loss: 0.02016192599639908, validation loss: 3.6415021419525146
+	     precision: 0.2940
+	        recall: 0.1662
+	            F1: 0.1992
+	      accuracy: 0.4925
+	 test accuracy: 0.5746
+Epoch 44/400, training loss: 0.012512564931239468, validation loss: 3.15088152885437
+	     precision: 0.2971
+	        recall: 0.1768
+	            F1: 0.2108
+	      accuracy: 0.5213
+	 test accuracy: 0.5449
+Epoch 45/400, training loss: 0.025506561735164725, validation loss: 4.095073699951172
+	     precision: 0.2935
+	        recall: 0.1644
+	            F1: 0.1931
+	      accuracy: 0.4773
+	 test accuracy: 0.5773
+Epoch 46/400, training loss: 0.018269801692167676, validation loss: 3.225315809249878
+	     precision: 0.3120
+	        recall: 0.1862
+	            F1: 0.2173
+	      accuracy: 0.5152
+	 test accuracy: 0.5519
+Epoch 47/400, training loss: 0.013078418381337543, validation loss: 4.393861293792725
+	     precision: 0.2657
+	        recall: 0.1393
+	            F1: 0.1728
+	      accuracy: 0.4498
+	 test accuracy: 0.4886
+Epoch 48/400, training loss: 0.01697609432685567, validation loss: 4.049932956695557
+	     precision: 0.2744
+	        recall: 0.1507
+	            F1: 0.1817
+	      accuracy: 0.4761
+	 test accuracy: 0.5600
+Epoch 49/400, training loss: 0.039233675384457455, validation loss: 3.59736967086792
+	     precision: 0.2654
+	        recall: 0.1481
+	            F1: 0.1796
+	      accuracy: 0.4938
+	 test accuracy: 0.5811
+Epoch 50/400, training loss: 0.008525132358363408, validation loss: 3.5764570236206055
+	     precision: 0.3058
+	        recall: 0.1849
+	            F1: 0.2187
+	      accuracy: 0.5023
+	 test accuracy: 0.5200
+Epoch 51/400, training loss: 0.010901291734171537, validation loss: 3.5868475437164307
+	     precision: 0.2927
+	        recall: 0.1791
+	            F1: 0.2084
+	      accuracy: 0.5007
+	 test accuracy: 0.5719
+Epoch 52/400, training loss: 0.006999008646562288, validation loss: 3.7598938941955566
+	     precision: 0.2837
+	        recall: 0.1665
+	            F1: 0.1967
+	      accuracy: 0.4934
+	 test accuracy: 0.5589
+Epoch 53/400, training loss: 0.003601551703923178, validation loss: 3.742717981338501
+	     precision: 0.3051
+	        recall: 0.1726
+	            F1: 0.2039
+	      accuracy: 0.4777
+	 test accuracy: 0.5665
+Epoch 54/400, training loss: 0.0011987210412826243, validation loss: 3.5275979042053223
+	     precision: 0.3089
+	        recall: 0.1875
+	            F1: 0.2179
+	      accuracy: 0.5177
+	 test accuracy: 0.5849
+Epoch 55/400, training loss: 0.004400930505380529, validation loss: 4.191880226135254
+	     precision: 0.3249
+	        recall: 0.1917
+	            F1: 0.2222
+	      accuracy: 0.4689
+	 test accuracy: 0.5389
+Epoch 56/400, training loss: 0.002187555492332649, validation loss: 3.9116153717041016
+	     precision: 0.3282
+	        recall: 0.2010
+	            F1: 0.2300
+	      accuracy: 0.5013
+	 test accuracy: 0.5638
+Epoch 57/400, training loss: 0.0067512568114580064, validation loss: 3.5237619876861572
+	     precision: 0.3002
+	        recall: 0.1746
+	            F1: 0.2080
+	      accuracy: 0.5134
+	 test accuracy: 0.5027
+Epoch 58/400, training loss: 0.0010804976069721307, validation loss: 3.5959813594818115
+	     precision: 0.2885
+	        recall: 0.1672
+	            F1: 0.1990
+	      accuracy: 0.5141
+	 test accuracy: 0.5330
+Epoch 59/400, training loss: 0.012767907475091534, validation loss: 4.181334972381592
+	     precision: 0.2751
+	        recall: 0.1417
+	            F1: 0.1726
+	      accuracy: 0.4456
+	 test accuracy: 0.5243
+Epoch 60/400, training loss: 0.006950773245671371, validation loss: 4.226576328277588
+	     precision: 0.3225
+	        recall: 0.1958
+	            F1: 0.2211
+	      accuracy: 0.4654
+	 test accuracy: 0.5919
+Epoch 61/400, training loss: 0.004607209483629049, validation loss: 3.866755247116089
+	     precision: 0.3055
+	        recall: 0.1800
+	            F1: 0.2089
+	      accuracy: 0.4957
+	 test accuracy: 0.5941
+Epoch 62/400, training loss: 0.0027153812236065276, validation loss: 3.8433477878570557
+	     precision: 0.2873
+	        recall: 0.1647
+	            F1: 0.1963
+	      accuracy: 0.4866
+	 test accuracy: 0.6059
+Epoch 63/400, training loss: 0.001270285946225158, validation loss: 4.093425750732422
+	     precision: 0.3077
+	        recall: 0.1863
+	            F1: 0.2132
+	      accuracy: 0.4801
+	 test accuracy: 0.5919
+Epoch 64/400, training loss: 0.00199922797517047, validation loss: 3.7720837593078613
+	     precision: 0.3164
+	        recall: 0.1861
+	            F1: 0.2171
+	      accuracy: 0.5024
+	 test accuracy: 0.5876
+Epoch 65/400, training loss: 0.036398928897961015, validation loss: 4.048511981964111
+	     precision: 0.2987
+	        recall: 0.1683
+	            F1: 0.2016
+	      accuracy: 0.4879
+	 test accuracy: 0.5297
+Epoch 66/400, training loss: 0.00941112207367496, validation loss: 4.020754337310791
+	     precision: 0.3050
+	        recall: 0.1857
+	            F1: 0.2124
+	      accuracy: 0.4998
+	 test accuracy: 0.5886
+Epoch 67/400, training loss: 0.023437208959148848, validation loss: 3.7622714042663574
+	     precision: 0.3119
+	        recall: 0.1890
+	            F1: 0.2202
+	      accuracy: 0.5083
+	 test accuracy: 0.5286
+Epoch 68/400, training loss: 0.00802092530129812, validation loss: 3.6053712368011475
+	     precision: 0.2715
+	        recall: 0.1536
+	            F1: 0.1820
+	      accuracy: 0.4869
+	 test accuracy: 0.5757
+Epoch 69/400, training loss: 0.0038226720683724124, validation loss: 4.124718189239502
+	     precision: 0.2975
+	        recall: 0.1597
+	            F1: 0.1924
+	      accuracy: 0.4554
+	 test accuracy: 0.4805
+Epoch 70/400, training loss: 0.005343913444676218, validation loss: 3.754575490951538
+	     precision: 0.2930
+	        recall: 0.1682
+	            F1: 0.1989
+	      accuracy: 0.4765
+	 test accuracy: 0.5416
+Epoch 71/400, training loss: 0.007726997804002167, validation loss: 3.9423940181732178
+	     precision: 0.2849
+	        recall: 0.1596
+	            F1: 0.1872
+	      accuracy: 0.4673
+	 test accuracy: 0.5432
+Epoch 72/400, training loss: 0.0018010292152439433, validation loss: 3.6503984928131104
+	     precision: 0.3079
+	        recall: 0.1818
+	            F1: 0.2132
+	      accuracy: 0.5008
+	 test accuracy: 0.5908
+Epoch 73/400, training loss: 0.012612815374359343, validation loss: 3.9121792316436768
+	     precision: 0.2888
+	        recall: 0.1656
+	            F1: 0.1934
+	      accuracy: 0.4672
+	 test accuracy: 0.5719
+Epoch 74/400, training loss: 0.00945189014096286, validation loss: 3.9804587364196777
+	     precision: 0.2835
+	        recall: 0.1691
+	            F1: 0.1985
+	      accuracy: 0.4957
+	 test accuracy: 0.5630
+Epoch 75/400, training loss: 0.004489238895848758, validation loss: 4.464635372161865
+	     precision: 0.2766
+	        recall: 0.1396
+	            F1: 0.1714
+	      accuracy: 0.4467
+	 test accuracy: 0.5384
+Epoch 76/400, training loss: 0.0048232770732511195, validation loss: 3.484001398086548
+	     precision: 0.2812
+	        recall: 0.1586
+	            F1: 0.1887
+	      accuracy: 0.4883
+	 test accuracy: 0.5773
+Epoch 77/400, training loss: 0.008493876755437668, validation loss: 3.5071797370910645
+	     precision: 0.2906
+	        recall: 0.1673
+	            F1: 0.1959
+	      accuracy: 0.5106
+	 test accuracy: 0.5757
+Epoch 78/400, training loss: 0.01691420363799807, validation loss: 4.024331092834473
+	     precision: 0.2881
+	        recall: 0.1696
+	            F1: 0.1978
+	      accuracy: 0.4929
+	 test accuracy: 0.6043
+Epoch 79/400, training loss: 0.011350255239585749, validation loss: 5.608011245727539
+	     precision: 0.2423
+	        recall: 0.1159
+	            F1: 0.1423
+	      accuracy: 0.3793
+	 test accuracy: 0.5049
+Epoch 80/400, training loss: 0.004983980924998832, validation loss: 3.952596426010132
+	     precision: 0.2896
+	        recall: 0.1743
+	            F1: 0.2011
+	      accuracy: 0.4926
+	 test accuracy: 0.5476
+Epoch 81/400, training loss: 0.005655832456523058, validation loss: 3.7321815490722656
+	     precision: 0.2962
+	        recall: 0.1792
+	            F1: 0.2080
+	      accuracy: 0.5168
+	 test accuracy: 0.5557
+Epoch 82/400, training loss: 0.020644429029357526, validation loss: 3.972078800201416
+	     precision: 0.2909
+	        recall: 0.1750
+	            F1: 0.2021
+	      accuracy: 0.4758
+	 test accuracy: 0.5876
+Epoch 83/400, training loss: 0.002667269931953342, validation loss: 4.036376953125
+	     precision: 0.3035
+	        recall: 0.1739
+	            F1: 0.2024
+	      accuracy: 0.4603
+	 test accuracy: 0.5735
+Epoch 84/400, training loss: 0.0009983740486404712, validation loss: 4.133849143981934
+	     precision: 0.3111
+	        recall: 0.1888
+	            F1: 0.2168
+	      accuracy: 0.4699
+	 test accuracy: 0.5676
+Epoch 85/400, training loss: 0.011290323230377907, validation loss: 4.048065662384033
+	     precision: 0.2842
+	        recall: 0.1633
+	            F1: 0.1965
+	      accuracy: 0.4993
+	 test accuracy: 0.5676
+Epoch 86/400, training loss: 0.005941120281590884, validation loss: 4.353652000427246
+	     precision: 0.2880
+	        recall: 0.1667
+	            F1: 0.1975
+	      accuracy: 0.4816
+	 test accuracy: 0.5654
+Epoch 87/400, training loss: 0.008292030573147712, validation loss: 4.03066349029541
+	     precision: 0.3125
+	        recall: 0.1848
+	            F1: 0.2156
+	      accuracy: 0.4921
+	 test accuracy: 0.5800
+Epoch 88/400, training loss: 0.003324592450013597, validation loss: 4.098809719085693
+	     precision: 0.2866
+	        recall: 0.1767
+	            F1: 0.2050
+	      accuracy: 0.4816
+	 test accuracy: 0.5732
+Epoch 89/400, training loss: 0.005153433196051082, validation loss: 4.205451488494873
+	     precision: 0.2831
+	        recall: 0.1558
+	            F1: 0.1866
+	      accuracy: 0.4826
+	 test accuracy: 0.5973
+Epoch 90/400, training loss: 0.0035791935625525185, validation loss: 4.129692077636719
+	     precision: 0.2944
+	        recall: 0.1688
+	            F1: 0.1994
+	      accuracy: 0.4908
+	 test accuracy: 0.5978
+Epoch 91/400, training loss: 0.0014323031237381656, validation loss: 4.041957855224609
+	     precision: 0.2986
+	        recall: 0.1818
+	            F1: 0.2111
+	      accuracy: 0.4915
+	 test accuracy: 0.5968
+Epoch 92/400, training loss: 0.0008200324531742354, validation loss: 4.080867767333984
+	     precision: 0.3040
+	        recall: 0.1860
+	            F1: 0.2137
+	      accuracy: 0.4879
+	 test accuracy: 0.6065
+Epoch 93/400, training loss: 0.00042368217936541443, validation loss: 4.236938953399658
+	     precision: 0.3078
+	        recall: 0.1886
+	            F1: 0.2165
+	      accuracy: 0.4810
+	 test accuracy: 0.6076
+Epoch 94/400, training loss: 0.002280869088770032, validation loss: 4.497957229614258
+	     precision: 0.3154
+	        recall: 0.1823
+	            F1: 0.2127
+	      accuracy: 0.4610
+	 test accuracy: 0.5908
+Epoch 95/400, training loss: 0.003733520966738979, validation loss: 4.102105140686035
+	     precision: 0.2936
+	        recall: 0.1676
+	            F1: 0.2005
+	      accuracy: 0.4869
+	 test accuracy: 0.6081
+Epoch 96/400, training loss: 0.003514716620247782, validation loss: 4.276009559631348
+	     precision: 0.2982
+	        recall: 0.1729
+	            F1: 0.2028
+	      accuracy: 0.4751
+	 test accuracy: 0.5919
+Epoch 97/400, training loss: 0.003737775419983791, validation loss: 4.243504524230957
+	     precision: 0.2953
+	        recall: 0.1734
+	            F1: 0.2052
+	      accuracy: 0.4997
+	 test accuracy: 0.5422
+Epoch 98/400, training loss: 0.001775159392303749, validation loss: 4.551629066467285
+	     precision: 0.2928
+	        recall: 0.1681
+	            F1: 0.1960
+	      accuracy: 0.4762
+	 test accuracy: 0.5546
+Epoch 99/400, training loss: 0.0026295028369190732, validation loss: 4.3874382972717285
+	     precision: 0.2798
+	        recall: 0.1491
+	            F1: 0.1787
+	      accuracy: 0.4503
+	 test accuracy: 0.5395
+Epoch 100/400, training loss: 0.0020105411148961137, validation loss: 4.352322578430176
+	     precision: 0.2975
+	        recall: 0.1720
+	            F1: 0.2018
+	      accuracy: 0.4660
+	 test accuracy: 0.5859
+Epoch 101/400, training loss: 0.0011277887383698726, validation loss: 4.246847152709961
+	     precision: 0.3007
+	        recall: 0.1693
+	            F1: 0.2012
+	      accuracy: 0.4672
+	 test accuracy: 0.5800
+Epoch 102/400, training loss: 0.0015144997511953306, validation loss: 4.292667388916016
+	     precision: 0.2867
+	        recall: 0.1699
+	            F1: 0.2003
+	      accuracy: 0.4852
+	 test accuracy: 0.5681
+Epoch 103/400, training loss: 0.0002854541166357194, validation loss: 4.21584415435791
+	     precision: 0.2962
+	        recall: 0.1782
+	            F1: 0.2072
+	      accuracy: 0.4902
+	 test accuracy: 0.5865
+Epoch 104/400, training loss: 0.00017072477050845692, validation loss: 4.063492774963379
+	     precision: 0.2999
+	        recall: 0.1809
+	            F1: 0.2103
+	      accuracy: 0.5063
+	 test accuracy: 0.5778
+Epoch 105/400, training loss: 0.002418885269722182, validation loss: 4.094762325286865
+	     precision: 0.2964
+	        recall: 0.1695
+	            F1: 0.2023
+	      accuracy: 0.5024
+	 test accuracy: 0.5784
+Epoch 106/400, training loss: 0.0017901506979427495, validation loss: 4.393127918243408
+	     precision: 0.3095
+	        recall: 0.1841
+	            F1: 0.2157
+	      accuracy: 0.4754
+	 test accuracy: 0.5686
+Epoch 107/400, training loss: 0.002053575231849436, validation loss: 4.50130558013916
+	     precision: 0.2840
+	        recall: 0.1595
+	            F1: 0.1900
+	      accuracy: 0.4770
+	 test accuracy: 0.5719
+Epoch 108/400, training loss: 0.002189729150848052, validation loss: 4.379866600036621
+	     precision: 0.2929
+	        recall: 0.1649
+	            F1: 0.1957
+	      accuracy: 0.4741
+	 test accuracy: 0.5400
+Epoch 109/400, training loss: 0.001823928039260636, validation loss: 3.9613308906555176
+	     precision: 0.2874
+	        recall: 0.1658
+	            F1: 0.1954
+	      accuracy: 0.4867
+	 test accuracy: 0.5551
+Epoch 110/400, training loss: 0.0017697284216694697, validation loss: 4.237040996551514
+	     precision: 0.3120
+	        recall: 0.1865
+	            F1: 0.2157
+	      accuracy: 0.4751
+	 test accuracy: 0.5719
+Epoch 111/400, training loss: 0.0008847442000245564, validation loss: 4.279600143432617
+	     precision: 0.2938
+	        recall: 0.1793
+	            F1: 0.2061
+	      accuracy: 0.4689
+	 test accuracy: 0.5789
+Epoch 112/400, training loss: 0.0007924657110748967, validation loss: 4.597600936889648
+	     precision: 0.2819
+	        recall: 0.1545
+	            F1: 0.1851
+	      accuracy: 0.4607
+	 test accuracy: 0.5697
+Epoch 113/400, training loss: 0.003523907852206776, validation loss: 4.4384026527404785
+	     precision: 0.2703
+	        recall: 0.1432
+	            F1: 0.1745
+	      accuracy: 0.4675
+	 test accuracy: 0.5427
+Epoch 114/400, training loss: 0.0009101674861483388, validation loss: 4.400375843048096
+	     precision: 0.2916
+	        recall: 0.1777
+	            F1: 0.2031
+	      accuracy: 0.4633
+	 test accuracy: 0.5751
+Epoch 115/400, training loss: 0.0009158479921637763, validation loss: 4.5608720779418945
+	     precision: 0.2900
+	        recall: 0.1653
+	            F1: 0.1940
+	      accuracy: 0.4516
+	 test accuracy: 0.5989
+Epoch 116/400, training loss: 0.0005087714664739451, validation loss: 4.291755199432373
+	     precision: 0.3005
+	        recall: 0.1700
+	            F1: 0.1996
+	      accuracy: 0.4644
+	 test accuracy: 0.5914
+Epoch 117/400, training loss: 0.0017619616218837563, validation loss: 4.541417121887207
+	     precision: 0.3172
+	        recall: 0.1815
+	            F1: 0.2122
+	      accuracy: 0.4728
+	 test accuracy: 0.6000
+Epoch 118/400, training loss: 0.005767953169574014, validation loss: 4.355474472045898
+	     precision: 0.3039
+	        recall: 0.1784
+	            F1: 0.2092
+	      accuracy: 0.4820
+	 test accuracy: 0.5535
+Epoch 119/400, training loss: 0.00040053477921730973, validation loss: 4.154085636138916
+	     precision: 0.3088
+	        recall: 0.1852
+	            F1: 0.2157
+	      accuracy: 0.5010
+	 test accuracy: 0.5865
+Epoch 120/400, training loss: 0.0015120338049413816, validation loss: 4.224329471588135
+	     precision: 0.2971
+	        recall: 0.1667
+	            F1: 0.1981
+	      accuracy: 0.4689
+	 test accuracy: 0.5822
+Epoch 121/400, training loss: 0.0016180023316906046, validation loss: 4.353204727172852
+	     precision: 0.2911
+	        recall: 0.1718
+	            F1: 0.2007
+	      accuracy: 0.4889
+	 test accuracy: 0.5897
+Epoch 122/400, training loss: 0.0018340056085662582, validation loss: 4.539285659790039
+	     precision: 0.2950
+	        recall: 0.1747
+	            F1: 0.2025
+	      accuracy: 0.4872
+	 test accuracy: 0.5919
+Epoch 123/400, training loss: 0.002064303618874419, validation loss: 4.748389720916748
+	     precision: 0.2887
+	        recall: 0.1509
+	            F1: 0.1842
+	      accuracy: 0.4177
+	 test accuracy: 0.5535
+Epoch 124/400, training loss: 0.004592156267939629, validation loss: 4.565858840942383
+	     precision: 0.2764
+	        recall: 0.1626
+	            F1: 0.1919
+	      accuracy: 0.4889
+	 test accuracy: 0.6232
+Epoch 125/400, training loss: 0.0015004375201044696, validation loss: 4.22203254699707
+	     precision: 0.3111
+	        recall: 0.1853
+	            F1: 0.2147
+	      accuracy: 0.4748
+	 test accuracy: 0.5859
+Epoch 126/400, training loss: 0.010004312258547542, validation loss: 4.903573036193848
+	     precision: 0.2737
+	        recall: 0.1587
+	            F1: 0.1828
+	      accuracy: 0.4616
+	 test accuracy: 0.5265
+Epoch 127/400, training loss: 0.0047379112260330205, validation loss: 4.113674640655518
+	     precision: 0.3069
+	        recall: 0.1865
+	            F1: 0.2176
+	      accuracy: 0.5141
+	 test accuracy: 0.5816
+Epoch 128/400, training loss: 0.0013681867973730278, validation loss: 4.219918251037598
+	     precision: 0.3049
+	        recall: 0.1816
+	            F1: 0.2134
+	      accuracy: 0.4833
+	 test accuracy: 0.5649
+Epoch 129/400, training loss: 0.0032598037334651054, validation loss: 4.231356143951416
+	     precision: 0.2950
+	        recall: 0.1687
+	            F1: 0.2011
+	      accuracy: 0.4816
+	 test accuracy: 0.5573
+Epoch 130/400, training loss: 0.0006809566981957005, validation loss: 4.339084625244141
+	     precision: 0.2991
+	        recall: 0.1720
+	            F1: 0.2047
+	      accuracy: 0.4777
+	 test accuracy: 0.5578
+Epoch 131/400, training loss: 0.0003337661317658558, validation loss: 4.496772289276123
+	     precision: 0.3216
+	        recall: 0.2005
+	            F1: 0.2300
+	      accuracy: 0.4810
+	 test accuracy: 0.5681
+Epoch 132/400, training loss: 0.0002774840400945777, validation loss: 4.469303607940674
+	     precision: 0.3062
+	        recall: 0.1785
+	            F1: 0.2113
+	      accuracy: 0.4810
+	 test accuracy: 0.5773
+Epoch 133/400, training loss: 0.0002928906479127136, validation loss: 4.171596527099609
+	     precision: 0.3120
+	        recall: 0.1901
+	            F1: 0.2192
+	      accuracy: 0.5057
+	 test accuracy: 0.5778
+Epoch 134/400, training loss: 0.0005515520239072202, validation loss: 4.534966945648193
+	     precision: 0.3313
+	        recall: 0.2062
+	            F1: 0.2358
+	      accuracy: 0.5062
+	 test accuracy: 0.5632
+Epoch 135/400, training loss: 0.0012199333953788027, validation loss: 4.953005790710449
+	     precision: 0.3091
+	        recall: 0.1794
+	            F1: 0.2121
+	      accuracy: 0.4849
+	 test accuracy: 0.5724
+Epoch 136/400, training loss: 0.0009573290751802687, validation loss: 4.491592884063721
+	     precision: 0.3248
+	        recall: 0.1938
+	            F1: 0.2277
+	      accuracy: 0.4984
+	 test accuracy: 0.5957
+Epoch 137/400, training loss: 0.0002452114276984219, validation loss: 4.360048294067383
+	     precision: 0.3269
+	        recall: 0.1997
+	            F1: 0.2335
+	      accuracy: 0.5030
+	 test accuracy: 0.5822
+Epoch 138/400, training loss: 0.00017701673062759938, validation loss: 4.287393569946289
+	     precision: 0.3123
+	        recall: 0.1963
+	            F1: 0.2260
+	      accuracy: 0.5118
+	 test accuracy: 0.6076
+Epoch 139/400, training loss: 0.0014115665342444572, validation loss: 4.4165520668029785
+	     precision: 0.2934
+	        recall: 0.1745
+	            F1: 0.2053
+	      accuracy: 0.4984
+	 test accuracy: 0.5789
+Epoch 140/400, training loss: 0.0006364178165554791, validation loss: 4.605517387390137
+	     precision: 0.2780
+	        recall: 0.1567
+	            F1: 0.1852
+	      accuracy: 0.4787
+	 test accuracy: 0.5919
+Epoch 141/400, training loss: 0.0011169695926497524, validation loss: 4.502092361450195
+	     precision: 0.3052
+	        recall: 0.1847
+	            F1: 0.2126
+	      accuracy: 0.4820
+	 test accuracy: 0.5859
+Epoch 142/400, training loss: 0.000924691942114464, validation loss: 4.485516548156738
+	     precision: 0.3199
+	        recall: 0.1935
+	            F1: 0.2252
+	      accuracy: 0.4972
+	 test accuracy: 0.5854
+Epoch 143/400, training loss: 0.0006252376738416388, validation loss: 4.402912616729736
+	     precision: 0.3324
+	        recall: 0.1965
+	            F1: 0.2304
+	      accuracy: 0.5014
+	 test accuracy: 0.5984
+Epoch 144/400, training loss: 0.00032647034130377505, validation loss: 4.4578328132629395
+	     precision: 0.3024
+	        recall: 0.1811
+	            F1: 0.2124
+	      accuracy: 0.4995
+	 test accuracy: 0.6032
+Epoch 145/400, training loss: 0.00042315592638999535, validation loss: 4.445832252502441
+	     precision: 0.3090
+	        recall: 0.1931
+	            F1: 0.2229
+	      accuracy: 0.5092
+	 test accuracy: 0.6119
+Epoch 146/400, training loss: 0.0010028158342009874, validation loss: 4.353054046630859
+	     precision: 0.3172
+	        recall: 0.1926
+	            F1: 0.2263
+	      accuracy: 0.5098
+	 test accuracy: 0.6222
+Epoch 147/400, training loss: 0.00012200892087008697, validation loss: 4.246707439422607
+	     precision: 0.3122
+	        recall: 0.1913
+	            F1: 0.2236
+	      accuracy: 0.5102
+	 test accuracy: 0.6168
+Epoch 148/400, training loss: 6.181868738295294e-05, validation loss: 4.283288478851318
+	     precision: 0.3157
+	        recall: 0.1898
+	            F1: 0.2224
+	      accuracy: 0.5059
+	 test accuracy: 0.6124
+Epoch 149/400, training loss: 9.335265027914375e-05, validation loss: 4.353623867034912
+	     precision: 0.3165
+	        recall: 0.1978
+	            F1: 0.2284
+	      accuracy: 0.5046
+	 test accuracy: 0.6076
+Epoch 150/400, training loss: 0.0001756231664536756, validation loss: 4.182333946228027
+	     precision: 0.3296
+	        recall: 0.1976
+	            F1: 0.2321
+	      accuracy: 0.5172
+	 test accuracy: 0.5946
+Epoch 151/400, training loss: 0.00033063944517834897, validation loss: 4.311124801635742
+	     precision: 0.3228
+	        recall: 0.1983
+	            F1: 0.2280
+	      accuracy: 0.5250
+	 test accuracy: 0.6054
+Epoch 152/400, training loss: 4.34868207172201e-05, validation loss: 4.275305271148682
+	     precision: 0.3132
+	        recall: 0.1890
+	            F1: 0.2206
+	      accuracy: 0.5105
+	 test accuracy: 0.5946
+Epoch 153/400, training loss: 6.600797971927364e-05, validation loss: 4.205550670623779
+	     precision: 0.3043
+	        recall: 0.1857
+	            F1: 0.2154
+	      accuracy: 0.5111
+	 test accuracy: 0.6103
+Epoch 154/400, training loss: 0.00014243504390094587, validation loss: 4.0951151847839355
+	     precision: 0.3151
+	        recall: 0.1920
+	            F1: 0.2237
+	      accuracy: 0.5010
+	 test accuracy: 0.5984
+Epoch 155/400, training loss: 0.0003915956491098882, validation loss: 4.599488258361816
+	     precision: 0.3139
+	        recall: 0.1876
+	            F1: 0.2190
+	      accuracy: 0.4830
+	 test accuracy: 0.5762
+Epoch 156/400, training loss: 0.0001249132653157403, validation loss: 4.16522741317749
+	     precision: 0.3339
+	        recall: 0.2058
+	            F1: 0.2395
+	      accuracy: 0.5108
+	 test accuracy: 0.6016
+Epoch 157/400, training loss: 0.0008696379873896376, validation loss: 4.531350135803223
+	     precision: 0.2997
+	        recall: 0.1739
+	            F1: 0.2055
+	      accuracy: 0.4744
+	 test accuracy: 0.5373
+Epoch 158/400, training loss: 0.001241886047664309, validation loss: 4.24773645401001
+	     precision: 0.3006
+	        recall: 0.1768
+	            F1: 0.2102
+	      accuracy: 0.5062
+	 test accuracy: 0.5849
+Epoch 159/400, training loss: 0.0001463840712922604, validation loss: 4.311493873596191
+	     precision: 0.2914
+	        recall: 0.1717
+	            F1: 0.2042
+	      accuracy: 0.5069
+	 test accuracy: 0.6184
+Epoch 160/400, training loss: 6.97191937756969e-05, validation loss: 4.400494575500488
+	     precision: 0.2985
+	        recall: 0.1761
+	            F1: 0.2087
+	      accuracy: 0.5000
+	 test accuracy: 0.6114
+Epoch 161/400, training loss: 0.0002135215142288871, validation loss: 4.631661415100098
+	     precision: 0.2831
+	        recall: 0.1653
+	            F1: 0.1946
+	      accuracy: 0.4928
+	 test accuracy: 0.5843
+Epoch 162/400, training loss: 0.00013154739313563367, validation loss: 4.55708646774292
+	     precision: 0.3010
+	        recall: 0.1810
+	            F1: 0.2112
+	      accuracy: 0.4944
+	 test accuracy: 0.6243
+Epoch 163/400, training loss: 3.205089214119994e-05, validation loss: 4.48486852645874
+	     precision: 0.3006
+	        recall: 0.1792
+	            F1: 0.2100
+	      accuracy: 0.4974
+	 test accuracy: 0.6108
+Epoch 164/400, training loss: 9.034337994471287e-05, validation loss: 4.5453925132751465
+	     precision: 0.2921
+	        recall: 0.1674
+	            F1: 0.1988
+	      accuracy: 0.4911
+	 test accuracy: 0.6119
+Epoch 165/400, training loss: 0.000313085158722215, validation loss: 4.712569713592529
+	     precision: 0.3042
+	        recall: 0.1782
+	            F1: 0.2094
+	      accuracy: 0.4925
+	 test accuracy: 0.6124
+Epoch 166/400, training loss: 0.0001504386104990374, validation loss: 4.2713446617126465
+	     precision: 0.2817
+	        recall: 0.1680
+	            F1: 0.1968
+	      accuracy: 0.5151
+	 test accuracy: 0.6308
+Epoch 167/400, training loss: 3.6536987592228344e-05, validation loss: 4.27060604095459
+	     precision: 0.2926
+	        recall: 0.1750
+	            F1: 0.2055
+	      accuracy: 0.5151
+	 test accuracy: 0.6254
+Epoch 168/400, training loss: 5.5089401833186e-05, validation loss: 4.4560394287109375
+	     precision: 0.2975
+	        recall: 0.1783
+	            F1: 0.2087
+	      accuracy: 0.5095
+	 test accuracy: 0.6254
+Epoch 169/400, training loss: 8.744067304640168e-05, validation loss: 4.610992908477783
+	     precision: 0.3199
+	        recall: 0.1913
+	            F1: 0.2223
+	      accuracy: 0.5122
+	 test accuracy: 0.6195
+Epoch 170/400, training loss: 0.0002278178577839185, validation loss: 4.562346458435059
+	     precision: 0.3048
+	        recall: 0.1841
+	            F1: 0.2142
+	      accuracy: 0.5180
+	 test accuracy: 0.6227
+Epoch 171/400, training loss: 0.0033393362033855567, validation loss: 4.2660603523254395
+	     precision: 0.3252
+	        recall: 0.2036
+	            F1: 0.2339
+	      accuracy: 0.5157
+	 test accuracy: 0.5768
+Epoch 172/400, training loss: 0.00022116513697056916, validation loss: 4.346339225769043
+	     precision: 0.3265
+	        recall: 0.1987
+	            F1: 0.2279
+	      accuracy: 0.5109
+	 test accuracy: 0.6070
+Epoch 173/400, training loss: 0.00026877349258143114, validation loss: 4.412665367126465
+	     precision: 0.3027
+	        recall: 0.1844
+	            F1: 0.2134
+	      accuracy: 0.5010
+	 test accuracy: 0.5935
+Epoch 174/400, training loss: 3.832399316650026e-05, validation loss: 4.374122142791748
+	     precision: 0.3183
+	        recall: 0.2012
+	            F1: 0.2304
+	      accuracy: 0.5154
+	 test accuracy: 0.5849
+Epoch 175/400, training loss: 0.0005546373372418145, validation loss: 4.355091571807861
+	     precision: 0.2993
+	        recall: 0.1882
+	            F1: 0.2163
+	      accuracy: 0.5154
+	 test accuracy: 0.5951
+Epoch 176/400, training loss: 0.00033730860863130375, validation loss: 4.384335994720459
+	     precision: 0.3205
+	        recall: 0.1831
+	            F1: 0.2153
+	      accuracy: 0.4909
+	 test accuracy: 0.6049
+Epoch 177/400, training loss: 0.0011731759393043717, validation loss: 4.671018123626709
+	     precision: 0.2992
+	        recall: 0.1659
+	            F1: 0.1949
+	      accuracy: 0.4827
+	 test accuracy: 0.6011
+Epoch 178/400, training loss: 0.00026629874703587575, validation loss: 4.4618940353393555
+	     precision: 0.3024
+	        recall: 0.1776
+	            F1: 0.2060
+	      accuracy: 0.4898
+	 test accuracy: 0.5951
+Epoch 179/400, training loss: 0.00038441243147673275, validation loss: 4.400171756744385
+	     precision: 0.3061
+	        recall: 0.1820
+	            F1: 0.2132
+	      accuracy: 0.5062
+	 test accuracy: 0.5724
+Epoch 180/400, training loss: 8.183236139771565e-05, validation loss: 4.316154956817627
+	     precision: 0.3027
+	        recall: 0.1859
+	            F1: 0.2148
+	      accuracy: 0.5069
+	 test accuracy: 0.6146
+Epoch 181/400, training loss: 4.2014156913694475e-05, validation loss: 4.384117603302002
+	     precision: 0.3006
+	        recall: 0.1836
+	            F1: 0.2125
+	      accuracy: 0.5102
+	 test accuracy: 0.6222
+Epoch 182/400, training loss: 0.0005182279655286948, validation loss: 4.626167297363281
+	     precision: 0.3070
+	        recall: 0.1891
+	            F1: 0.2159
+	      accuracy: 0.4744
+	 test accuracy: 0.5951
+Epoch 183/400, training loss: 0.00016854318450185702, validation loss: 4.311792373657227
+	     precision: 0.2982
+	        recall: 0.1817
+	            F1: 0.2093
+	      accuracy: 0.5013
+	 test accuracy: 0.6065
+Epoch 184/400, training loss: 0.0005290075341029876, validation loss: 4.511070728302002
+	     precision: 0.3143
+	        recall: 0.1917
+	            F1: 0.2191
+	      accuracy: 0.4882
+	 test accuracy: 0.6049
+Epoch 185/400, training loss: 0.00010930154893884492, validation loss: 4.502066135406494
+	     precision: 0.3061
+	        recall: 0.1896
+	            F1: 0.2162
+	      accuracy: 0.4918
+	 test accuracy: 0.6000
+Epoch 186/400, training loss: 8.581501566169436e-05, validation loss: 4.3464460372924805
+	     precision: 0.3146
+	        recall: 0.1940
+	            F1: 0.2224
+	      accuracy: 0.5077
+	 test accuracy: 0.6016
+Epoch 187/400, training loss: 0.0002730879126310981, validation loss: 4.3953118324279785
+	     precision: 0.3125
+	        recall: 0.1879
+	            F1: 0.2179
+	      accuracy: 0.4968
+	 test accuracy: 0.5951
+Epoch 188/400, training loss: 7.231395792075545e-05, validation loss: 4.301604270935059
+	     precision: 0.3132
+	        recall: 0.1906
+	            F1: 0.2207
+	      accuracy: 0.5047
+	 test accuracy: 0.5946
+Epoch 189/400, training loss: 5.413983708102421e-05, validation loss: 4.292903423309326
+	     precision: 0.3278
+	        recall: 0.2004
+	            F1: 0.2320
+	      accuracy: 0.5103
+	 test accuracy: 0.5973
+Epoch 190/400, training loss: 0.00017230312663940595, validation loss: 4.445368766784668
+	     precision: 0.3293
+	        recall: 0.2027
+	            F1: 0.2326
+	      accuracy: 0.5116
+	 test accuracy: 0.5930
+Epoch 191/400, training loss: 9.179841346949048e-05, validation loss: 4.761131763458252
+	     precision: 0.3360
+	        recall: 0.2110
+	            F1: 0.2386
+	      accuracy: 0.4980
+	 test accuracy: 0.6049
+Epoch 192/400, training loss: 0.00039519554447338124, validation loss: 4.209132194519043
+	     precision: 0.3178
+	        recall: 0.1962
+	            F1: 0.2274
+	      accuracy: 0.5079
+	 test accuracy: 0.6081
+Epoch 193/400, training loss: 8.175430247092663e-05, validation loss: 4.160504341125488
+	     precision: 0.3232
+	        recall: 0.1945
+	            F1: 0.2273
+	      accuracy: 0.5139
+	 test accuracy: 0.6103
+Epoch 194/400, training loss: 3.7827789543953826e-05, validation loss: 4.204482555389404
+	     precision: 0.3371
+	        recall: 0.2057
+	            F1: 0.2376
+	      accuracy: 0.5067
+	 test accuracy: 0.6184
+Epoch 195/400, training loss: 4.809611665521629e-05, validation loss: 4.130093097686768
+	     precision: 0.3144
+	        recall: 0.1892
+	            F1: 0.2208
+	      accuracy: 0.5201
+	 test accuracy: 0.6254
+Epoch 196/400, training loss: 4.0811605674306864e-05, validation loss: 4.2282795906066895
+	     precision: 0.3127
+	        recall: 0.1889
+	            F1: 0.2196
+	      accuracy: 0.5129
+	 test accuracy: 0.6330
+Epoch 197/400, training loss: 2.8750002100252915e-05, validation loss: 4.223660469055176
+	     precision: 0.3242
+	        recall: 0.1976
+	            F1: 0.2289
+	      accuracy: 0.5185
+	 test accuracy: 0.6297
+Epoch 198/400, training loss: 5.145333185616607e-05, validation loss: 4.187051296234131
+	     precision: 0.3048
+	        recall: 0.1803
+	            F1: 0.2115
+	      accuracy: 0.5152
+	 test accuracy: 0.6265
+Epoch 199/400, training loss: 7.564610176729048e-05, validation loss: 4.279967784881592
+	     precision: 0.3125
+	        recall: 0.1924
+	            F1: 0.2245
+	      accuracy: 0.5138
+	 test accuracy: 0.5984
+Epoch 200/400, training loss: 3.413293779601645e-05, validation loss: 4.27800178527832
+	     precision: 0.3154
+	        recall: 0.1903
+	            F1: 0.2209
+	      accuracy: 0.5201
+	 test accuracy: 0.6303
+Epoch 201/400, training loss: 7.531762938945974e-05, validation loss: 4.237397193908691
+	     precision: 0.2973
+	        recall: 0.1772
+	            F1: 0.2076
+	      accuracy: 0.5178
+	 test accuracy: 0.6384
+Epoch 202/400, training loss: 6.838508530577769e-05, validation loss: 4.241340160369873
+	     precision: 0.2927
+	        recall: 0.1720
+	            F1: 0.2024
+	      accuracy: 0.5036
+	 test accuracy: 0.6249
+Epoch 203/400, training loss: 0.0035271183719828513, validation loss: 4.752110958099365
+	     precision: 0.3044
+	        recall: 0.1689
+	            F1: 0.1988
+	      accuracy: 0.4452
+	 test accuracy: 0.5849
+Epoch 204/400, training loss: 0.0021363219950785604, validation loss: 4.273185729980469
+	     precision: 0.3028
+	        recall: 0.1792
+	            F1: 0.2086
+	      accuracy: 0.4839
+	 test accuracy: 0.6076
+Epoch 205/400, training loss: 0.0002382024945418948, validation loss: 4.400262832641602
+	     precision: 0.2855
+	        recall: 0.1657
+	            F1: 0.1934
+	      accuracy: 0.4672
+	 test accuracy: 0.5649
+Epoch 206/400, training loss: 0.0010245133246158389, validation loss: 4.453952312469482
+	     precision: 0.3011
+	        recall: 0.1700
+	            F1: 0.2030
+	      accuracy: 0.4862
+	 test accuracy: 0.6173
+Epoch 207/400, training loss: 0.0002889074663244173, validation loss: 4.520394802093506
+	     precision: 0.3056
+	        recall: 0.1849
+	            F1: 0.2137
+	      accuracy: 0.4866
+	 test accuracy: 0.6346
+Epoch 208/400, training loss: 0.0001987075269344274, validation loss: 4.360318660736084
+	     precision: 0.3192
+	        recall: 0.1969
+	            F1: 0.2291
+	      accuracy: 0.5079
+	 test accuracy: 0.6103
+Epoch 209/400, training loss: 0.0026983135538600324, validation loss: 4.3808722496032715
+	     precision: 0.2877
+	        recall: 0.1753
+	            F1: 0.2038
+	      accuracy: 0.4964
+	 test accuracy: 0.5751
+Epoch 210/400, training loss: 0.0003452368401312356, validation loss: 4.547688007354736
+	     precision: 0.2871
+	        recall: 0.1666
+	            F1: 0.1950
+	      accuracy: 0.4856
+	 test accuracy: 0.6151
+Epoch 211/400, training loss: 0.0011510876089545264, validation loss: 4.502943992614746
+	     precision: 0.2841
+	        recall: 0.1635
+	            F1: 0.1935
+	      accuracy: 0.4879
+	 test accuracy: 0.5984
+Epoch 212/400, training loss: 0.0001115618707515864, validation loss: 4.515291690826416
+	     precision: 0.2886
+	        recall: 0.1689
+	            F1: 0.1982
+	      accuracy: 0.4993
+	 test accuracy: 0.5989
+Epoch 213/400, training loss: 0.0029195509199439586, validation loss: 4.470834732055664
+	     precision: 0.2993
+	        recall: 0.1810
+	            F1: 0.2104
+	      accuracy: 0.5148
+	 test accuracy: 0.5914
+Epoch 214/400, training loss: 0.0010111061712933633, validation loss: 4.381490707397461
+	     precision: 0.2941
+	        recall: 0.1739
+	            F1: 0.2038
+	      accuracy: 0.4921
+	 test accuracy: 0.5973
+Epoch 215/400, training loss: 0.0006111906866948403, validation loss: 4.806102275848389
+	     precision: 0.3228
+	        recall: 0.1916
+	            F1: 0.2210
+	      accuracy: 0.4883
+	 test accuracy: 0.5962
+Epoch 216/400, training loss: 0.00046222594503291247, validation loss: 4.646124362945557
+	     precision: 0.3129
+	        recall: 0.1911
+	            F1: 0.2191
+	      accuracy: 0.5039
+	 test accuracy: 0.6119
+Epoch 217/400, training loss: 0.00010913805693277823, validation loss: 4.593317985534668
+	     precision: 0.3221
+	        recall: 0.2040
+	            F1: 0.2324
+	      accuracy: 0.5089
+	 test accuracy: 0.6135
+Epoch 218/400, training loss: 0.00010252367730601009, validation loss: 4.595887660980225
+	     precision: 0.3314
+	        recall: 0.2052
+	            F1: 0.2353
+	      accuracy: 0.5105
+	 test accuracy: 0.6297
+Epoch 219/400, training loss: 0.00010219348730799993, validation loss: 4.765575408935547
+	     precision: 0.3266
+	        recall: 0.2046
+	            F1: 0.2316
+	      accuracy: 0.4928
+	 test accuracy: 0.6265
+Epoch 220/400, training loss: 6.5794230096472e-05, validation loss: 4.608800888061523
+	     precision: 0.3049
+	        recall: 0.1857
+	            F1: 0.2144
+	      accuracy: 0.4990
+	 test accuracy: 0.6308
+Epoch 221/400, training loss: 4.246647583308061e-05, validation loss: 4.486210823059082
+	     precision: 0.3257
+	        recall: 0.2017
+	            F1: 0.2309
+	      accuracy: 0.5003
+	 test accuracy: 0.6281
+Epoch 222/400, training loss: 2.157635228954291e-05, validation loss: 4.470236301422119
+	     precision: 0.3119
+	        recall: 0.1879
+	            F1: 0.2165
+	      accuracy: 0.5013
+	 test accuracy: 0.6189
+Epoch 223/400, training loss: 1.7891344302611854e-05, validation loss: 4.621593952178955
+	     precision: 0.3190
+	        recall: 0.1907
+	            F1: 0.2187
+	      accuracy: 0.4948
+	 test accuracy: 0.6205
+Epoch 224/400, training loss: 3.240296979925006e-05, validation loss: 4.694456100463867
+	     precision: 0.3063
+	        recall: 0.1863
+	            F1: 0.2133
+	      accuracy: 0.4987
+	 test accuracy: 0.6168
+Epoch 225/400, training loss: 0.00011487867305213229, validation loss: 4.632266044616699
+	     precision: 0.3043
+	        recall: 0.1848
+	            F1: 0.2131
+	      accuracy: 0.5062
+	 test accuracy: 0.6216
+Epoch 226/400, training loss: 8.799170783575505e-05, validation loss: 4.581584453582764
+	     precision: 0.2900
+	        recall: 0.1712
+	            F1: 0.2008
+	      accuracy: 0.5013
+	 test accuracy: 0.6146
+Epoch 227/400, training loss: 5.2374130543064724e-05, validation loss: 4.576836109161377
+	     precision: 0.3006
+	        recall: 0.1818
+	            F1: 0.2108
+	      accuracy: 0.4974
+	 test accuracy: 0.6195
+Epoch 228/400, training loss: 0.00011933838899196303, validation loss: 4.503615379333496
+	     precision: 0.3006
+	        recall: 0.1820
+	            F1: 0.2109
+	      accuracy: 0.5049
+	 test accuracy: 0.6249
+Epoch 229/400, training loss: 1.9498278600948994e-05, validation loss: 4.548450946807861
+	     precision: 0.2959
+	        recall: 0.1787
+	            F1: 0.2070
+	      accuracy: 0.5036
+	 test accuracy: 0.6205
+Epoch 230/400, training loss: 4.382372094653419e-05, validation loss: 4.632880687713623
+	     precision: 0.3093
+	        recall: 0.1876
+	            F1: 0.2175
+	      accuracy: 0.5010
+	 test accuracy: 0.6303
+Epoch 231/400, training loss: 3.177840301447077e-05, validation loss: 4.687485694885254
+	     precision: 0.3099
+	        recall: 0.1860
+	            F1: 0.2156
+	      accuracy: 0.5030
+	 test accuracy: 0.6178
+Epoch 232/400, training loss: 3.750532654756e-05, validation loss: 4.634335994720459
+	     precision: 0.3012
+	        recall: 0.1812
+	            F1: 0.2106
+	      accuracy: 0.5000
+	 test accuracy: 0.6211
+Epoch 233/400, training loss: 2.1131809722518824e-05, validation loss: 4.672231674194336
+	     precision: 0.3113
+	        recall: 0.1875
+	            F1: 0.2175
+	      accuracy: 0.5013
+	 test accuracy: 0.6297
+Epoch 234/400, training loss: 1.9131461284160876e-05, validation loss: 4.738035202026367
+	     precision: 0.2991
+	        recall: 0.1792
+	            F1: 0.2082
+	      accuracy: 0.4951
+	 test accuracy: 0.6276
+Epoch 235/400, training loss: 2.0091493008500548e-05, validation loss: 4.634355545043945
+	     precision: 0.2996
+	        recall: 0.1786
+	            F1: 0.2082
+	      accuracy: 0.4911
+	 test accuracy: 0.6368
+Epoch 236/400, training loss: 0.0022400258793602744, validation loss: 4.538234710693359
+	     precision: 0.3320
+	        recall: 0.2036
+	            F1: 0.2334
+	      accuracy: 0.5126
+	 test accuracy: 0.6027
+Epoch 237/400, training loss: 0.0014345086513543493, validation loss: 4.858267307281494
+	     precision: 0.3402
+	        recall: 0.2098
+	            F1: 0.2394
+	      accuracy: 0.4968
+	 test accuracy: 0.5962
+Epoch 238/400, training loss: 7.015534415302226e-05, validation loss: 4.735400199890137
+	     precision: 0.3330
+	        recall: 0.2078
+	            F1: 0.2381
+	      accuracy: 0.4938
+	 test accuracy: 0.5886
+Epoch 239/400, training loss: 5.58746122203857e-05, validation loss: 4.873083591461182
+	     precision: 0.3211
+	        recall: 0.1921
+	            F1: 0.2232
+	      accuracy: 0.4816
+	 test accuracy: 0.5897
+Epoch 240/400, training loss: 0.0008923268872266021, validation loss: 4.7084832191467285
+	     precision: 0.3083
+	        recall: 0.1878
+	            F1: 0.2160
+	      accuracy: 0.4915
+	 test accuracy: 0.6032
+Epoch 241/400, training loss: 0.0002869118681424254, validation loss: 4.773386001586914
+	     precision: 0.3210
+	        recall: 0.1988
+	            F1: 0.2271
+	      accuracy: 0.4856
+	 test accuracy: 0.6243
+Epoch 242/400, training loss: 9.091931974900547e-05, validation loss: 4.805178642272949
+	     precision: 0.3235
+	        recall: 0.2000
+	            F1: 0.2295
+	      accuracy: 0.4908
+	 test accuracy: 0.6292
+Epoch 243/400, training loss: 0.0004946256110105907, validation loss: 4.877518177032471
+	     precision: 0.2922
+	        recall: 0.1766
+	            F1: 0.2048
+	      accuracy: 0.4869
+	 test accuracy: 0.6265
+Epoch 244/400, training loss: 0.00010843723649465176, validation loss: 4.7798919677734375
+	     precision: 0.2950
+	        recall: 0.1774
+	            F1: 0.2056
+	      accuracy: 0.4820
+	 test accuracy: 0.6119
+Epoch 245/400, training loss: 9.014238015083719e-05, validation loss: 4.762149810791016
+	     precision: 0.2975
+	        recall: 0.1716
+	            F1: 0.2017
+	      accuracy: 0.4744
+	 test accuracy: 0.6070
+Epoch 246/400, training loss: 5.643004185280631e-05, validation loss: 4.790771007537842
+	     precision: 0.3013
+	        recall: 0.1738
+	            F1: 0.2043
+	      accuracy: 0.4790
+	 test accuracy: 0.6238
+Epoch 247/400, training loss: 0.00018030391799186418, validation loss: 4.636214256286621
+	     precision: 0.3335
+	        recall: 0.1990
+	            F1: 0.2315
+	      accuracy: 0.4915
+	 test accuracy: 0.6395
+Epoch 248/400, training loss: 0.00026089365034209777, validation loss: 4.57905387878418
+	     precision: 0.3127
+	        recall: 0.1817
+	            F1: 0.2151
+	      accuracy: 0.5033
+	 test accuracy: 0.5908
+Epoch 249/400, training loss: 6.6271730559464e-05, validation loss: 4.739330291748047
+	     precision: 0.3152
+	        recall: 0.1907
+	            F1: 0.2196
+	      accuracy: 0.4895
+	 test accuracy: 0.6449
+Epoch 250/400, training loss: 3.91619508594232e-05, validation loss: 4.695530414581299
+	     precision: 0.2966
+	        recall: 0.1755
+	            F1: 0.2050
+	      accuracy: 0.4938
+	 test accuracy: 0.6330
+Epoch 251/400, training loss: 0.0005417800849919274, validation loss: 4.683956623077393
+	     precision: 0.3297
+	        recall: 0.2082
+	            F1: 0.2368
+	      accuracy: 0.4987
+	 test accuracy: 0.6286
+Epoch 252/400, training loss: 0.0004183504129322557, validation loss: 4.384103775024414
+	     precision: 0.3285
+	        recall: 0.2016
+	            F1: 0.2323
+	      accuracy: 0.5082
+	 test accuracy: 0.6157
+Epoch 253/400, training loss: 0.0011938956875450213, validation loss: 4.428702354431152
+	     precision: 0.3103
+	        recall: 0.1947
+	            F1: 0.2220
+	      accuracy: 0.4964
+	 test accuracy: 0.6476
+Epoch 254/400, training loss: 0.0003473297630677052, validation loss: 4.705310344696045
+	     precision: 0.3117
+	        recall: 0.1855
+	            F1: 0.2156
+	      accuracy: 0.4929
+	 test accuracy: 0.6346
+Epoch 255/400, training loss: 0.00081720145547024, validation loss: 4.277197360992432
+	     precision: 0.3270
+	        recall: 0.1922
+	            F1: 0.2254
+	      accuracy: 0.4978
+	 test accuracy: 0.5973
+Epoch 256/400, training loss: 0.00215878305522601, validation loss: 4.227380752563477
+	     precision: 0.3130
+	        recall: 0.1815
+	            F1: 0.2155
+	      accuracy: 0.5030
+	 test accuracy: 0.5951
+Epoch 257/400, training loss: 0.0023114963490684206, validation loss: 4.536243915557861
+	     precision: 0.3026
+	        recall: 0.1734
+	            F1: 0.2067
+	      accuracy: 0.4790
+	 test accuracy: 0.5622
+Epoch 258/400, training loss: 0.00020547065429958876, validation loss: 4.547585964202881
+	     precision: 0.3005
+	        recall: 0.1789
+	            F1: 0.2095
+	      accuracy: 0.4949
+	 test accuracy: 0.6254
+Epoch 259/400, training loss: 9.578225542483665e-05, validation loss: 4.686479091644287
+	     precision: 0.2941
+	        recall: 0.1743
+	            F1: 0.2041
+	      accuracy: 0.4856
+	 test accuracy: 0.6162
+Epoch 260/400, training loss: 0.004446128480489619, validation loss: 4.725792407989502
+	     precision: 0.2931
+	        recall: 0.1710
+	            F1: 0.2020
+	      accuracy: 0.4752
+	 test accuracy: 0.6016
+Epoch 261/400, training loss: 0.005075853213512005, validation loss: 5.271867752075195
+	     precision: 0.2950
+	        recall: 0.1649
+	            F1: 0.1980
+	      accuracy: 0.4813
+	 test accuracy: 0.5795
+Epoch 262/400, training loss: 0.0011205852508226143, validation loss: 5.231952667236328
+	     precision: 0.2933
+	        recall: 0.1623
+	            F1: 0.1925
+	      accuracy: 0.4659
+	 test accuracy: 0.5946
+Epoch 263/400, training loss: 0.0031215162492685524, validation loss: 4.909182071685791
+	     precision: 0.2803
+	        recall: 0.1522
+	            F1: 0.1848
+	      accuracy: 0.4751
+	 test accuracy: 0.5757
+Epoch 264/400, training loss: 0.0003894288272988433, validation loss: 4.870741844177246
+	     precision: 0.3033
+	        recall: 0.1774
+	            F1: 0.2078
+	      accuracy: 0.4843
+	 test accuracy: 0.5881
+Epoch 265/400, training loss: 0.0004620606912283165, validation loss: 4.743099689483643
+	     precision: 0.2967
+	        recall: 0.1759
+	            F1: 0.2022
+	      accuracy: 0.4995
+	 test accuracy: 0.5995
+Epoch 266/400, training loss: 0.0022487901440740644, validation loss: 5.060068130493164
+	     precision: 0.2984
+	        recall: 0.1731
+	            F1: 0.2027
+	      accuracy: 0.4659
+	 test accuracy: 0.5578
+Epoch 267/400, training loss: 0.000417991593279865, validation loss: 4.851447582244873
+	     precision: 0.3172
+	        recall: 0.1878
+	            F1: 0.2162
+	      accuracy: 0.4889
+	 test accuracy: 0.6016
+Epoch 268/400, training loss: 0.00031872569172630705, validation loss: 5.009909629821777
+	     precision: 0.2922
+	        recall: 0.1687
+	            F1: 0.1986
+	      accuracy: 0.4744
+	 test accuracy: 0.5805
+Epoch 269/400, training loss: 8.163622450325647e-05, validation loss: 4.782953262329102
+	     precision: 0.2936
+	        recall: 0.1719
+	            F1: 0.2019
+	      accuracy: 0.4905
+	 test accuracy: 0.5746
+Epoch 270/400, training loss: 0.0006482102601239603, validation loss: 4.579040050506592
+	     precision: 0.2836
+	        recall: 0.1582
+	            F1: 0.1888
+	      accuracy: 0.4896
+	 test accuracy: 0.5784
+Epoch 271/400, training loss: 0.0003258648582662005, validation loss: 4.718929767608643
+	     precision: 0.2953
+	        recall: 0.1690
+	            F1: 0.1992
+	      accuracy: 0.4880
+	 test accuracy: 0.6130
+Epoch 272/400, training loss: 0.00029244356301028063, validation loss: 4.612625598907471
+	     precision: 0.2799
+	        recall: 0.1504
+	            F1: 0.1817
+	      accuracy: 0.4830
+	 test accuracy: 0.6016
+Epoch 273/400, training loss: 5.8359480583902726e-05, validation loss: 4.5476250648498535
+	     precision: 0.3050
+	        recall: 0.1731
+	            F1: 0.2047
+	      accuracy: 0.4998
+	 test accuracy: 0.6119
+Epoch 274/400, training loss: 9.461242771422463e-05, validation loss: 4.518957138061523
+	     precision: 0.2778
+	        recall: 0.1578
+	            F1: 0.1884
+	      accuracy: 0.4921
+	 test accuracy: 0.5914
+Epoch 275/400, training loss: 7.784818121940873e-05, validation loss: 4.708188533782959
+	     precision: 0.3028
+	        recall: 0.1858
+	            F1: 0.2133
+	      accuracy: 0.4948
+	 test accuracy: 0.6097
+Epoch 276/400, training loss: 7.713136824012423e-05, validation loss: 4.741333961486816
+	     precision: 0.3103
+	        recall: 0.1783
+	            F1: 0.2068
+	      accuracy: 0.4906
+	 test accuracy: 0.6032
+Epoch 277/400, training loss: 8.359913367250726e-05, validation loss: 4.693795680999756
+	     precision: 0.2905
+	        recall: 0.1697
+	            F1: 0.1975
+	      accuracy: 0.4954
+	 test accuracy: 0.6065
+Epoch 278/400, training loss: 2.9840029911287757e-05, validation loss: 4.645335674285889
+	     precision: 0.2846
+	        recall: 0.1572
+	            F1: 0.1866
+	      accuracy: 0.4936
+	 test accuracy: 0.6151
+Epoch 279/400, training loss: 4.018815096138439e-05, validation loss: 4.6399760246276855
+	     precision: 0.2873
+	        recall: 0.1668
+	            F1: 0.1955
+	      accuracy: 0.5026
+	 test accuracy: 0.6286
+Epoch 280/400, training loss: 3.224924215530223e-05, validation loss: 4.6976165771484375
+	     precision: 0.2896
+	        recall: 0.1756
+	            F1: 0.2022
+	      accuracy: 0.4993
+	 test accuracy: 0.6081
+Epoch 281/400, training loss: 6.19788033240809e-05, validation loss: 4.418612480163574
+	     precision: 0.2937
+	        recall: 0.1706
+	            F1: 0.2020
+	      accuracy: 0.5039
+	 test accuracy: 0.6054
+Epoch 282/400, training loss: 8.631866313635328e-05, validation loss: 4.354553699493408
+	     precision: 0.3094
+	        recall: 0.1868
+	            F1: 0.2165
+	      accuracy: 0.5108
+	 test accuracy: 0.6189
+Epoch 283/400, training loss: 7.250608045890061e-05, validation loss: 4.294053077697754
+	     precision: 0.2893
+	        recall: 0.1713
+	            F1: 0.2021
+	      accuracy: 0.5115
+	 test accuracy: 0.6232
+Epoch 284/400, training loss: 6.642036217030522e-05, validation loss: 4.3540143966674805
+	     precision: 0.3053
+	        recall: 0.1861
+	            F1: 0.2173
+	      accuracy: 0.5069
+	 test accuracy: 0.6324
+Epoch 285/400, training loss: 7.344888343556733e-05, validation loss: 4.415993690490723
+	     precision: 0.3103
+	        recall: 0.1950
+	            F1: 0.2228
+	      accuracy: 0.5079
+	 test accuracy: 0.6276
+Epoch 286/400, training loss: 4.320527122168016e-05, validation loss: 4.402210712432861
+	     precision: 0.3057
+	        recall: 0.1863
+	            F1: 0.2166
+	      accuracy: 0.5092
+	 test accuracy: 0.6276
+Epoch 287/400, training loss: 6.467006599901737e-05, validation loss: 4.568305015563965
+	     precision: 0.2906
+	        recall: 0.1746
+	            F1: 0.2045
+	      accuracy: 0.4980
+	 test accuracy: 0.6297
+Epoch 288/400, training loss: 4.323413651770025e-05, validation loss: 4.523697853088379
+	     precision: 0.2961
+	        recall: 0.1758
+	            F1: 0.2057
+	      accuracy: 0.5014
+	 test accuracy: 0.6319
+Epoch 289/400, training loss: 2.9938187866029865e-05, validation loss: 4.511686325073242
+	     precision: 0.2866
+	        recall: 0.1665
+	            F1: 0.1967
+	      accuracy: 0.5011
+	 test accuracy: 0.6205
+Epoch 290/400, training loss: 6.58866874076125e-05, validation loss: 4.66791296005249
+	     precision: 0.2982
+	        recall: 0.1768
+	            F1: 0.2059
+	      accuracy: 0.5026
+	 test accuracy: 0.6259
+Epoch 291/400, training loss: 3.716624325580398e-05, validation loss: 4.562312602996826
+	     precision: 0.2934
+	        recall: 0.1731
+	            F1: 0.2031
+	      accuracy: 0.5030
+	 test accuracy: 0.6249
+Epoch 292/400, training loss: 0.00011035781867949624, validation loss: 4.583336353302002
+	     precision: 0.2972
+	        recall: 0.1738
+	            F1: 0.2037
+	      accuracy: 0.5066
+	 test accuracy: 0.6335
+Epoch 293/400, training loss: 1.9922490077384226e-05, validation loss: 4.630397319793701
+	     precision: 0.3143
+	        recall: 0.1935
+	            F1: 0.2225
+	      accuracy: 0.5069
+	 test accuracy: 0.6346
+Epoch 294/400, training loss: 1.5674482167860047e-05, validation loss: 4.635303974151611
+	     precision: 0.2987
+	        recall: 0.1783
+	            F1: 0.2082
+	      accuracy: 0.5026
+	 test accuracy: 0.6276
+Epoch 295/400, training loss: 1.3785280054179338e-05, validation loss: 4.629138946533203
+	     precision: 0.3053
+	        recall: 0.1880
+	            F1: 0.2178
+	      accuracy: 0.5089
+	 test accuracy: 0.6265
+Epoch 296/400, training loss: 1.5225326652990034e-05, validation loss: 4.659875869750977
+	     precision: 0.3007
+	        recall: 0.1839
+	            F1: 0.2128
+	      accuracy: 0.5072
+	 test accuracy: 0.6303
+Epoch 297/400, training loss: 1.1443633559693466e-05, validation loss: 4.616413593292236
+	     precision: 0.3035
+	        recall: 0.1848
+	            F1: 0.2146
+	      accuracy: 0.5069
+	 test accuracy: 0.6227
+Epoch 298/400, training loss: 1.135734827037993e-05, validation loss: 4.673566818237305
+	     precision: 0.3046
+	        recall: 0.1856
+	            F1: 0.2148
+	      accuracy: 0.5062
+	 test accuracy: 0.6243
+Epoch 299/400, training loss: 9.823022865340647e-06, validation loss: 4.644251823425293
+	     precision: 0.3033
+	        recall: 0.1832
+	            F1: 0.2140
+	      accuracy: 0.5013
+	 test accuracy: 0.6184
+Epoch 300/400, training loss: 5.4122595536743036e-05, validation loss: 4.86101770401001
+	     precision: 0.2945
+	        recall: 0.1734
+	            F1: 0.2015
+	      accuracy: 0.4862
+	 test accuracy: 0.6173
+Epoch 301/400, training loss: 2.8586491210091937e-05, validation loss: 4.733527660369873
+	     precision: 0.2917
+	        recall: 0.1730
+	            F1: 0.2018
+	      accuracy: 0.4846
+	 test accuracy: 0.6124
+Epoch 302/400, training loss: 3.5329038939657664e-05, validation loss: 4.708523273468018
+	     precision: 0.2980
+	        recall: 0.1784
+	            F1: 0.2080
+	      accuracy: 0.4941
+	 test accuracy: 0.6108
+Epoch 303/400, training loss: 3.0347577229727916e-05, validation loss: 4.655978202819824
+	     precision: 0.3038
+	        recall: 0.1871
+	            F1: 0.2161
+	      accuracy: 0.5020
+	 test accuracy: 0.6135
+Epoch 304/400, training loss: 1.4212923555234624e-05, validation loss: 4.633376121520996
+	     precision: 0.2955
+	        recall: 0.1774
+	            F1: 0.2068
+	      accuracy: 0.4993
+	 test accuracy: 0.6043
+Epoch 305/400, training loss: 1.056572213613549e-05, validation loss: 4.632792949676514
+	     precision: 0.2989
+	        recall: 0.1771
+	            F1: 0.2073
+	      accuracy: 0.4967
+	 test accuracy: 0.5957
+Epoch 306/400, training loss: 1.4848388969568305e-05, validation loss: 4.72725248336792
+	     precision: 0.2982
+	        recall: 0.1805
+	            F1: 0.2084
+	      accuracy: 0.4964
+	 test accuracy: 0.6141
+Epoch 307/400, training loss: 1.9446178796789226e-05, validation loss: 4.615826606750488
+	     precision: 0.2836
+	        recall: 0.1689
+	            F1: 0.1971
+	      accuracy: 0.4902
+	 test accuracy: 0.6076
+Epoch 308/400, training loss: 2.8832536408174292e-05, validation loss: 4.752676963806152
+	     precision: 0.2956
+	        recall: 0.1745
+	            F1: 0.2038
+	      accuracy: 0.4866
+	 test accuracy: 0.6162
+Epoch 309/400, training loss: 1.390940682997055e-05, validation loss: 4.667311668395996
+	     precision: 0.2991
+	        recall: 0.1772
+	            F1: 0.2074
+	      accuracy: 0.4970
+	 test accuracy: 0.6178
+Epoch 310/400, training loss: 1.1976063280449977e-05, validation loss: 4.723700523376465
+	     precision: 0.2912
+	        recall: 0.1719
+	            F1: 0.2013
+	      accuracy: 0.4879
+	 test accuracy: 0.6200
+Epoch 311/400, training loss: 1.691486671635545e-05, validation loss: 4.69636869430542
+	     precision: 0.3026
+	        recall: 0.1810
+	            F1: 0.2105
+	      accuracy: 0.4902
+	 test accuracy: 0.6292
+Epoch 312/400, training loss: 1.8027333070325113e-05, validation loss: 4.738861083984375
+	     precision: 0.3091
+	        recall: 0.1810
+	            F1: 0.2120
+	      accuracy: 0.4890
+	 test accuracy: 0.6222
+Epoch 313/400, training loss: 1.0680124085560294e-05, validation loss: 4.586208820343018
+	     precision: 0.3077
+	        recall: 0.1829
+	            F1: 0.2137
+	      accuracy: 0.4977
+	 test accuracy: 0.6205
+Epoch 314/400, training loss: 1.0799184464804767e-05, validation loss: 4.687485218048096
+	     precision: 0.3049
+	        recall: 0.1822
+	            F1: 0.2121
+	      accuracy: 0.4898
+	 test accuracy: 0.6184
+Epoch 315/400, training loss: 6.678964888173766e-06, validation loss: 4.601150035858154
+	     precision: 0.3003
+	        recall: 0.1822
+	            F1: 0.2119
+	      accuracy: 0.5000
+	 test accuracy: 0.6205
+Epoch 316/400, training loss: 8.179867653801409e-06, validation loss: 4.701714515686035
+	     precision: 0.3060
+	        recall: 0.1836
+	            F1: 0.2133
+	      accuracy: 0.4952
+	 test accuracy: 0.6216
+Epoch 317/400, training loss: 1.789753709511288e-05, validation loss: 4.629398345947266
+	     precision: 0.3113
+	        recall: 0.1897
+	            F1: 0.2197
+	      accuracy: 0.5023
+	 test accuracy: 0.6238
+Epoch 318/400, training loss: 8.68361083550262e-06, validation loss: 4.529011249542236
+	     precision: 0.2975
+	        recall: 0.1774
+	            F1: 0.2073
+	      accuracy: 0.5010
+	 test accuracy: 0.6119
+Epoch 319/400, training loss: 7.605455786263704e-06, validation loss: 4.610074996948242
+	     precision: 0.3056
+	        recall: 0.1861
+	            F1: 0.2152
+	      accuracy: 0.5007
+	 test accuracy: 0.6216
+Epoch 320/400, training loss: 4.86056457127404e-06, validation loss: 4.552489757537842
+	     precision: 0.3027
+	        recall: 0.1835
+	            F1: 0.2125
+	      accuracy: 0.4997
+	 test accuracy: 0.6211
+Epoch 321/400, training loss: 8.786916491843045e-06, validation loss: 4.616783618927002
+	     precision: 0.3006
+	        recall: 0.1825
+	            F1: 0.2114
+	      accuracy: 0.5020
+	 test accuracy: 0.6141
+Epoch 322/400, training loss: 5.335407078188581e-06, validation loss: 4.533631801605225
+	     precision: 0.3002
+	        recall: 0.1827
+	            F1: 0.2116
+	      accuracy: 0.5003
+	 test accuracy: 0.6189
+Epoch 323/400, training loss: 8.265823006592399e-06, validation loss: 4.5846381187438965
+	     precision: 0.3097
+	        recall: 0.1906
+	            F1: 0.2195
+	      accuracy: 0.5020
+	 test accuracy: 0.6184
+Epoch 324/400, training loss: 6.196796851609676e-06, validation loss: 4.572343826293945
+	     precision: 0.3016
+	        recall: 0.1847
+	            F1: 0.2134
+	      accuracy: 0.5013
+	 test accuracy: 0.6249
+Epoch 325/400, training loss: 7.86025079113628e-06, validation loss: 4.641666889190674
+	     precision: 0.3001
+	        recall: 0.1853
+	            F1: 0.2137
+	      accuracy: 0.4980
+	 test accuracy: 0.6232
+Epoch 326/400, training loss: 1.3636745403200479e-05, validation loss: 4.556103229522705
+	     precision: 0.3097
+	        recall: 0.1929
+	            F1: 0.2220
+	      accuracy: 0.5082
+	 test accuracy: 0.6265
+Epoch 327/400, training loss: 7.42928096508777e-06, validation loss: 4.577810764312744
+	     precision: 0.3015
+	        recall: 0.1809
+	            F1: 0.2108
+	      accuracy: 0.5122
+	 test accuracy: 0.6319
+Epoch 328/400, training loss: 1.0777383037874344e-05, validation loss: 4.635446071624756
+	     precision: 0.3175
+	        recall: 0.1996
+	            F1: 0.2289
+	      accuracy: 0.5026
+	 test accuracy: 0.6276
+Epoch 329/400, training loss: 7.262725808221404e-06, validation loss: 4.639134407043457
+	     precision: 0.3099
+	        recall: 0.1890
+	            F1: 0.2177
+	      accuracy: 0.5070
+	 test accuracy: 0.6292
+Epoch 330/400, training loss: 2.0816981624260933e-05, validation loss: 4.596208095550537
+	     precision: 0.3027
+	        recall: 0.1864
+	            F1: 0.2158
+	      accuracy: 0.5059
+	 test accuracy: 0.6222
+Epoch 331/400, training loss: 1.2131391887537645e-05, validation loss: 4.74942684173584
+	     precision: 0.3037
+	        recall: 0.1821
+	            F1: 0.2108
+	      accuracy: 0.5086
+	 test accuracy: 0.6205
+Epoch 332/400, training loss: 9.283915053526215e-06, validation loss: 4.600530624389648
+	     precision: 0.2889
+	        recall: 0.1704
+	            F1: 0.2007
+	      accuracy: 0.5119
+	 test accuracy: 0.6114
+Epoch 333/400, training loss: 9.0783982666931e-06, validation loss: 4.685559272766113
+	     precision: 0.3030
+	        recall: 0.1809
+	            F1: 0.2110
+	      accuracy: 0.5063
+	 test accuracy: 0.6157
+Epoch 334/400, training loss: 5.002364554318461e-06, validation loss: 4.676777362823486
+	     precision: 0.3106
+	        recall: 0.1902
+	            F1: 0.2199
+	      accuracy: 0.5083
+	 test accuracy: 0.6178
+Epoch 335/400, training loss: 1.4862921114033868e-05, validation loss: 4.589431285858154
+	     precision: 0.2984
+	        recall: 0.1788
+	            F1: 0.2088
+	      accuracy: 0.5126
+	 test accuracy: 0.6243
+Epoch 336/400, training loss: 5.476087318001532e-06, validation loss: 4.734594345092773
+	     precision: 0.3015
+	        recall: 0.1791
+	            F1: 0.2084
+	      accuracy: 0.5011
+	 test accuracy: 0.6259
+Epoch 337/400, training loss: 5.170479501437342e-06, validation loss: 4.653666973114014
+	     precision: 0.3017
+	        recall: 0.1837
+	            F1: 0.2134
+	      accuracy: 0.5020
+	 test accuracy: 0.6178
+Epoch 338/400, training loss: 9.944111041748638e-06, validation loss: 4.666109085083008
+	     precision: 0.3060
+	        recall: 0.1845
+	            F1: 0.2145
+	      accuracy: 0.5080
+	 test accuracy: 0.6297
+Epoch 339/400, training loss: 4.233218701799046e-06, validation loss: 4.748719215393066
+	     precision: 0.3007
+	        recall: 0.1808
+	            F1: 0.2091
+	      accuracy: 0.5014
+	 test accuracy: 0.6243
+Epoch 340/400, training loss: 0.0006147179410536441, validation loss: 4.8714165687561035
+	     precision: 0.3058
+	        recall: 0.1850
+	            F1: 0.2133
+	      accuracy: 0.4918
+	 test accuracy: 0.6492
+Epoch 341/400, training loss: 0.0001897742019849602, validation loss: 4.644057750701904
+	     precision: 0.3205
+	        recall: 0.1967
+	            F1: 0.2270
+	      accuracy: 0.5069
+	 test accuracy: 0.6270
+Epoch 342/400, training loss: 0.00032621798590071194, validation loss: 4.988837718963623
+	     precision: 0.3076
+	        recall: 0.1816
+	            F1: 0.2113
+	      accuracy: 0.4978
+	 test accuracy: 0.6314
+Epoch 343/400, training loss: 4.1042070656160946e-05, validation loss: 4.900994300842285
+	     precision: 0.3197
+	        recall: 0.1952
+	            F1: 0.2244
+	      accuracy: 0.5132
+	 test accuracy: 0.6503
+Epoch 344/400, training loss: 6.663383573286552e-05, validation loss: 4.763087749481201
+	     precision: 0.3212
+	        recall: 0.2031
+	            F1: 0.2322
+	      accuracy: 0.5121
+	 test accuracy: 0.6405
+Epoch 345/400, training loss: 4.338066791866879e-05, validation loss: 4.637724876403809
+	     precision: 0.3117
+	        recall: 0.1897
+	            F1: 0.2198
+	      accuracy: 0.5046
+	 test accuracy: 0.6254
+Epoch 346/400, training loss: 3.71485298919616e-05, validation loss: 4.708709239959717
+	     precision: 0.3038
+	        recall: 0.1829
+	            F1: 0.2126
+	      accuracy: 0.5047
+	 test accuracy: 0.6324
+Epoch 347/400, training loss: 5.1936673664343404e-05, validation loss: 4.620008945465088
+	     precision: 0.2893
+	        recall: 0.1712
+	            F1: 0.2012
+	      accuracy: 0.4974
+	 test accuracy: 0.6157
+Epoch 348/400, training loss: 4.017865367273998e-05, validation loss: 4.72567892074585
+	     precision: 0.2991
+	        recall: 0.1784
+	            F1: 0.2089
+	      accuracy: 0.4984
+	 test accuracy: 0.6173
+Epoch 349/400, training loss: 1.0238002163642789e-05, validation loss: 4.846796035766602
+	     precision: 0.3086
+	        recall: 0.1901
+	            F1: 0.2183
+	      accuracy: 0.4987
+	 test accuracy: 0.6292
+Epoch 350/400, training loss: 1.9327700203408682e-05, validation loss: 4.837692737579346
+	     precision: 0.3098
+	        recall: 0.1898
+	            F1: 0.2196
+	      accuracy: 0.4974
+	 test accuracy: 0.6162
+Epoch 351/400, training loss: 2.3203373174673913e-05, validation loss: 4.805774211883545
+	     precision: 0.3114
+	        recall: 0.1929
+	            F1: 0.2220
+	      accuracy: 0.5062
+	 test accuracy: 0.6108
+Epoch 352/400, training loss: 8.665762759996199e-06, validation loss: 4.825128555297852
+	     precision: 0.3186
+	        recall: 0.1953
+	            F1: 0.2241
+	      accuracy: 0.5017
+	 test accuracy: 0.6184
+Epoch 353/400, training loss: 2.260852603299668e-05, validation loss: 4.751574516296387
+	     precision: 0.3262
+	        recall: 0.2043
+	            F1: 0.2335
+	      accuracy: 0.5109
+	 test accuracy: 0.6222
+Epoch 354/400, training loss: 3.212104761436407e-05, validation loss: 4.639341831207275
+	     precision: 0.3138
+	        recall: 0.1948
+	            F1: 0.2243
+	      accuracy: 0.5167
+	 test accuracy: 0.6205
+Epoch 355/400, training loss: 3.686391042116988e-05, validation loss: 4.700098037719727
+	     precision: 0.3186
+	        recall: 0.1988
+	            F1: 0.2280
+	      accuracy: 0.5049
+	 test accuracy: 0.6173
+Epoch 356/400, training loss: 8.968353101135307e-06, validation loss: 4.800754547119141
+	     precision: 0.3211
+	        recall: 0.1992
+	            F1: 0.2281
+	      accuracy: 0.5070
+	 test accuracy: 0.6195
+Epoch 357/400, training loss: 1.2168082236740928e-05, validation loss: 4.762962341308594
+	     precision: 0.3194
+	        recall: 0.1982
+	            F1: 0.2274
+	      accuracy: 0.5033
+	 test accuracy: 0.6146
+Epoch 358/400, training loss: 1.070383200492131e-05, validation loss: 4.5993876457214355
+	     precision: 0.3008
+	        recall: 0.1822
+	            F1: 0.2124
+	      accuracy: 0.5079
+	 test accuracy: 0.6184
+Epoch 359/400, training loss: 1.1697126583065654e-05, validation loss: 4.722067356109619
+	     precision: 0.3237
+	        recall: 0.1982
+	            F1: 0.2290
+	      accuracy: 0.5185
+	 test accuracy: 0.6211
+Epoch 360/400, training loss: 1.4926608669174613e-05, validation loss: 4.69188928604126
+	     precision: 0.3084
+	        recall: 0.1884
+	            F1: 0.2185
+	      accuracy: 0.5079
+	 test accuracy: 0.6173
+Epoch 361/400, training loss: 9.933321016397656e-06, validation loss: 4.71358060836792
+	     precision: 0.3165
+	        recall: 0.2000
+	            F1: 0.2294
+	      accuracy: 0.5092
+	 test accuracy: 0.6151
+Epoch 362/400, training loss: 1.3139752322022246e-05, validation loss: 4.745445251464844
+	     precision: 0.3168
+	        recall: 0.2016
+	            F1: 0.2288
+	      accuracy: 0.5115
+	 test accuracy: 0.6243
+Epoch 363/400, training loss: 5.644809383253957e-06, validation loss: 4.659217834472656
+	     precision: 0.3165
+	        recall: 0.1999
+	            F1: 0.2290
+	      accuracy: 0.5092
+	 test accuracy: 0.6162
+Epoch 364/400, training loss: 1.1144456314227114e-05, validation loss: 4.8567795753479
+	     precision: 0.3169
+	        recall: 0.1998
+	            F1: 0.2271
+	      accuracy: 0.5052
+	 test accuracy: 0.6265
+Epoch 365/400, training loss: 5.686161650508837e-06, validation loss: 4.738093376159668
+	     precision: 0.3190
+	        recall: 0.2010
+	            F1: 0.2305
+	      accuracy: 0.5092
+	 test accuracy: 0.6178
+Epoch 366/400, training loss: 8.10366580301647e-06, validation loss: 4.691298961639404
+	     precision: 0.3105
+	        recall: 0.1928
+	            F1: 0.2230
+	      accuracy: 0.5108
+	 test accuracy: 0.6184
+Epoch 367/400, training loss: 1.0142297770432407e-05, validation loss: 4.650359630584717
+	     precision: 0.3143
+	        recall: 0.1947
+	            F1: 0.2247
+	      accuracy: 0.5089
+	 test accuracy: 0.6184
+Epoch 368/400, training loss: 4.992082683141774e-06, validation loss: 4.837507247924805
+	     precision: 0.3199
+	        recall: 0.2008
+	            F1: 0.2305
+	      accuracy: 0.5033
+	 test accuracy: 0.6254
+Epoch 369/400, training loss: 8.165814046634523e-06, validation loss: 4.707993507385254
+	     precision: 0.3207
+	        recall: 0.1995
+	            F1: 0.2290
+	      accuracy: 0.5066
+	 test accuracy: 0.6189
+Epoch 370/400, training loss: 5.698980211388261e-06, validation loss: 4.694852352142334
+	     precision: 0.3133
+	        recall: 0.1951
+	            F1: 0.2239
+	      accuracy: 0.5066
+	 test accuracy: 0.6205
+Epoch 371/400, training loss: 3.555029628665718e-06, validation loss: 4.6892924308776855
+	     precision: 0.3163
+	        recall: 0.1964
+	            F1: 0.2261
+	      accuracy: 0.5049
+	 test accuracy: 0.6168
+Epoch 372/400, training loss: 2.5759680001602446e-05, validation loss: 4.886023998260498
+	     precision: 0.3174
+	        recall: 0.1983
+	            F1: 0.2277
+	      accuracy: 0.4980
+	 test accuracy: 0.6205
+Epoch 373/400, training loss: 1.2053651718613168e-05, validation loss: 4.780924320220947
+	     precision: 0.3153
+	        recall: 0.1951
+	            F1: 0.2254
+	      accuracy: 0.5111
+	 test accuracy: 0.6178
+Epoch 374/400, training loss: 4.440679656481095e-06, validation loss: 4.800945281982422
+	     precision: 0.3159
+	        recall: 0.1951
+	            F1: 0.2252
+	      accuracy: 0.5075
+	 test accuracy: 0.6178
+Epoch 375/400, training loss: 1.3907773324550732e-05, validation loss: 4.83618688583374
+	     precision: 0.3176
+	        recall: 0.2013
+	            F1: 0.2297
+	      accuracy: 0.5095
+	 test accuracy: 0.6232
+Epoch 376/400, training loss: 5.065767303191748e-06, validation loss: 4.792130947113037
+	     precision: 0.3270
+	        recall: 0.2050
+	            F1: 0.2345
+	      accuracy: 0.5118
+	 test accuracy: 0.6146
+Epoch 377/400, training loss: 6.552917643443124e-06, validation loss: 4.790785789489746
+	     precision: 0.3208
+	        recall: 0.2022
+	            F1: 0.2314
+	      accuracy: 0.5108
+	 test accuracy: 0.6141
+Epoch 378/400, training loss: 9.021757313432133e-06, validation loss: 4.794668197631836
+	     precision: 0.3209
+	        recall: 0.1981
+	            F1: 0.2288
+	      accuracy: 0.5056
+	 test accuracy: 0.6124
+Epoch 379/400, training loss: 5.427509569866374e-06, validation loss: 4.83970308303833
+	     precision: 0.3144
+	        recall: 0.1865
+	            F1: 0.2171
+	      accuracy: 0.5063
+	 test accuracy: 0.6232
+Epoch 380/400, training loss: 1.142085845184937e-05, validation loss: 4.863250732421875
+	     precision: 0.3228
+	        recall: 0.2013
+	            F1: 0.2307
+	      accuracy: 0.5056
+	 test accuracy: 0.6200
+Epoch 381/400, training loss: 2.287015746356147e-05, validation loss: 4.852754592895508
+	     precision: 0.3202
+	        recall: 0.1958
+	            F1: 0.2266
+	      accuracy: 0.5066
+	 test accuracy: 0.6162
+Epoch 382/400, training loss: 6.268996711966679e-06, validation loss: 4.692398548126221
+	     precision: 0.3075
+	        recall: 0.1819
+	            F1: 0.2142
+	      accuracy: 0.5075
+	 test accuracy: 0.6141
+Epoch 383/400, training loss: 1.050929340842277e-05, validation loss: 4.863499641418457
+	     precision: 0.3125
+	        recall: 0.1907
+	            F1: 0.2208
+	      accuracy: 0.5052
+	 test accuracy: 0.6184
+Epoch 384/400, training loss: 5.7044923269522485e-06, validation loss: 4.794766426086426
+	     precision: 0.3104
+	        recall: 0.1883
+	            F1: 0.2189
+	      accuracy: 0.5010
+	 test accuracy: 0.6162
+Epoch 385/400, training loss: 7.996168030888207e-06, validation loss: 4.7286224365234375
+	     precision: 0.3200
+	        recall: 0.1981
+	            F1: 0.2288
+	      accuracy: 0.5085
+	 test accuracy: 0.6146
+Epoch 386/400, training loss: 1.5083312855423969e-05, validation loss: 4.705451011657715
+	     precision: 0.3153
+	        recall: 0.1925
+	            F1: 0.2238
+	      accuracy: 0.5079
+	 test accuracy: 0.6146
+Epoch 387/400, training loss: 4.069939245532339e-06, validation loss: 4.682473659515381
+	     precision: 0.3134
+	        recall: 0.1894
+	            F1: 0.2211
+	      accuracy: 0.5043
+	 test accuracy: 0.6043
+Epoch 388/400, training loss: 2.6292503005231895e-06, validation loss: 4.751820087432861
+	     precision: 0.3110
+	        recall: 0.1892
+	            F1: 0.2203
+	      accuracy: 0.5095
+	 test accuracy: 0.6157
+Epoch 389/400, training loss: 1.4153483873347028e-05, validation loss: 4.7858123779296875
+	     precision: 0.3132
+	        recall: 0.1925
+	            F1: 0.2225
+	      accuracy: 0.5092
+	 test accuracy: 0.6222
+Epoch 390/400, training loss: 6.278298798734205e-06, validation loss: 4.77482795715332
+	     precision: 0.3164
+	        recall: 0.1926
+	            F1: 0.2229
+	      accuracy: 0.5121
+	 test accuracy: 0.6211
+Epoch 391/400, training loss: 1.986973741994191e-05, validation loss: 4.673033714294434
+	     precision: 0.3163
+	        recall: 0.1940
+	            F1: 0.2251
+	      accuracy: 0.5121
+	 test accuracy: 0.6249
+Epoch 392/400, training loss: 6.83125386988781e-06, validation loss: 4.656900882720947
+	     precision: 0.3142
+	        recall: 0.1908
+	            F1: 0.2214
+	      accuracy: 0.5158
+	 test accuracy: 0.6216
+Epoch 393/400, training loss: 5.9808939672834075e-06, validation loss: 4.722802639007568
+	     precision: 0.3205
+	        recall: 0.2012
+	            F1: 0.2316
+	      accuracy: 0.5069
+	 test accuracy: 0.6232
+Epoch 394/400, training loss: 5.379945061978475e-06, validation loss: 4.673734188079834
+	     precision: 0.3158
+	        recall: 0.1937
+	            F1: 0.2243
+	      accuracy: 0.5039
+	 test accuracy: 0.6114
+Epoch 395/400, training loss: 5.720134899123153e-06, validation loss: 4.622361660003662
+	     precision: 0.3142
+	        recall: 0.1901
+	            F1: 0.2214
+	      accuracy: 0.5056
+	 test accuracy: 0.6168
+Epoch 396/400, training loss: 4.1297819109331614e-06, validation loss: 4.698098182678223
+	     precision: 0.3253
+	        recall: 0.1998
+	            F1: 0.2318
+	      accuracy: 0.5079
+	 test accuracy: 0.6168
+Epoch 397/400, training loss: 3.7962906156430165e-06, validation loss: 4.647698402404785
+	     precision: 0.3094
+	        recall: 0.1882
+	            F1: 0.2186
+	      accuracy: 0.5092
+	 test accuracy: 0.6195
+Epoch 398/400, training loss: 2.7687973469192607e-06, validation loss: 4.648868083953857
+	     precision: 0.3168
+	        recall: 0.1930
+	            F1: 0.2242
+	      accuracy: 0.5059
+	 test accuracy: 0.6222
+Epoch 399/400, training loss: 4.706185256697637e-06, validation loss: 4.67442512512207
+	     precision: 0.3115
+	        recall: 0.1884
+	            F1: 0.2194
+	      accuracy: 0.5089
+	 test accuracy: 0.6205
+Epoch 400/400, training loss: 5.630739098805293e-06, validation loss: 4.731450080871582
+	     precision: 0.3120
+	        recall: 0.1889
+	            F1: 0.2200
+	      accuracy: 0.5043
+	 test accuracy: 0.6189
+Training time: 65029.45912981033s
+##############################
+Fold 1 for lstm_cnn_test_precision8_400_1_128_0.8
+##############################
+Loading datasets
+Done loading datasets
+batches: 80, val_batches: 58, test_batches: 37
+Epoch 1/400, training loss: 1.8618835538625718, validation loss: 5.13088321685791
+	     precision: 0.1916
+	        recall: 0.1082
+	            F1: 0.1269
+	      accuracy: 0.2379
+	 test accuracy: 0.2384
+Epoch 2/400, training loss: 1.4320830896496772, validation loss: 2.597653388977051
+	     precision: 0.2303
+	        recall: 0.1068
+	            F1: 0.1279
+	      accuracy: 0.2745
+	 test accuracy: 0.3200
+Epoch 3/400, training loss: 1.180688600987196, validation loss: 1.9487147331237793
+	     precision: 0.2550
+	        recall: 0.1291
+	            F1: 0.1559
+	      accuracy: 0.3734
+	 test accuracy: 0.3805
+Epoch 4/400, training loss: 0.9390218541026115, validation loss: 1.9477741718292236
+	     precision: 0.2671
+	        recall: 0.1298
+	            F1: 0.1649
+	      accuracy: 0.4132
+	 test accuracy: 0.2832
+Epoch 5/400, training loss: 0.7311778832226992, validation loss: 2.470492362976074
+	     precision: 0.3129
+	        recall: 0.1780
+	            F1: 0.2077
+	      accuracy: 0.4072
+	 test accuracy: 0.4227
+Epoch 6/400, training loss: 0.5637694077566267, validation loss: 2.035046100616455
+	     precision: 0.2527
+	        recall: 0.1216
+	            F1: 0.1570
+	      accuracy: 0.4356
+	 test accuracy: 0.3611
+Epoch 7/400, training loss: 0.43716040551662444, validation loss: 4.47317361831665
+	     precision: 0.2364
+	        recall: 0.0936
+	            F1: 0.1170
+	      accuracy: 0.2655
+	 test accuracy: 0.2438
+Epoch 8/400, training loss: 0.34005188681185244, validation loss: 2.1044769287109375
+	     precision: 0.2569
+	        recall: 0.1555
+	            F1: 0.1813
+	      accuracy: 0.5013
+	 test accuracy: 0.4200
+Epoch 9/400, training loss: 0.3405407124198973, validation loss: 2.959702730178833
+	     precision: 0.2747
+	        recall: 0.1416
+	            F1: 0.1713
+	      accuracy: 0.4730
+	 test accuracy: 0.4119
+Epoch 10/400, training loss: 0.2626405853778124, validation loss: 2.231278657913208
+	     precision: 0.2682
+	        recall: 0.1471
+	            F1: 0.1799
+	      accuracy: 0.4942
+	 test accuracy: 0.4184
+Epoch 11/400, training loss: 0.20242716502398253, validation loss: 3.0649726390838623
+	     precision: 0.3058
+	        recall: 0.1703
+	            F1: 0.1963
+	      accuracy: 0.4374
+	 test accuracy: 0.3665
+Epoch 12/400, training loss: 0.15200579238589854, validation loss: 5.650348663330078
+	     precision: 0.2342
+	        recall: 0.0884
+	            F1: 0.1163
+	      accuracy: 0.2803
+	 test accuracy: 0.2943
+Epoch 13/400, training loss: 0.15642285564681516, validation loss: 2.6837918758392334
+	     precision: 0.2795
+	        recall: 0.1587
+	            F1: 0.1898
+	      accuracy: 0.4974
+	 test accuracy: 0.4838
+Epoch 14/400, training loss: 0.1360658343648538, validation loss: 3.582425594329834
+	     precision: 0.2992
+	        recall: 0.1565
+	            F1: 0.1874
+	      accuracy: 0.4234
+	 test accuracy: 0.3654
+Epoch 15/400, training loss: 0.1493329883320257, validation loss: 3.1523168087005615
+	     precision: 0.2866
+	        recall: 0.1496
+	            F1: 0.1814
+	      accuracy: 0.4558
+	 test accuracy: 0.4119
+Epoch 16/400, training loss: 0.08672645045444369, validation loss: 2.6250874996185303
+	     precision: 0.3030
+	        recall: 0.1767
+	            F1: 0.2110
+	      accuracy: 0.5267
+	 test accuracy: 0.4919
+Epoch 17/400, training loss: 0.0999884412274696, validation loss: 3.815392255783081
+	     precision: 0.2596
+	        recall: 0.1163
+	            F1: 0.1474
+	      accuracy: 0.3988
+	 test accuracy: 0.4038
+Epoch 18/400, training loss: 0.07747934565122705, validation loss: 2.356416940689087
+	     precision: 0.3015
+	        recall: 0.1814
+	            F1: 0.2128
+	      accuracy: 0.5421
+	 test accuracy: 0.4541
+Epoch 19/400, training loss: 0.11466286319773644, validation loss: 2.978332042694092
+	     precision: 0.2934
+	        recall: 0.1541
+	            F1: 0.1900
+	      accuracy: 0.5054
+	 test accuracy: 0.4946
+Epoch 20/400, training loss: 0.07078855846193619, validation loss: 3.330294609069824
+	     precision: 0.3166
+	        recall: 0.2046
+	            F1: 0.2329
+	      accuracy: 0.4948
+	 test accuracy: 0.5081
+Epoch 21/400, training loss: 0.09577481459709816, validation loss: 6.31988000869751
+	     precision: 0.2319
+	        recall: 0.1017
+	            F1: 0.1256
+	      accuracy: 0.3003
+	 test accuracy: 0.3519
+Epoch 22/400, training loss: 0.050090023837401534, validation loss: 3.2761967182159424
+	     precision: 0.2671
+	        recall: 0.1352
+	            F1: 0.1668
+	      accuracy: 0.4522
+	 test accuracy: 0.4508
+Epoch 23/400, training loss: 0.06413575580518227, validation loss: 2.5546486377716064
+	     precision: 0.3233
+	        recall: 0.1977
+	            F1: 0.2304
+	      accuracy: 0.5446
+	 test accuracy: 0.4876
+Epoch 24/400, training loss: 0.08263483297050697, validation loss: 2.6001837253570557
+	     precision: 0.2850
+	        recall: 0.1643
+	            F1: 0.1983
+	      accuracy: 0.5201
+	 test accuracy: 0.5470
+Epoch 25/400, training loss: 0.05785521079815226, validation loss: 3.234560489654541
+	     precision: 0.2842
+	        recall: 0.1542
+	            F1: 0.1856
+	      accuracy: 0.4863
+	 test accuracy: 0.4616
+Epoch 26/400, training loss: 0.020541133069491478, validation loss: 2.6031858921051025
+	     precision: 0.2862
+	        recall: 0.1869
+	            F1: 0.2141
+	      accuracy: 0.5648
+	 test accuracy: 0.5514
+Epoch 27/400, training loss: 0.07330771123088198, validation loss: 3.079773187637329
+	     precision: 0.3025
+	        recall: 0.1918
+	            F1: 0.2174
+	      accuracy: 0.5283
+	 test accuracy: 0.4946
+Epoch 28/400, training loss: 0.0685152544581797, validation loss: 3.065765142440796
+	     precision: 0.3155
+	        recall: 0.1867
+	            F1: 0.2208
+	      accuracy: 0.5174
+	 test accuracy: 0.5032
+Epoch 29/400, training loss: 0.04674230988312047, validation loss: 2.8216114044189453
+	     precision: 0.2974
+	        recall: 0.1878
+	            F1: 0.2192
+	      accuracy: 0.5660
+	 test accuracy: 0.5076
+Epoch 30/400, training loss: 0.05220019586267881, validation loss: 3.027614116668701
+	     precision: 0.2762
+	        recall: 0.1644
+	            F1: 0.1937
+	      accuracy: 0.5394
+	 test accuracy: 0.4805
+Epoch 31/400, training loss: 0.0242075761747401, validation loss: 2.456145763397217
+	     precision: 0.2889
+	        recall: 0.1902
+	            F1: 0.2192
+	      accuracy: 0.5875
+	 test accuracy: 0.5600
+Epoch 32/400, training loss: 0.05484616682806518, validation loss: 2.9395618438720703
+	     precision: 0.3116
+	        recall: 0.1774
+	            F1: 0.2117
+	      accuracy: 0.5324
+	 test accuracy: 0.5335
+Epoch 33/400, training loss: 0.01445998377421347, validation loss: 3.43764328956604
+	     precision: 0.2650
+	        recall: 0.1424
+	            F1: 0.1741
+	      accuracy: 0.4868
+	 test accuracy: 0.4989
+Epoch 34/400, training loss: 0.042530983401229606, validation loss: 3.4420900344848633
+	     precision: 0.2684
+	        recall: 0.1592
+	            F1: 0.1900
+	      accuracy: 0.5208
+	 test accuracy: 0.5481
+Epoch 35/400, training loss: 0.029841951129492374, validation loss: 4.1110615730285645
+	     precision: 0.2348
+	        recall: 0.1206
+	            F1: 0.1465
+	      accuracy: 0.4436
+	 test accuracy: 0.4757
+Epoch 36/400, training loss: 0.04303632609517081, validation loss: 2.785984516143799
+	     precision: 0.2914
+	        recall: 0.2000
+	            F1: 0.2276
+	      accuracy: 0.5872
+	 test accuracy: 0.5411
+Epoch 37/400, training loss: 0.027035018349124584, validation loss: 3.4455087184906006
+	     precision: 0.2997
+	        recall: 0.1826
+	            F1: 0.2139
+	      accuracy: 0.5364
+	 test accuracy: 0.4865
+Epoch 38/400, training loss: 0.01377688424399821, validation loss: 2.880363702774048
+	     precision: 0.2839
+	        recall: 0.1809
+	            F1: 0.2104
+	      accuracy: 0.5580
+	 test accuracy: 0.5449
+Epoch 39/400, training loss: 0.027716796161985257, validation loss: 2.8014965057373047
+	     precision: 0.2904
+	        recall: 0.1908
+	            F1: 0.2178
+	      accuracy: 0.5695
+	 test accuracy: 0.5422
+Epoch 40/400, training loss: 0.04440726682150853, validation loss: 3.51418399810791
+	     precision: 0.2938
+	        recall: 0.1846
+	            F1: 0.2140
+	      accuracy: 0.5377
+	 test accuracy: 0.5535
+Epoch 41/400, training loss: 0.019874153936871152, validation loss: 3.0109951496124268
+	     precision: 0.2919
+	        recall: 0.1917
+	            F1: 0.2211
+	      accuracy: 0.5865
+	 test accuracy: 0.5038
+Epoch 42/400, training loss: 0.021980784284460243, validation loss: 3.665119171142578
+	     precision: 0.3032
+	        recall: 0.1696
+	            F1: 0.2012
+	      accuracy: 0.5182
+	 test accuracy: 0.5265
+Epoch 43/400, training loss: 0.03871034730473184, validation loss: 6.3073954582214355
+	     precision: 0.2692
+	        recall: 0.1343
+	            F1: 0.1655
+	      accuracy: 0.4181
+	 test accuracy: 0.3386
+Epoch 44/400, training loss: 0.020720771770811552, validation loss: 3.468501567840576
+	     precision: 0.3218
+	        recall: 0.2023
+	            F1: 0.2313
+	      accuracy: 0.5303
+	 test accuracy: 0.5130
+Epoch 45/400, training loss: 0.013799789951735874, validation loss: 2.9073498249053955
+	     precision: 0.3089
+	        recall: 0.1992
+	            F1: 0.2292
+	      accuracy: 0.5622
+	 test accuracy: 0.5259
+Epoch 46/400, training loss: 0.023963505741267, validation loss: 2.8493034839630127
+	     precision: 0.2907
+	        recall: 0.1866
+	            F1: 0.2151
+	      accuracy: 0.5673
+	 test accuracy: 0.5384
+Epoch 47/400, training loss: 0.01965986557988799, validation loss: 3.1072256565093994
+	     precision: 0.2811
+	        recall: 0.1735
+	            F1: 0.2037
+	      accuracy: 0.5607
+	 test accuracy: 0.5562
+Epoch 48/400, training loss: 0.01770540746383631, validation loss: 3.436793565750122
+	     precision: 0.2851
+	        recall: 0.1688
+	            F1: 0.2014
+	      accuracy: 0.5347
+	 test accuracy: 0.4970
+Epoch 49/400, training loss: 0.008976506306862576, validation loss: 3.516104221343994
+	     precision: 0.3148
+	        recall: 0.2050
+	            F1: 0.2319
+	      accuracy: 0.5210
+	 test accuracy: 0.5005
+Epoch 50/400, training loss: 0.012407987719643642, validation loss: 3.472212791442871
+	     precision: 0.2972
+	        recall: 0.1861
+	            F1: 0.2147
+	      accuracy: 0.5469
+	 test accuracy: 0.5630
