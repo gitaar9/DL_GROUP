@@ -2,10 +2,8 @@ import argparse
 
 import torch
 import torch.nn as nn
-import torchvision.models as models
 import torch.nn.functional as F
-from torch.autograd import Variable
-from collections import OrderedDict
+import torchvision.models as models
 
 from cross_validator import CrossValidator
 from networks import BaseNet
@@ -161,7 +159,7 @@ if __name__ == '__main__':
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    file_name = "lstm_test_precision8_{}_{}_{}_{}_{}".format(epochs,
+    file_name = "cnn-lstm_test_precision8_{}_{}_{}_{}_{}".format(epochs,
                                                              num_lstm_layers,
                                                              lstm_input_size,
                                                              lstm_hidden_size,
