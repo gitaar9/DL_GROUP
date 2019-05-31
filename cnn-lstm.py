@@ -122,9 +122,12 @@ class CnnLstmModel(nn.Module):
             output, (h, c) = self.cnn_lstm((chunk, (h, c)))
         # TODO: dropout should be here?
         # Dropout over the output of the lstm
+        print(output.shape)
+        output = output.squeeze(0)
+        print(output.shape)
+
         output = F.dropout(output, p=self.dropout, training=self.training)
         # The output of the last layer of the lstm goes into the first fully connected layer
-        print(output.shape)
         output = self.fc1(output)
         output = F.relu(output)
         # Pass to the last fully connected layer (SoftMax)
