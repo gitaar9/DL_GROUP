@@ -11,6 +11,9 @@ from networks import BaseNet
 
 
 # RNN Model (Many-to-One)
+from util import format_filename
+
+
 class LSTM(nn.Module):
     def __init__(self, input_size, hidden_size, num_layers, num_classes, dropout, n_chunks):
         super(LSTM, self).__init__()
