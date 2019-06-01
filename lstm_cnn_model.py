@@ -9,6 +9,7 @@ from cross_validator import CrossValidator
 from datasets import Mode, MidiClassicMusic
 from networks import BaseNet
 from stupid_overwrites import DenseNet
+from datetime import date
 
 
 class LSTM_CNN_model(nn.Module):
@@ -53,7 +54,7 @@ class LSTM_CNN_model(nn.Module):
 
 
 class Our_lstm_cnn(BaseNet):
-    def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=2, dropout=0, **kwargs):
+    def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0, **kwargs):
         self.model = LSTM_CNN_model(
             num_classes=num_classes,
             input_size=input_size,
@@ -113,7 +114,7 @@ if __name__ == '__main__':
 
     block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
     file_name = "lstm_cnn_test_precision8_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout, block_config_string)
-
+    file_name += date.today().strftime("_%b_%-d")
     cv = CrossValidator(
         model_class=Our_lstm_cnn,
         file_name=file_name,
