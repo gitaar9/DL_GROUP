@@ -178,3 +178,6 @@ class BaseNet:
 
     def save_model(self, path):
         torch.save(self.model.state_dict(), path)
+        for name, module in self.model.named_modules():
+            if name == 'lstm':
+                torch.save(module.state_dict(), path + "_only_lstm")
