@@ -10,4 +10,4 @@ ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u res_densenet.py
+python -u res_densenet.py --epochs 50 --pretrain True --model_name densenet_test_precision8_10_adadelta_Jun_1

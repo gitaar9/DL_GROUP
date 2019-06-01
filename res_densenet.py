@@ -1,3 +1,5 @@
+import argparse
+
 from torch import nn
 from torchvision import models as models
 
@@ -22,20 +24,46 @@ class OurResNet(BaseNet):
 
 
 class OurDenseNet(BaseNet):
-    def __init__(self, num_classes=10, pretrained=False, feature_extract=False, **kwargs):
+    def __init__(self, num_classes=10, pretrained=False, feature_extract=False, pretrained_model_name=None, **kwargs):
         # load the model
         self.model = densenet121(pretrained=pretrained)
+
+        if pretrained and pretrained_model_name:
+            self.load_model('pretrained_models/{}'.format(pretrained_model_name))
+
         if feature_extract:
             self.freeze_all_layers()
+
         self.model.classifier = nn.Linear(1024, num_classes)
 
         super().__init__(**kwargs)
 
 
+def parse_arguments():
+    parser = argparse.ArgumentParser(description='Train a densenet.')
+    parser.add_argument('--epochs', type=int, default=400,
+                        help='The amount of epochs that the model will be trained.')
+    parser.add_argument('--feature_extract', default=False, action='store_true',
+                        help='When this argument is supplied feature extraction instead of fine-tuing is used.')
+    parser.add_argument('--pretrain', default=False, action='store_true',
+                        help='Use a pretrained model?.')
+    parser.add_argument('--model_name', type=str, default=None,
+                        help='The name of the pretrained model to load.')
+    parser.add_argument('--optimizer', type=str, default='Adadelta',
+                        help='Please decide which optimizer you want to use: Adam or Adadelta')
+
+    args = parser.parse_args()
+
+    return args.epochs, args.optimizer, args.feature_extract, args.pretrain, args.model_name
+
+
 if __name__ == '__main__':
-    epochs = 400
+    arguments = parse_arguments()
+
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-    file_name = format_filename("densenet_test", ("precision8", epochs, "adadelta"))
+    file_name = format_filename("densenet_test", ("precision8",) + arguments)
+
+    epochs, optimizer, feature_extract, pretrain, model_name = arguments
     cv = CrossValidator(
         model_class=OurDenseNet,
         file_name=file_name,
@@ -43,7 +71,10 @@ if __name__ == '__main__':
         num_classes=len(composers),
         epochs=epochs,
         batch_size=100,
-        pretrained=False,
+        feature_extract=feature_extract,
+        pretrained=True,
+        pretrained_model_name=model_name,
+        optimizer=optimizer,
         verbose=False
     )
     cv.cross_validate()
