@@ -3,76 +3,65 @@ import argparse
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
-from datasets import Mode, MidiClassicMusic
 from cross_validator import CrossValidator
+from datasets import Mode, MidiClassicMusic
 from networks import BaseNet
+from stupid_overwrites import DenseNet
+from datetime import date
 
 
-def memory_usage_psutil():
-    # return the memory usage in MB
-    import psutil
-    import os
-    process = psutil.Process(os.getpid())
-    # mem = process.get_memory_info()[0] / float(2 ** 20)
-    return str(process.memory_info())
-
-
-# RNN Model (Many-to-One)
-class LSTM(nn.Module):
-    def __init__(self, input_size, hidden_size, num_layers, num_classes, dropout):
-        super(LSTM, self).__init__()
-        self.hidden_size = hidden_size
+class LSTM_CNN_model(nn.Module):
+    def __init__(self, num_classes, input_size, hidden_size, num_layers, dropout):
+        super().__init__()
         self.num_layers = num_layers
+        self.hidden_size = hidden_size
         self.dropout = dropout
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        # The LSTM layers
+        # LSTM
         self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
         self.add_module('lstm', self.lstm)
 
-        # Fully connected layer 1
-        self.fc1 = nn.Linear(hidden_size, 256)
-        self.add_module('fc1', self.fc1)
+        # DenseNet
+        self.dense_net = DenseNet(num_init_features=64, growth_rate=32, block_config=(6, 12, 24, 16), num_classes=num_classes)
+        self.add_module('dense_net', self.dense_net)
 
-        # Fully connected layer 2
-        self.fc2 = nn.Linear(256, num_classes)
-        self.add_module('fc2', self.fc2)
+    def forward(self, input):
 
-    def forward(self, x):
-        # Put the input in the right order
-        x = x.permute(0, 2, 1)
+        # Get ready for putting input dataset into lstm! as [batch, sequence, elements]
+        lstm_input = input.permute(0, 2, 1)
 
         # Set initial states <-- This might be unnecessary
-        h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device)
-        c0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device)
+        h0 = torch.zeros(self.num_layers, lstm_input.size(0), self.hidden_size).to(self.device)
+        c0 = torch.zeros(self.num_layers, lstm_input.size(0), self.hidden_size).to(self.device)
 
-        # Forward propagate RNN
-        x, _ = self.lstm(x, (h0, c0))
-        x = F.dropout(x, p=self.dropout, training=self.training)  # Dropout over the output of the lstm
+        # LSTM layers
+        lstm_activation, _ = self.lstm(lstm_input, (h0, c0))
+        #lstm_activation = F.dropout(lstm_activation, p=self.dropout,
+        #                            training=self.training)  # Dropout over the output of the lstm
 
-        # The output of the lstm for the last time step goes into the first fully connected layer
-        x = self.fc1(x[:, -1, :])
-        x = F.relu(x)
+        lstm_output = lstm_activation
 
-        # Pass to the last fully connected layer (SoftMax)
-        x = self.fc2(x)
-        return x
+        # Get ready for DenseNet!
+        densenet_activation = lstm_output.unsqueeze(1)
+
+        # DenseNet layers
+        results = self.dense_net(densenet_activation)
+
+        return results
 
 
-class OurLSTM(BaseNet):
-    def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0.5, **kwargs):
-        # load the model
-        self.model = LSTM(
+class Our_lstm_cnn(BaseNet):
+    def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0, **kwargs):
+        self.model = LSTM_CNN_model(
             num_classes=num_classes,
             input_size=input_size,
             num_layers=num_layers,
             hidden_size=hidden_size,
             dropout=dropout
         )
-
         super().__init__(**kwargs)
 
     def get_data_loaders(self, batch_size, cv_cyle):
@@ -86,26 +75,23 @@ class OurLSTM(BaseNet):
             batch_size=batch_size,
             shuffle=True
         )
-        print("Loaded train set\nCurrent memory: {}".format(memory_usage_psutil()))
         val_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.VALIDATION, slices=40,
                              composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
             batch_size=batch_size,
             shuffle=False
         )
-        print("Loaded validation set\nCurrent memory: {}".format(memory_usage_psutil()))
         test_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TEST, slices=40,
                              composers=self.composers, cv_cycle=cv_cyle, unsqueeze=False),
             batch_size=batch_size,
             shuffle=False
         )
-        print("Loaded test set\nCurrent memory: {}".format(memory_usage_psutil()))
         return train_loader, val_loader, test_loader
 
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description='Test some lstms on the midi database.')
+    parser = argparse.ArgumentParser(description='Test some lstm_cnn model on the midi database :P')
     parser.add_argument('--epochs', type=int, default=100,
                         help='The amount of epochs that the model will be trained.')
     parser.add_argument('--num_layers', type=int, default=1,
@@ -114,31 +100,32 @@ def parse_arguments():
                         help='The amount of blocks in every lstm layer.')
     parser.add_argument('--dropout', type=float, default=.5,
                         help='The dropout rate after each lstm layer.')
-
+    parser.add_argument('--block_config', type=int, default=[2, 2], nargs='+',
+                        help='The configuration of the dense blocks.')
     args = parser.parse_args()
 
-    return args.epochs, args.num_layers, args.hidden_size, args.dropout
+    return args.epochs, args.num_layers, args.hidden_size, args.dropout, args.block_config
 
 
 if __name__ == '__main__':
-    epochs, num_layers, hidden_size, dropout = parse_arguments()
+    epochs, num_layers, hidden_size, dropout, block_config = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-    composers = ['Brahms', 'Schubert']
 
-    file_name = "lstm_test_precision8_adam_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
-
+    block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
+    file_name = "lstm_cnn_test_precision8_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout, block_config_string)
+    file_name += date.today().strftime("_%b_%-d")
     cv = CrossValidator(
-        model_class=OurLSTM,
+        model_class=Our_lstm_cnn,
         file_name=file_name,
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        batch_size=100,
+        batch_size=50,
         num_layers=num_layers,
         hidden_size=hidden_size,
-        dropout=dropout,
-        verbose=True # If I want to print all the results during learning -> True
+        dropout=0,
+        verbose=False  # If I want to print all the results during learning -> True
     )
 
     cv.cross_validate()

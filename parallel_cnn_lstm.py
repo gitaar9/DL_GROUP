@@ -12,6 +12,9 @@ from stupid_overwrites import DenseNet as BaseDenseNet
 
 
 class DenseNet(BaseDenseNet):
+    """
+    Overwrite of Densenet that doesnt have a fully connected layer, so this just always has outputsize 1024.
+    """
     def forward(self, x):
         # Overwrite densenet to not use its classifier
         features = self.features(x)
@@ -34,7 +37,8 @@ class ParallelCNNLSTM(nn.Module):
         self.add_module('lstm', self.lstm)
 
         # Dense net
-        self.dense_net = DenseNet(num_init_features=64, growth_rate=32, block_config=(6, 12, 24, 16))
+        self.dense_net = DenseNet(num_init_features=64, growth_rate=32, block_config=(6, 12, 24, 16),
+                                  num_classes=num_classes)
         self.add_module('dense_net', self.dense_net)
 
         # Fully connected layer 1
