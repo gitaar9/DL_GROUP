@@ -10,6 +10,7 @@ from torch.utils.data import DataLoader
 from datasets import MidiClassicMusic, Mode
 from cross_validator import CrossValidator
 from stupid_overwrites import densenet121
+from util import format_filename
 
 
 class BaseNet:
@@ -202,7 +203,7 @@ if __name__ == '__main__':
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    file_name = "densenet_adam_precision8_{}".format(epochs)
+    file_name = format_filename("densenet_test", ("precision8", epochs, "adadelta"))
 
     cv = CrossValidator(
         model_class=OurDenseNet,
