@@ -1,0 +1,6 @@
+Advanced lstm
+
+python plotter.py --filenames cross_validated_results/advanced_lstm_test_precision8_adam_300_2_256_0.8_10 cross_validated_results/advanced_lstm_test_precision8_adam_300_2_256_0.8_16 cross_validated_results/advanced_lstm_test_precision8_adam_300_2_256_0.8_20 cross_validated_results/lstm_test_precision8_400_1_512_256_0.8 --amount_of_files 4 --print_summary
+Shows that its best to use 20 chunks, but the cnn-lstm is still better.
+
+
