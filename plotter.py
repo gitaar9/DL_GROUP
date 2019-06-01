@@ -76,6 +76,7 @@ def print_summary(filenames, amount_of_files):
     # Print final accuracies + stds
     print("\t\t\t\t\ttraining_loss\tvalidation_loss\tprecision\trecall\t\tf1\t\taccuracy\ttest_accuracy\tbest")
     averages_and_stds = [read_in_files_to_average(filename, amount_of_files) for filename in filenames]
+    filenames = map(lambda f: f.replace('advanced_lstm_test', 'a_lstm'), filenames)
     for filename, (averages, stds) in zip(filenames, averages_and_stds):
         s = filename.split('/')[-1] + "\t" + ("\t" if "precision8" not in filename else "")
         for average, std in zip(averages[-1, :], stds[-1, :]):
