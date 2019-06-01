@@ -2,15 +2,11 @@ import inspect
 import time
 
 import torch
-import torchvision.models as models
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 from torch import nn, optim
 from torch.utils.data import DataLoader
 
 from datasets import MidiClassicMusic, Mode
-from cross_validator import CrossValidator
-from stupid_overwrites import densenet121
-from util import format_filename
 
 
 class BaseNet:
@@ -26,9 +22,7 @@ class BaseNet:
         self.epochs = epochs
 
         self.composers = composers
-        print("Loading datasets")
         self.train_loader, self.val_loader, self.test_loader = self.get_data_loaders(batch_size, cv_cycle)
-        print("Done loading datasets")
         self.loss_function = nn.CrossEntropyLoss()  # cross entropy works well for multi-class problems
 
         # optimizer: Adadelta or Adam
@@ -45,6 +39,7 @@ class BaseNet:
         self.verbose = verbose
 
     def get_data_loaders(self, batch_size, cv_cyle):
+        print("Loading datasets")
         train_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TRAIN, slices=40, composers=self.composers,
                              cv_cycle=cv_cyle),
@@ -63,7 +58,16 @@ class BaseNet:
             batch_size=batch_size,
             shuffle=False
         )
+        print("Done loading datasets")
         return train_loader, val_loader, test_loader
+
+    def change_data_loaders(self, batch_size, cv_cycle):
+        del self.train_loader
+        del self.val_loader
+        del self.test_loader
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+        self.train_loader, self.val_loader, self.test_loader = self.get_data_loaders(batch_size, cv_cycle)
 
     def freeze_all_layers(self):
         for param in self.model.parameters():
@@ -172,48 +176,5 @@ class BaseNet:
             for training_loss, validation_loss, precision, recall, f1, accuracy, test_accuracy in metrics:
                 f.write("{},{},{},{},{},{},{}\n".format(training_loss, validation_loss, precision, recall, f1, accuracy, test_accuracy))
 
-
-class OurResNet(BaseNet):
-    def __init__(self, num_classes=10, pretrained=True, feature_extract=False, **kwargs):
-        # load the model
-        self.model = models.resnet50(pretrained=pretrained)
-        # Change input layer to 1 channel
-        self.model.conv1 = nn.Conv2d(1, 64, kernel_size=12, stride=2, padding=3, bias=False)
-        if feature_extract:
-            self.freeze_all_layers()
-        # Change output layer
-        self.model.fc = nn.Linear(2048, num_classes)  # 512 for resnet18, 2048 for resnet50
-
-        super().__init__(**kwargs)
-
-
-class OurDenseNet(BaseNet):
-    def __init__(self, num_classes=10, pretrained=True, feature_extract=False, **kwargs):
-        # load the model
-        self.model = densenet121(pretrained=pretrained)
-        if feature_extract:
-            self.freeze_all_layers()
-        self.model.classifier = nn.Linear(1024, num_classes)
-
-        super().__init__(**kwargs)
-
-
-if __name__ == '__main__':
-    epochs = 400
-
-    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-
-    file_name = format_filename("densenet_test", ("precision8", epochs, "adadelta"))
-
-    cv = CrossValidator(
-        model_class=OurDenseNet,
-        file_name=file_name,
-        composers=composers,
-        num_classes=len(composers),
-        epochs=epochs,
-        batch_size=100,
-        pretrained=False,
-        verbose=False
-    )
-
-    cv.cross_validate()
+    def save_model(self, path):
+        torch.save(self.model.state_dict(), path)
