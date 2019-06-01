@@ -1,5 +1,5 @@
-from res_densenet import OurDenseNet
-from util import format_filename
+from ../res_densenet import OurDenseNet
+from ../util import format_filename
 
 
 if __name__ == '__main__':
