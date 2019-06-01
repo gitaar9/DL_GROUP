@@ -26,7 +26,7 @@ class OurResNet(BaseNet):
 class OurDenseNet(BaseNet):
     def __init__(self, num_classes=10, pretrained=False, feature_extract=False, pretrained_model_name=None, **kwargs):
         # load the model
-        self.model = densenet121(pretrained=False)
+        self.model = densenet121(pretrained=False, num_classes=18)
 
         if pretrained and pretrained_model_name:
             self.load_model('pretrained_models/{}'.format(pretrained_model_name))
