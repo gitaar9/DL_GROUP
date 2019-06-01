@@ -129,7 +129,7 @@ if __name__ == '__main__':
     file_name = format_filename("advanced_lstm_test", ("precision8", ) + arguments)
 
     # Unpack the commandline arguments for use
-    epochs, num_layers, hidden_size, dropout, chunks, optimizer = arguments
+    epochs, optimizer, num_layers, hidden_size, dropout, chunks = arguments
 
     cv = CrossValidator(
         model_class=OurLSTM,
