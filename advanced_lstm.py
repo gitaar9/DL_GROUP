@@ -115,16 +115,18 @@ def parse_arguments():
 
     args = parser.parse_args()
 
-    return args.epochs, args.num_layers, args.hidden_size, args.dropout, args.chunks, args.optimizer
+    return args.epochs, args.optimizer, args.num_layers, args.hidden_size, args.dropout, args.chunks
 
 
 if __name__ == '__main__':
-    epochs, num_layers, hidden_size, dropout, chunks, optimizer = parse_arguments()
+    arguments = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-    #composers = ['Rachmaninov', 'Liszt']
 
-    file_name = "advanced_lstm_test_precision8_{}_{}_{}_{}_{}_{}".format(optimizer, epochs, num_layers, hidden_size, dropout, chunks)
+    file_name = format_filename("advanced_lstm_test", ("precision8", ) + arguments)
+
+    # Unpack the commandline arguments for use
+    epochs, num_layers, hidden_size, dropout, chunks, optimizer = arguments
 
     cv = CrossValidator(
         model_class=OurLSTM,
