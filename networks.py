@@ -31,13 +31,12 @@ class BaseNet:
         self.loss_function = nn.CrossEntropyLoss()  # cross entropy works well for multi-class problems
 
         # optimizer: Adadelta or Adam
-        # if optimizer == "Adadelta":
-        #     self.optimizer = optim.Adadelta(self.model.parameters())
-        # elif optimizer == "Adam":
-        #     self.optimizer = optim.Adam(self.model.parameters())
-        # else:
-        #     raise Exception('You misspelled the optimizer:(')
-        self.optimizer = optim.Adam(self.model.parameters())
+        if optimizer == "Adadelta":
+            self.optimizer = optim.Adadelta(self.model.parameters())
+        elif optimizer == "Adam":
+            self.optimizer = optim.Adam(self.model.parameters())
+        else:
+            raise Exception('You misspelled the optimizer:(')
 
         # See if we use CPU or GPU
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

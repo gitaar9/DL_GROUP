@@ -110,19 +110,21 @@ def parse_arguments():
                         help='The dropout rate after each lstm layer.')
     parser.add_argument('--chunks', type=int, default=10,
                         help='How many chunks to make of the input sequence.')
+    parser.add_argument('--optimizer', type=str, default='Adadelta',
+                        help='Please decide which optimizer you want to use: Adam or Adadelta')
 
     args = parser.parse_args()
 
-    return args.epochs, args.num_layers, args.hidden_size, args.dropout, args.chunks
+    return args.epochs, args.num_layers, args.hidden_size, args.dropout, args.chunks, args.optimizer
 
 
 if __name__ == '__main__':
-    epochs, num_layers, hidden_size, dropout, chunks = parse_arguments()
+    epochs, num_layers, hidden_size, dropout, chunks, optimizer = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
     #composers = ['Rachmaninov', 'Liszt']
 
-    file_name = "advanced_lstm_test_precision8_adam_{}_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout, chunks)
+    file_name = "advanced_lstm_test_precision8_{}_{}_{}_{}_{}_{}".format(optimizer, epochs, num_layers, hidden_size, dropout, chunks)
 
     cv = CrossValidator(
         model_class=OurLSTM,
@@ -135,6 +137,7 @@ if __name__ == '__main__':
         hidden_size=hidden_size,
         dropout=dropout,
         n_chunks=chunks,
+        optimizer=optimizer,
         verbose=False
     )
 
