@@ -54,7 +54,7 @@ class ParallelCNNLSTM(nn.Module):
         self.add_module('fc3', self.fc3)
 
     def forward(self, input):
-        ### LSTM FORWARDING PART ###
+        # LSTM FORWARDING PART
         # Put the input in the right order
         lstm_activation = input.permute(0, 2, 1)
 
@@ -68,11 +68,11 @@ class ParallelCNNLSTM(nn.Module):
 
         lstm_activation = lstm_activation[:, -1, :]  # Use output for last timestep only
 
-        ### DENSENET FORWARDING PART ###
+        # DENSENET FORWARDING PART
         densenet_activation = input.unsqueeze(1)
         densenet_activation = self.dense_net(densenet_activation)
 
-        ### FULLY CONNECTED PART ###
+        # FULLY CONNECTED PART
         x = torch.cat((lstm_activation, densenet_activation), dim=1)  # Concatenate the two outputs
 
         x = self.fc1(x)
