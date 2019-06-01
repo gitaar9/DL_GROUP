@@ -72,7 +72,7 @@ if __name__ == '__main__':
         epochs=epochs,
         batch_size=100,
         feature_extract=feature_extract,
-        pretrained=True,
+        pretrained=pretrain,
         pretrained_model_name=model_name,
         optimizer=optimizer,
         verbose=False
