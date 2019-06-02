@@ -183,4 +183,4 @@ class BaseNet:
                 torch.save(module.state_dict(), path + "_only_lstm")
 
     def load_model(self, path):
-        self.model.load_state_dict(torch.load(path))
+        self.model.load_state_dict(torch.load(path), strict=False)

@@ -60,7 +60,8 @@ class LSTM(nn.Module):
 
 
 class OurLSTM(BaseNet):
-    def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0.5, n_chunks=10, **kwargs):
+    def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0.5, n_chunks=10,
+                 pretrained=False, pretrained_model_name=None, **kwargs):
         # load the model
         self.model = LSTM(
             num_classes=num_classes,
@@ -70,6 +71,9 @@ class OurLSTM(BaseNet):
             dropout=dropout,
             n_chunks=n_chunks
         )
+
+        if pretrained and pretrained_model_name:
+            self.load_model('pretrained_models/{}'.format(pretrained_model_name))
 
         super().__init__(**kwargs)
 
@@ -113,10 +117,14 @@ def parse_arguments():
                         help='How many chunks to make of the input sequence.')
     parser.add_argument('--optimizer', type=str, default='Adadelta',
                         help='Please decide which optimizer you want to use: Adam or Adadelta')
+    parser.add_argument('--pretrain', default=False, action='store_true',
+                        help='Use a pretrained model?.')
+    parser.add_argument('--model_name', type=str, default=None,
+                        help='The name of the pretrained model to load.')
 
     args = parser.parse_args()
 
-    return args.epochs, args.optimizer, args.num_layers, args.hidden_size, args.dropout, args.chunks
+    return args.epochs, args.optimizer, args.num_layers, args.hidden_size, args.dropout, args.chunks, args.pretrain, args.model_name
 
 
 if __name__ == '__main__':
@@ -127,7 +135,7 @@ if __name__ == '__main__':
     file_name = format_filename("advanced_lstm_test", ("precision8", ) + arguments)
 
     # Unpack the commandline arguments for use
-    epochs, optimizer, num_layers, hidden_size, dropout, chunks = arguments
+    epochs, optimizer, num_layers, hidden_size, dropout, chunks, pretrain, model_name = arguments
 
     cv = CrossValidator(
         model_class=OurLSTM,
@@ -141,6 +149,8 @@ if __name__ == '__main__':
         dropout=dropout,
         n_chunks=chunks,
         optimizer=optimizer,
+        pretrained=pretrain,
+        pretrained_model_name=model_name,
         verbose=False
     )
 
