@@ -96,14 +96,15 @@ def plot_selecting(filenames, amount_of_files, legend_names):
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Averages and plots output fom our pytorch networks.')
+    parser.add_argument('filenames', type=str, nargs='+',
+                        help='The base filename of the files we want to read in when using amount_of_files > 1.'
+                        'Otherwise just full filenames of the files.')
     parser.add_argument('--amount_of_files', type=int, default=1,
                         help='The amount of runs we did.')
-    parser.add_argument('--filenames', type=str, default=[], nargs='+',
-                        help='The base filename of the files we want to read in.')
     parser.add_argument('--legend', type=str, default=[], nargs='+',
                         help='The legend names of the filenames.')
     parser.add_argument('--print_summary', default=False, action='store_true',
-                        help='Just plot all final results for the Deep Learning assignment')
+                        help='When amount_of_files > 1 this can be used to print mean and stds of the results.')
 
     args = parser.parse_args()
     return args.amount_of_files, args.filenames, args.legend, args.print_summary
