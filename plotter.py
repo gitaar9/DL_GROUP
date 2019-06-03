@@ -29,25 +29,20 @@ def read_in_files_to_average(filename, amount_of_files):
     return averages, stds
 
 
-def plot_accuracy(averages, filename):
-    plt.plot(averages[:, 5], label=filename)
-    plt.ylabel('Accuracy')
+def plot_collumns(list_of_metrics, collumns, y_label, legend_names, colors=None):
+    colors = colors or plt.rcParams['axes.prop_cycle'].by_key()['color']
+    for idx, metrics in enumerate(list_of_metrics):
+        for collumn in collumns:
+            plt.plot(metrics[:, collumn], colors[idx], label=legend_names[idx])
+    plt.ylabel(y_label)
     plt.xlabel('Epochs')
-    plt.legend(loc='bottom right')
-    plt.show()
-
-
-def plot_losses(averages, filename):
-    plt.plot(averages[:, 0], label='test_loss'+filename)
-    plt.plot(averages[:, 1], label='validation_loss'+filename)
-    plt.ylabel('Loss')
-    plt.xlabel('Epochs')
-    plt.legend(loc='bottom right')
+    plt.xlim([-1, max([m.shape[0] for m in list_of_metrics])])
+    plt.legend(loc='lower right')
     plt.show()
 
 
 def plot_multiple_accuracies(list_of_averages, legend_names, colors=None):
-    colors = plt.rcParams['axes.prop_cycle'].by_key()['color'] if colors is None else colors
+    colors = colors or plt.rcParams['axes.prop_cycle'].by_key()['color']
     for idx, averages in enumerate(list_of_averages):
         plt.plot(averages[:, 5], colors[idx], label=legend_names[idx])
         if averages.shape[1] > 6:
@@ -55,19 +50,19 @@ def plot_multiple_accuracies(list_of_averages, legend_names, colors=None):
             plt.plot(averages[:, 7], colors[idx], linestyle=':')
     plt.ylabel('Accuracy (%)')
     plt.xlabel('Epochs')
-    plt.xlim([-1, averages.shape[0]])
+    plt.xlim([-1, max([avg.shape[0] for avg in list_of_averages])])
     plt.legend(loc='lower right')
     plt.show()
 
 
 def plot_multiple_loss(list_of_averages, legend_names, colors=None):
-    colors = plt.rcParams['axes.prop_cycle'].by_key()['color'] if colors is None else colors
+    colors = colors or plt.rcParams['axes.prop_cycle'].by_key()['color']
     for idx, averages in enumerate(list_of_averages):
         plt.plot(averages[:, 0], color=colors[idx], linestyle='--') #, label=legend_names[idx]+' train loss')
         plt.plot(averages[:, 1], color=colors[idx], label=legend_names[idx])
     plt.ylabel('Loss')
     plt.xlabel('Epochs')
-    plt.xlim([-1, averages.shape[0]])
+    plt.xlim([-1, max([avg.shape[0] for avg in list_of_averages])])
     plt.legend(loc='upper right')
     plt.show()
 
@@ -84,14 +79,21 @@ def print_summary(filenames, amount_of_files):
         print(s)
 
 
-def plot_selecting(filenames, amount_of_files, legend_names):
+def plot_selecting(filenames, amount_of_files=1, legend_names=None):
+    # Read in the data per file or average over amount_of_files files:
     if amount_of_files > 1:
         all_data = [read_in_files_to_average(each_file, amount_of_files)[0] for each_file in filenames]
     else:
         all_data = [read_in_file(f) for f in filenames]
+
+    # Use legend_names if provided otherwise use the filenames as legend names
+    legend_names = legend_names or filenames
     legend_names = list(map(lambda n: n.replace('_', '-'), legend_names))
-    plot_multiple_accuracies(all_data, legend_names if legend_names else filenames)
-    plot_multiple_loss(all_data, legend_names if legend_names else filenames)
+
+    # Plot the accuracies and losses
+    plot_multiple_accuracies(all_data, legend_names)
+    plot_multiple_loss(all_data, legend_names)
+    #plot_collumns(all_data, [4], 'F1 score', legend_names)
 
 
 def parse_arguments():
