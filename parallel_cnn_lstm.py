@@ -8,19 +8,36 @@ from torch.utils.data import DataLoader
 from cross_validator import CrossValidator
 from datasets import Mode, MidiClassicMusic
 from networks import BaseNet
-from stupid_overwrites import DenseNet as BaseDenseNet
+from stupid_overwrites import DenseNet
 
 
-class DenseNet(BaseDenseNet):
+class PretrainedDenseNetWithoutFC(DenseNet):
     """
     Overwrite of Densenet that doesnt have a fully connected layer, so this just always has outputsize 1024.
     """
+
+    def __init__(self, *args, **kwargs):
+        pretrained = kwargs.pop('pretrained', False)
+        super().__init__(*args, **kwargs)
+        # Load pretrained network
+        if pretrained:
+            self.load_state_dict(torch.load('pretrained_models/densenet_test_precision8_75_adadelta'))
+
     def forward(self, x):
         # Overwrite densenet to not use its classifier
         features = self.features(x)
         out = F.relu(features, inplace=True)
         out = F.adaptive_avg_pool2d(out, (1, 1)).view(features.size(0), -1)
         return out
+
+
+class PretrainedLSTM(nn.LSTM):
+    def __init__(self, *args, **kwargs):
+        pretrained = kwargs.pop('pretrained', False)
+        super().__init__(*args, **kwargs)
+        # Load pretrained network
+        if pretrained:
+            self.load_state_dict(torch.load('pretrained_models/advanced_lstm_test_precision8_75_Adadelta_2_256_0.8_20_only_lstm'))
 
 
 # Parallel CNN LSTM Model from the Acoustic Scenes Classification paper(with densenet though)
@@ -33,12 +50,13 @@ class ParallelCNNLSTM(nn.Module):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # The LSTM layers
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
+        self.lstm = PretrainedLSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True,
+                                   pretrained=True)
         self.add_module('lstm', self.lstm)
 
         # Dense net
-        self.dense_net = DenseNet(num_init_features=64, growth_rate=32, block_config=(6, 12, 24, 16),
-                                  num_classes=num_classes)
+        self.dense_net = PretrainedDenseNetWithoutFC(num_init_features=64, growth_rate=32, block_config=(6, 12, 24, 16),
+                                                     num_classes=num_classes, pretrained=True)
         self.add_module('dense_net', self.dense_net)
 
         # Fully connected layer 1
