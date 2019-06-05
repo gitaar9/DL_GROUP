@@ -75,7 +75,7 @@ class OurLSTM(BaseNet):
         if pretrained and pretrained_model_name:
             self.load_model('pretrained_models/{}'.format(pretrained_model_name))
         self.model.fc2 = nn.Linear(256, num_classes)
-        self.model.add_module('fc2', self.fc2)
+        self.model.add_module('fc2', self.model.fc2)
 
         super().__init__(**kwargs)
 
