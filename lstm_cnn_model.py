@@ -10,7 +10,7 @@ from datasets import Mode, MidiClassicMusic
 from networks import BaseNet
 from stupid_overwrites import DenseNet
 from datetime import date
-
+from util import format_filename
 
 class LSTM_CNN_model(nn.Module):
     def __init__(self, num_classes, input_size, hidden_size, num_layers, dropout):
@@ -109,12 +109,13 @@ def parse_arguments():
 
 if __name__ == '__main__':
     epochs, num_layers, hidden_size, dropout, block_config = parse_arguments()
-
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
     block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
-    file_name = "lstm_cnn_test_precision8_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout, block_config_string)
-    file_name += date.today().strftime("_%b_%-d")
+    file_name = "lstm_cnn_test_precision8_{}_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout, block_config_string)
+    file_name += date.today().strftime("_%b_%-d_%H")
+    #filename = format_filename('lstm_cnn_test_precision8',)
+
     cv = CrossValidator(
         model_class=Our_lstm_cnn,
         file_name=file_name,
