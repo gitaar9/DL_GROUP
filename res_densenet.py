@@ -24,12 +24,12 @@ class OurResNet(BaseNet):
 
 
 class OurDenseNet(BaseNet):
-    def __init__(self, num_classes=10, pretrained=False, feature_extract=False, pretrained_model_name=None, **kwargs):
+    def __init__(self, num_classes=10, pretrained=False, feature_extract=False, **kwargs):
         # load the model
         self.model = densenet121(pretrained=False, num_classes=18)
 
-        if pretrained and pretrained_model_name:
-            self.load_model('pretrained_models/{}'.format(pretrained_model_name))
+        if pretrained:
+            self.load_model('pretrained_models/densenet_test_precision8_75_adadelta')
 
         if feature_extract:
             self.freeze_all_layers()
@@ -47,14 +47,12 @@ def parse_arguments():
                         help='When this argument is supplied feature extraction instead of fine-tuing is used.')
     parser.add_argument('--pretrain', default=False, action='store_true',
                         help='Use a pretrained model?.')
-    parser.add_argument('--model_name', type=str, default=None,
-                        help='The name of the pretrained model to load.')
     parser.add_argument('--optimizer', type=str, default='Adadelta',
                         help='Please decide which optimizer you want to use: Adam or Adadelta')
 
     args = parser.parse_args()
 
-    return args.epochs, args.optimizer, args.feature_extract, args.pretrain, args.model_name
+    return args.epochs, args.optimizer, args.feature_extract, args.pretrain
 
 
 if __name__ == '__main__':
@@ -63,7 +61,7 @@ if __name__ == '__main__':
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
     file_name = format_filename("densenet_test", ("precision8",) + arguments)
 
-    epochs, optimizer, feature_extract, pretrain, model_name = arguments
+    epochs, optimizer, feature_extract, pretrain = arguments
     cv = CrossValidator(
         model_class=OurDenseNet,
         file_name=file_name,
@@ -73,7 +71,6 @@ if __name__ == '__main__':
         batch_size=100,
         feature_extract=feature_extract,
         pretrained=pretrain,
-        pretrained_model_name=model_name,
         optimizer=optimizer,
         verbose=False
     )
