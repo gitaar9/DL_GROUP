@@ -11,6 +11,7 @@ from networks import BaseNet
 from stupid_overwrites import DenseNet
 from datetime import date
 from util import format_filename
+from parallel_cnn_lstm import PretrainedLSTM
 
 class LSTM_CNN_model(nn.Module):
     def __init__(self, num_classes, input_size, hidden_size, num_layers, dropout):
@@ -21,8 +22,11 @@ class LSTM_CNN_model(nn.Module):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # LSTM
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
+        self.lstm = PretrainedLSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True,
+                                   pretrained=True)
         self.add_module('lstm', self.lstm)
+        #self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
+        #self.add_module('lstm', self.lstm)
 
         # DenseNet
         self.dense_net = DenseNet(num_init_features=64, growth_rate=32, block_config=(6, 12, 24, 16), num_classes=num_classes)
