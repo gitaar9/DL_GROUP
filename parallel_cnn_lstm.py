@@ -19,7 +19,7 @@ class PretrainedDenseNetWithoutFC(DenseNet):
     def __init__(self, *args, **kwargs):
         num_classes = kwargs.pop('num_classes', 11)
         pretrained = kwargs.pop('pretrained', False)
-        kwargs[num_classes] = 18
+        kwargs['num_classes'] = 18
         super().__init__(*args, **kwargs)
         # Load pretrained network
         if pretrained:
