@@ -34,6 +34,7 @@ class PretrainedDenseNetWithoutFC(DenseNet):
 
 
 class PretrainedLSTM(nn.LSTM):
+    """This only works with 2 layers of 256 nodes"""
     def __init__(self, *args, **kwargs):
         pretrained = kwargs.pop('pretrained', False)
         super().__init__(*args, **kwargs)

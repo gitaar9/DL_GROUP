@@ -10,4 +10,6 @@ ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u pretrain_advanced_lstm.py --num_layers 2 --hidden_size 256 --epochs 75 --dropout 0.8 --chunks 20
+python -u pretrain_advanced_lstm.py --num_layers 2 --hidden_size 128 --epochs 75 --dropout 0.8 --chunks 20
+python -u pretrain_advanced_lstm.py --num_layers 1 --hidden_size 128 --epochs 75 --dropout 0.8 --chunks 20
+python -u pretrain_advanced_lstm.py --num_layers 1 --hidden_size 256 --epochs 75 --dropout 0.8 --chunks 20
