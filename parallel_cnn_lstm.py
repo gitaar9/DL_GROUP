@@ -9,6 +9,7 @@ from cross_validator import CrossValidator
 from datasets import Mode, MidiClassicMusic
 from networks import BaseNet
 from stupid_overwrites import DenseNet
+from util import format_filename
 
 
 class PretrainedDenseNetWithoutFC(DenseNet):
@@ -76,8 +77,7 @@ class ParallelCNNLSTM(nn.Module):
 
     def forward(self, input):
         # LSTM FORWARDING PART
-        # Put the input in the right order
-        lstm_activation = input.permute(0, 2, 1)
+        lstm_activation = input.permute(0, 2, 1)  # Put the input in the right order (batch, sequence, elements)
 
         # Set initial states <-- This might be unnecessary
         h0 = torch.zeros(self.num_layers, lstm_activation.size(0), self.hidden_size).to(self.device)
@@ -163,12 +163,13 @@ def parse_arguments():
 
 
 if __name__ == '__main__':
-    epochs, num_layers, hidden_size, dropout = parse_arguments()
+    arguments = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    file_name = "parallel_cnn_lstm_test_precision8_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
+    file_name = format_filename("parallel_cnn_lstm_test_precision8", ("precision8", ) + arguments)
 
+    epochs, num_layers, hidden_size, dropout = arguments
     cv = CrossValidator(
         model_class=OurParallelCNNLSTM,
         file_name=file_name,
