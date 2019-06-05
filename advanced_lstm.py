@@ -64,7 +64,7 @@ class OurLSTM(BaseNet):
                  pretrained=False, pretrained_model_name=None, **kwargs):
         # load the model
         self.model = LSTM(
-            num_classes=num_classes,
+            num_classes=18,
             input_size=input_size,
             num_layers=num_layers,
             hidden_size=hidden_size,
@@ -74,6 +74,8 @@ class OurLSTM(BaseNet):
 
         if pretrained and pretrained_model_name:
             self.load_model('pretrained_models/{}'.format(pretrained_model_name))
+        self.model.fc2 = nn.Linear(256, num_classes)
+        self.model.add_module('fc2', self.fc2)
 
         super().__init__(**kwargs)
 
