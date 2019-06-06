@@ -37,11 +37,13 @@ class PretrainedDenseNetWithoutFC(DenseNet):
 class PretrainedLSTM(nn.LSTM):
     """This only works with 2 layers of 256 nodes"""
     def __init__(self, *args, **kwargs):
+        nl = kwargs['num_layers']
+        hs = kwargs['hidden_size']
         pretrained = kwargs.pop('pretrained', False)
         super().__init__(*args, **kwargs)
         # Load pretrained network
         if pretrained:
-            path = 'pretrained_models/advanced_lstm_test_precision8_75_Adadelta_{}_{}_0.8_20_only_lstm'.format(kwargs['num_layers'], kwargs['hidden_size'])
+            path = 'pretrained_models/advanced_lstm_test_precision8_75_Adadelta_{}_{}_0.8_20_only_lstm'.format(nl, hs)
             self.load_state_dict(torch.load(path))
 
 
