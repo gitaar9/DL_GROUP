@@ -10,7 +10,7 @@ from datasets import MidiClassicMusic, Mode
 
 
 class BaseNet:
-    def __init__(self, epochs, composers, batch_size=100, optimizer='Adadelta', verbose=True, cv_cycle=0):
+    def __init__(self, epochs, composers, batch_size=100, optimizer='Adagrad', verbose=True, cv_cycle=0):
         """
         :param epochs: The amount of epochs this network will be trained for when run() is called
         :param composers: The names of the composers that should be loaded as dataset
@@ -30,6 +30,8 @@ class BaseNet:
             self.optimizer = optim.Adadelta(self.model.parameters())
         elif optimizer == "Adam":
             self.optimizer = optim.Adam(self.model.parameters())
+        elif optimizer == "Adagrad":
+            self.optimizer == optim.Adagrad(self.model.parameters())
         else:
             raise Exception('You misspelled the optimizer:(')
 
