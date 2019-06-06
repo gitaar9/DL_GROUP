@@ -12,7 +12,7 @@ from stupid_overwrites import DenseNet
 from datetime import date
 from util import format_filename
 from parallel_cnn_lstm import PretrainedLSTM
-from parallel_cnn_advanced_lstm import
+
 class LSTM_CNN_model(nn.Module):
     def __init__(self, num_classes, input_size, hidden_size, num_layers, dropout):
         super().__init__()
