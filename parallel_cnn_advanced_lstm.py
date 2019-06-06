@@ -23,7 +23,7 @@ class ParallelCNNAdvancedLSTM(nn.Module):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # The LSTM layers
-        self.lstm = PretrainedLSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True,
+        self.lstm = PretrainedLSTM(input_size, hidden_size=hidden_size, num_layers=num_layers, dropout=dropout, batch_first=True,
                                    pretrained=True)
         self.add_module('lstm', self.lstm)
 
