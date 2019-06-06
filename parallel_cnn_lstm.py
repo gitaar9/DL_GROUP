@@ -41,7 +41,8 @@ class PretrainedLSTM(nn.LSTM):
         super().__init__(*args, **kwargs)
         # Load pretrained network
         if pretrained:
-            self.load_state_dict(torch.load('pretrained_models/advanced_lstm_test_precision8_75_Adadelta_2_256_0.8_20_only_lstm'))
+            path = 'pretrained_models/advanced_lstm_test_precision8_75_Adadelta_{}_{}_0.8_20_only_lstm'.format(kwargs['num_layers'], kwargs['hidden_size'])
+            self.load_state_dict(torch.load(path))
 
 
 # Parallel CNN LSTM Model from the Acoustic Scenes Classification paper(with densenet though)

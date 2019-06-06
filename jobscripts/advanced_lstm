@@ -10,4 +10,4 @@ ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u advanced_lstm.py --num_layers 2 --hidden_size 256 --epochs 300 --dropout 0.8 --chunks 20 --pretrain --model_name advanced_lstm_test_precision8_75_Adadelta_2_256_0.8_20
+python -u advanced_lstm.py --num_layers 2 --hidden_size 256 --epochs 400 --dropout 0.8 --chunks 20 --pretrain --model_name advanced_lstm_test_precision8_75_Adadelta_2_256_0.8_20
