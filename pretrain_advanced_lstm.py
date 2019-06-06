@@ -17,7 +17,7 @@ def parse_arguments():
                         help='The dropout rate after each lstm layer.')
     parser.add_argument('--chunks', type=int, default=10,
                         help='How many chunks to make of the input sequence.')
-    parser.add_argument('--optimizer', type=str, default='Adadelta',
+    parser.add_argument('--optimizer', type=str, default='Adam',
                         help='Please decide which optimizer you want to use: Adam or Adadelta')
 
     args = parser.parse_args()
