@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --time=23:55:00
+#SBATCH --time=60:55:00
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:v100:1
 #SBATCH --mem=16GB
@@ -10,4 +10,4 @@ ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u res_densenet.py --epochs 50 --pretrain --model_name densenet_test_precision8_75_adadelta --feature_extract
+python -u res_densenet.py --epochs 400
