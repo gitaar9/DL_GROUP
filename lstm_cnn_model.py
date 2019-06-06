@@ -23,7 +23,7 @@ class LSTM_CNN_model(nn.Module):
 
         # LSTM
         self.lstm = PretrainedLSTM(input_size, hidden_size=hidden_size, num_layers=num_layers, dropout=dropout,
-                                   batch_first=True, pretrained=True)
+                                   pretrained=True)
         self.add_module('lstm', self.lstm)
         #self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
         #self.add_module('lstm', self.lstm)
