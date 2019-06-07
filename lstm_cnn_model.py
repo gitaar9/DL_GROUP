@@ -58,13 +58,14 @@ class LSTM_CNN_model(nn.Module):
 
 
 class Our_lstm_cnn(BaseNet):
-    def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0, **kwargs):
+    def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0, optimizer = 'Adagrad', **kwargs):
         self.model = LSTM_CNN_model(
             num_classes=num_classes,
             input_size=input_size,
             num_layers=num_layers,
             hidden_size=hidden_size,
-            dropout=dropout
+            dropout=dropout,
+            optimizer=optimizer
         )
         super().__init__(**kwargs)
 
