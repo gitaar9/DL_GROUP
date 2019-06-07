@@ -1,9 +1,41 @@
 import argparse
 
+import torch
+from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 from torch.utils.data import DataLoader
 
 from datasets import MidiClassicMusic, Mode
 from res_densenet import OurDenseNet
+
+
+class CurrentNetwork(OurDenseNet):
+    def validate(self, data_loader):
+        val_losses = 0
+        precision, recall, f1, accuracy = [], [], [], []
+        self.model.eval()
+        if self.cuda_available:
+            self.model.cuda()
+
+        with torch.no_grad():
+            for i, data in enumerate(data_loader):
+                X, y = data[0].to(self.device), data[1].to(self.device)
+
+                outputs = self.model(X)  # this get's the prediction from the network
+                print(outputs.shape)
+                for output in outputs:
+                    print(output)
+
+                val_losses += self.loss_function(outputs, y)
+
+                predicted_classes = torch.max(outputs, 1)[1]  # get class from network's prediction
+
+                # calculate P/R/F1/A metrics for batch
+                for acc, metric in zip((precision, recall, f1, accuracy),
+                                       (precision_score, recall_score, f1_score, accuracy_score)):
+                    acc.append(
+                        self.calculate_metric(metric, y.cpu(), predicted_classes.cpu())
+                    )
+        return val_losses, precision, recall, f1, accuracy
 
 
 def parse_arguments():
