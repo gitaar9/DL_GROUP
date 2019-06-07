@@ -37,7 +37,7 @@ class MidiClassicMusic(Dataset):
         self.unsqueeze = unsqueeze
 
         # if self.mode != Mode.TRAIN:
-        self.songs_to_simple_dataset_for_validations(step_size=None if self.mode != mode.TRAIN else 2)
+        self.songs_to_simple_dataset_for_validations(step_size=None if self.mode != mode.TRAIN else 1)
 
     def __len__(self):
         # if self.mode == Mode.TRAIN:
