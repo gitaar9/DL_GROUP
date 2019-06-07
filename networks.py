@@ -107,6 +107,8 @@ class BaseNet:
         val_losses = 0
         precision, recall, f1, accuracy = [], [], [], []
         self.model.eval()
+        if self.cuda_available:
+            self.model.cuda()
 
         with torch.no_grad():
             for i, data in enumerate(data_loader):

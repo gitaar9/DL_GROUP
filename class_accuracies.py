@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     composers_accuracies = []
     for composer in composers:
-        print("Getting accuracy for {}".format(composers))
+        print("Getting accuracy for {}".format(composer))
         acc = 0
         net.change_data_loaders(batch_size=100, cv_cycle=0, composers=[composer])
         for network_name in ["best_models/{}_run{}".format(filename, file_number) for file_number in range(amount_of_files)]:
