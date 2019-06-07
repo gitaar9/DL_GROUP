@@ -112,8 +112,8 @@ def parse_arguments():
 
 
 if __name__ == '__main__':
-    arguments = parse_arguments()
 
+    arguments = parse_arguments()
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
     # block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     # file_name += date.today().strftime("_%b_%-d_%H")
     # filename = format_filename('lstm_cnn_test_precision8',)
     file_name = format_filename("lstm_cnn_test_precision8", ("precision8",) + arguments)
-
+    epochs, num_layers, hidden_size = arguments
     cv = CrossValidator(
         model_class=Our_lstm_cnn,
         file_name=file_name,
