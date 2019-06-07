@@ -3,11 +3,11 @@
 #SBATCH --time=55:55:00
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:v100:1
-#SBATCH --mem=16GB
+#SBATCH --mem=96GB
 
 ml Python/3.6.4-foss-2018a
 ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u parallel_cnn_lstm.py --num_layers 2 --hidden_size 256 --epochs 400 --dropout 0.8
+python -u parallel_cnn_lstm.py --num_layers 2 --hidden_size 128 --epochs 30 --dropout 0.8
