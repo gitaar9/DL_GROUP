@@ -113,8 +113,6 @@ class BaseNet:
         with torch.no_grad():
             for i, data in enumerate(data_loader):
                 X, y = data[0].to(self.device), data[1].to(self.device)
-                if i == 1:
-                    print(y)
 
                 outputs = self.model(X)  # this get's the prediction from the network
 

@@ -39,9 +39,10 @@ if __name__ == '__main__':
         for network_name in ["best_models/{}_run{}".format(filename, file_number) for file_number in range(amount_of_files)]:
             net.load_model(network_name)
             _, _, _, _, acc_list = net.validate(test_loader)
-            print(acc_list)
             acc += sum(acc_list)/len(test_loader)
         composers_accuracies.append(acc / 4)
 
     for name, accuracy in zip(composers, composers_accuracies):
         print("{}: {}".format(name, accuracy))
+
+    print("Overall accuracy {}".format(sum(composers_accuracies)/len(composers)))
