@@ -65,8 +65,8 @@ if __name__ == '__main__':
     net = CurrentNetwork(epochs=1, save_path="-", num_classes=11, batch_size=100, composers=['Brahms'])
 
     composers_accuracies = []
+    print('Composer\tAcc\tTop three')
     for label, composer in enumerate(composers):
-        print("Getting accuracy for {}".format(composer))
         acc = 0
         test_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TEST, slices=40,
@@ -74,18 +74,24 @@ if __name__ == '__main__':
             batch_size=10,
             shuffle=False
         )
+
         hist = np.zeros((1, 11))
+
         for network_name in ["best_models/{}_run{}".format(filename, file_number) for file_number in range(amount_of_files)]:
             net.load_model(network_name)
             _, _, _, _, acc_list, ret_hist = net.validate(test_loader)
             hist += ret_hist
             acc += sum(acc_list)/len(test_loader)
-        hist /= 4
-        print('all answers: ', hist.astype(int))
-        pairs = list(zip(composers, hist[0]))
-        top_three = sorted(pairs, key=lambda p: p[1], reverse=True)[:3]
-        print([composer for composer, _ in top_three])
+
         composers_accuracies.append(acc / 4)
+
+        hist /= 4
+        hist = hist[0]
+        pairs = list(zip(composers, hist))
+        top_three = sorted(pairs, key=lambda p: p[1], reverse=True)[:3]
+
+        print("{}\t{}\t{}".format(composer, acc / 4,
+                                  ",".join(["{}({}%)".format(composer, amount/sum(hist)) for composer, amount in top_three])))
 
     print('\n')
     for name, accuracy in zip(composers, composers_accuracies):
