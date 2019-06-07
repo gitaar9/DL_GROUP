@@ -116,7 +116,7 @@ if __name__ == '__main__':
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
+    # block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
     # file_name = "lstm_cnn_test_precision8_{}_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout, block_config_string)
     # file_name += date.today().strftime("_%b_%-d_%H")
     # filename = format_filename('lstm_cnn_test_precision8',)
