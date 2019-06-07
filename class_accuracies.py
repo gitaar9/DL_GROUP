@@ -91,7 +91,7 @@ if __name__ == '__main__':
         top_three = sorted(pairs, key=lambda p: p[1], reverse=True)[:3]
 
         print("{}\t{}\t{}".format(composer, acc / 4,
-                                  ",".join(["{}({}%)".format(composer, amount/sum(hist)) for composer, amount in top_three])))
+                                  ",".join(["%s(%0.2f" % (composer, amount/sum(hist)) + "%)" for composer, amount in top_three])))
 
     print('\n')
     for name, accuracy in zip(composers, composers_accuracies):
