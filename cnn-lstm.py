@@ -150,6 +150,7 @@ def parse_arguments():
 
 
 if __name__ == '__main__':
+    saved_results_path = "diego-cnn-lstm"
     epochs, num_lstm_layers, lstm_hidden_size, dropout, lstm_input_size = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
@@ -163,6 +164,7 @@ if __name__ == '__main__':
     cv = CrossValidator(
         model_class=OurCnnLstm,
         file_name=file_name,
+        folder=saved_results_path,
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
