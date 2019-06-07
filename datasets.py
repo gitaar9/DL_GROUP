@@ -36,14 +36,14 @@ class MidiClassicMusic(Dataset):
         self.add_noise = add_noise
         self.unsqueeze = unsqueeze
 
-        if self.mode != Mode.TRAIN:
-            self.songs_to_simple_dataset_for_validations()
+        # if self.mode != Mode.TRAIN:
+        self.songs_to_simple_dataset_for_validations(step_size=None if self.mode != mode.TRAIN else 2)
 
     def __len__(self):
-        if self.mode == Mode.TRAIN:
-            return 4000
-        else:
-            return len(self.validation_labels)
+        # if self.mode == Mode.TRAIN:
+        #     return 4000
+        # else:
+        return len(self.validation_labels)
 
     @staticmethod
     def get_song_slices(composer_array, song_idxs, song_idx):
@@ -74,10 +74,10 @@ class MidiClassicMusic(Dataset):
         return torch_data, self.validation_labels[index]
 
     def __getitem__(self, index):
-        if self.mode == Mode.TRAIN:
-            torch_data, label = self.get_train_item(index)
-        else:
-            torch_data, label = self.get_validation_item(index)
+        # if self.mode == Mode.TRAIN:
+        #     torch_data, label = self.get_train_item(index)
+        # else:
+        torch_data, label = self.get_validation_item(index)
 
         if self.unsqueeze:
             torch_data = torch_data.unsqueeze(0)
@@ -86,7 +86,6 @@ class MidiClassicMusic(Dataset):
 
     def load_npy_files(self, folder_path, cv_cycle):
         data_filenames = ["{}_data.npy".format(composer) for composer in self.composers]
-        # data_filenames = [f for f in os.listdir(folder_path) if f.endswith("_data.npy")]
         data_array = []
         song_idxs_array = []
 
@@ -125,8 +124,9 @@ class MidiClassicMusic(Dataset):
 
         return data_array, song_idxs_array
 
-    def songs_to_simple_dataset_for_validations(self):
+    def songs_to_simple_dataset_for_validations(self, step_size=None):
         # For validation data we keep it a little bit simpler
+        step_size = step_size or int(self.slices / 8)
         validation_data = []
         self.validation_labels = []
         for composer_idx, song_idxs in enumerate(self.song_idxs_array):
@@ -136,7 +136,7 @@ class MidiClassicMusic(Dataset):
                 while (slice_idx + self.slices) < length:
                     validation_data.append(np.concatenate(song_slices[slice_idx:slice_idx + self.slices], axis=1))
                     self.validation_labels.append(composer_idx)
-                    slice_idx += int(self.slices / 8)
+                    slice_idx += step_size
         self.data_array = np.array(validation_data)
 
     def find_to_small_song(self, songs, song_idxs):

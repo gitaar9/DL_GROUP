@@ -10,7 +10,7 @@ from datasets import MidiClassicMusic, Mode
 
 
 class BaseNet:
-    def __init__(self, epochs, composers, batch_size=100, optimizer='Adadelta', verbose=True, cv_cycle=0):
+    def __init__(self, epochs, composers, save_path, batch_size=100, optimizer='Adadelta', verbose=True, cv_cycle=0):
         """
         :param epochs: The amount of epochs this network will be trained for when run() is called
         :param composers: The names of the composers that should be loaded as dataset
@@ -37,6 +37,7 @@ class BaseNet:
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.cuda_available = torch.cuda.is_available()
         self.verbose = verbose
+        self.save_path = save_path
 
     def get_data_loaders(self, batch_size, cv_cyle):
         print("Loading datasets")
@@ -131,18 +132,26 @@ class BaseNet:
         val_batches = len(self.val_loader)
         test_batches = len(self.test_loader)
         print("batches: {}, val_batches: {}, test_batches: {}".format(batches, val_batches, test_batches))
+        best_val_accuracy = 0
+        current_test_accuracy = 0
 
         for epoch in range(self.epochs):
             total_loss = self.train()
             val_losses, precision, recall, f1, accuracy = self.validate(self.val_loader)
-            _, _, _, _, test_accuracy = self.validate(self.test_loader)
+
+            if sum(accuracy) / val_batches > best_val_accuracy:
+                best_val_accuracy = sum(accuracy) / val_batches
+                self.save_model(self.save_path)
+                _, _, _, _, test_accuracy = self.validate(self.test_loader)
+                current_test_accuracy = sum(test_accuracy) / test_batches
 
             print(f"Epoch {epoch+1}/{self.epochs}, training loss: {total_loss/batches}, validation loss: {val_losses/val_batches}")
             self.print_scores(precision, recall, f1, accuracy, val_batches)
-            print(f"\t{'test accuracy'.rjust(14, ' ')}: {sum(test_accuracy)/test_batches:.4f}")
+            print(f"\t{'current test accuracy'.rjust(14, ' ')}: {current_test_accuracy:.4f}")
+
             metrics.append((total_loss / batches, val_losses / val_batches, sum(precision) / val_batches,
                             sum(recall) / val_batches, sum(f1) / val_batches, sum(accuracy) / val_batches,
-                            sum(test_accuracy) / test_batches))  # for plotting learning curve
+                            current_test_accuracy))  # for plotting learning curve
 
         print(f"Training time: {time.time()-start_ts}s")
         return metrics
@@ -178,9 +187,9 @@ class BaseNet:
 
     def save_model(self, path):
         torch.save(self.model.state_dict(), path)
-        for name, module in self.model.named_modules():
-            if name == 'lstm':
-                torch.save(module.state_dict(), path + "_only_lstm")
+        # for name, module in self.model.named_modules():
+        #     if name == 'lstm':
+        #         torch.save(module.state_dict(), path + "_only_lstm")
 
     def load_model(self, path):
         self.model.load_state_dict(torch.load(path), strict=False)
