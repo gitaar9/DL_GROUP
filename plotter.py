@@ -69,7 +69,7 @@ def plot_multiple_loss(list_of_averages, legend_names, colors=None):
 
 def print_summary(filenames, amount_of_files):
     # Print final accuracies + stds
-    print("\t\t\t\t\ttraining_loss\tvalidation_loss\tprecision\trecall\t\tf1\t\taccuracy\ttest_accuracy\tbest")
+    print("\t\t\t\t\t\t\ttraining_loss\tvalidation_loss\tprecision\trecall\t\tf1\t\taccuracy\ttest_accuracy\tbest")
     averages_and_stds = [read_in_files_to_average(filename, amount_of_files) for filename in filenames]
     filenames = map(lambda f: f.replace('advanced_lstm_test', 'a_lstm'), filenames)
     for filename, (averages, stds) in zip(filenames, averages_and_stds):
