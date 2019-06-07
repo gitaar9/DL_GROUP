@@ -93,8 +93,8 @@ if __name__ == '__main__':
         print("%s\t%s%0.2f\t%s" % (composer, "\t" if len(composer) < 8 else "", (acc / 4) * 100,
                                    ", ".join(["%s(%0.2f" % (composer, (amount/sum(hist)) * 100) + "%)" for composer, amount in top_three])))
 
-    print('\n')
-    for name, accuracy in zip(composers, composers_accuracies):
-        print("{}: {}".format(name, accuracy))
-
-    print("Overall accuracy {}".format(sum(composers_accuracies)/len(composers)))
+    # print('\n')
+    # for name, accuracy in zip(composers, composers_accuracies):
+    #     print("{}: {}".format(name, accuracy))
+    #
+    # print("Overall accuracy {}".format(sum(composers_accuracies)/len(composers)))
