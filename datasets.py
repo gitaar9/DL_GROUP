@@ -37,7 +37,7 @@ class MidiClassicMusic(Dataset):
         self.unsqueeze = unsqueeze
 
         # if self.mode != Mode.TRAIN:
-        self.songs_to_simple_dataset_for_validations(step_size=None if self.mode != mode.TRAIN else 1)
+        self.songs_to_simple_dataset_for_validations(step_size=int(self.slices / 8) if self.mode != mode.TRAIN else 1)
 
     def __len__(self):
         # if self.mode == Mode.TRAIN:
@@ -124,9 +124,8 @@ class MidiClassicMusic(Dataset):
 
         return data_array, song_idxs_array
 
-    def songs_to_simple_dataset_for_validations(self, step_size=None):
+    def songs_to_simple_dataset_for_validations(self, step_size):
         # For validation data we keep it a little bit simpler
-        step_size = step_size or int(self.slices / 8)
         validation_data = []
         self.validation_labels = []
         for composer_idx, song_idxs in enumerate(self.song_idxs_array):
