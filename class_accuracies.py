@@ -26,14 +26,13 @@ if __name__ == '__main__':
     net = OurDenseNet(epochs=1, save_path="-", num_classes=11, batch_size=100, composers=['Brahms'])
 
     composers_accuracies = []
-    for composer in composers:
+    for label, composer in enumerate(composers):
         print("Getting accuracy for {}".format(composer))
         acc = 0
         test_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TEST, slices=40,
-                             composers=[composer],
-                             cv_cycle=0),
-            batch_size=100,
+                             composers=[composer], cv_cycle=0, always_same_label=label),
+            batch_size=10,
             shuffle=False
         )
         print("size of testset: {}".format(len(test_loader)))
