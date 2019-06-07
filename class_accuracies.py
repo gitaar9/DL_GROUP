@@ -65,7 +65,7 @@ if __name__ == '__main__':
     net = CurrentNetwork(epochs=1, save_path="-", num_classes=11, batch_size=100, composers=['Brahms'])
 
     composers_accuracies = []
-    print('Composer\tAcc\tTop three')
+    print('Name\tAcc\tTop three')
     for label, composer in enumerate(composers):
         acc = 0
         test_loader = DataLoader(
@@ -90,8 +90,8 @@ if __name__ == '__main__':
         pairs = list(zip(composers, hist))
         top_three = sorted(pairs, key=lambda p: p[1], reverse=True)[:3]
 
-        print("{}\t{}\t{}".format(composer, acc / 4,
-                                  ",".join(["%s(%0.2f" % (composer, amount/sum(hist)) + "%)" for composer, amount in top_three])))
+        print("%s\t%0.2f\t%s" % (composer, acc / 4,
+                                 ", ".join(["%s(%0.2f" % (composer, amount/sum(hist)) + "%)" for composer, amount in top_three])))
 
     print('\n')
     for name, accuracy in zip(composers, composers_accuracies):
