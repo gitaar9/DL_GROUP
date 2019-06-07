@@ -39,8 +39,8 @@ def plot_multiple_accuracies(list_of_averages, legend_names, colors=None):
     for idx, averages in enumerate(list_of_averages):
         plt.plot(averages[:, 5], colors[idx], label=legend_names[idx])
         if averages.shape[1] > 6:
-            # plt.plot(averages[:, 6], colors[idx], linestyle='--')
-            plt.plot(averages[:, 7], colors[idx], linestyle=':')
+            plt.plot(averages[:, 6], colors[idx], linestyle='--')
+            # plt.plot(averages[:, 7], colors[idx], linestyle=':')
     plt.ylabel('Accuracy (%)')
     plt.xlabel('Epochs')
     plt.xlim([-1, max([avg.shape[0] for avg in list_of_averages])])
