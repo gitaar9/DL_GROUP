@@ -46,8 +46,8 @@ class LSTM(nn.Module):
         x = x.permute(0, 2, 1)
 
         # Set initial states <-- This might be unnecessary
-        h0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device))
-        c0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device))
+        h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device)
+        c0 = torch.zeros(self.num_layers, x.size(0), self.hidden_size).to(self.device)
 
         # Forward propagate RNN
         x, _ = self.lstm(x, (h0, c0))
@@ -125,7 +125,7 @@ if __name__ == '__main__':
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    file_name = "lstm_test_precision8_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
+    file_name = "lstm_test_precision8_adam_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
 
     cv = CrossValidator(
         model_class=OurLSTM,

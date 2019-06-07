@@ -8,16 +8,53 @@ from torch.utils.data import DataLoader
 from cross_validator import CrossValidator
 from datasets import Mode, MidiClassicMusic
 from networks import BaseNet
-from stupid_overwrites import DenseNet as BaseDenseNet
+from stupid_overwrites import DenseNet
+from util import format_filename
 
 
-class DenseNet(BaseDenseNet):
+class PretrainedDenseNet(DenseNet):
+
+    def __init__(self, *args, **kwargs):
+        num_classes = kwargs.pop('num_classes', 11)
+        pretrained = kwargs.pop('pretrained', False)
+        kwargs['num_classes'] = 18
+        super().__init__(*args, **kwargs)
+
+        # Load pretrained network
+        if pretrained:
+            self.load_state_dict(torch.load('pretrained_models/densenet_test_precision8_75_adadelta'))
+
+        self.classifier = nn.Linear(self.output_size, num_classes)
+
+
+class PretrainedDenseNetWithoutFC(PretrainedDenseNet):
+    """
+    Overwrite of Densenet that doesnt have a fully connected layer, so this just always has outputsize 1024.
+    """
     def forward(self, x):
         # Overwrite densenet to not use its classifier
         features = self.features(x)
         out = F.relu(features, inplace=True)
         out = F.adaptive_avg_pool2d(out, (1, 1)).view(features.size(0), -1)
         return out
+
+
+class PretrainedLSTM(nn.LSTM):
+    """This only works with 2 layers of 256 nodes"""
+    def __init__(self, *args, **kwargs):
+        pretrained = kwargs.pop('pretrained', False)
+        if pretrained:
+            nl = kwargs['num_layers']
+            hs = kwargs['hidden_size']
+        super().__init__(*args, **kwargs)
+
+        # Load pretrained network
+        if pretrained:
+            path = 'pretrained_models/advanced_lstm_test_precision8_75_Adadelta_{}_{}_0.8_20_only_lstm'.format(nl, hs)
+            try:
+                self.load_state_dict(torch.load(path))
+            except:
+                raise Exception('Didnt find pretrained model')
 
 
 # Parallel CNN LSTM Model from the Acoustic Scenes Classification paper(with densenet though)
@@ -30,11 +67,13 @@ class ParallelCNNLSTM(nn.Module):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # The LSTM layers
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
+        self.lstm = PretrainedLSTM(input_size, hidden_size=hidden_size, num_layers=num_layers, dropout=dropout,
+                                   batch_first=True, pretrained=True)
         self.add_module('lstm', self.lstm)
 
         # Dense net
-        self.dense_net = DenseNet(num_init_features=64, growth_rate=32, block_config=(6, 12, 24, 16))
+        self.dense_net = PretrainedDenseNetWithoutFC(num_init_features=64, growth_rate=32, block_config=(6, 12, 24, 16),
+                                                     num_classes=num_classes, pretrained=True)
         self.add_module('dense_net', self.dense_net)
 
         # Fully connected layer 1
@@ -50,9 +89,8 @@ class ParallelCNNLSTM(nn.Module):
         self.add_module('fc3', self.fc3)
 
     def forward(self, input):
-        ### LSTM FORWARDING PART ###
-        # Put the input in the right order
-        lstm_activation = input.permute(0, 2, 1)
+        # LSTM FORWARDING PART
+        lstm_activation = input.permute(0, 2, 1)  # Put the input in the right order (batch, sequence, elements)
 
         # Set initial states <-- This might be unnecessary
         h0 = torch.zeros(self.num_layers, lstm_activation.size(0), self.hidden_size).to(self.device)
@@ -64,11 +102,11 @@ class ParallelCNNLSTM(nn.Module):
 
         lstm_activation = lstm_activation[:, -1, :]  # Use output for last timestep only
 
-        ### DENSENET FORWARDING PART ###
+        # DENSENET FORWARDING PART
         densenet_activation = input.unsqueeze(1)
         densenet_activation = self.dense_net(densenet_activation)
 
-        ### FULLY CONNECTED PART ###
+        # FULLY CONNECTED PART
         x = torch.cat((lstm_activation, densenet_activation), dim=1)  # Concatenate the two outputs
 
         x = self.fc1(x)
@@ -138,12 +176,13 @@ def parse_arguments():
 
 
 if __name__ == '__main__':
-    epochs, num_layers, hidden_size, dropout = parse_arguments()
+    arguments = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    file_name = "parallel_cnn_lstm_test_precision8_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout)
+    file_name = format_filename("parallel_cnn_lstm_test_precision8", ("precision8", ) + arguments)
 
+    epochs, num_layers, hidden_size, dropout = arguments
     cv = CrossValidator(
         model_class=OurParallelCNNLSTM,
         file_name=file_name,

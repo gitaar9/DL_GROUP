@@ -42,6 +42,14 @@ https://pdfs.semanticscholar.org/4e7d/ad845bd9e1d399bf729724442cb7404549d1.pdf?_
 Multivariate LSTM-FCNs for Time Series Classification:
 https://paperswithcode.com/paper/multivariate-lstm-fcns-for-time-series
 
+# Interesting trying - LSTM-CNN model
+
+He tried sentiment analysis using CNN-LSTM / LSTM-CNN models.
+His results represents LSTM-CNN model has the best performance.
+
+https://www.academia.edu/35947062/Twitter_Sentiment_Analysis_using_combined_LSTM-CNN_Models
+
+
 # How to run on peregrine
 1. create a venv folder in root directory ./
 2. clone the DL_GROUP in root direcrtory or atleast at the same level as the venv(this is important for the jobscripts to activate the venv)
