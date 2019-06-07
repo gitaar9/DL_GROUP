@@ -10,4 +10,4 @@ ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u cnn-lstm.py --epochs 400 --dropout 0.8
+python -u cnn-lstm.py --epochs 400 --dropout 0.5
