@@ -17,9 +17,10 @@ class MidiClassicMusic(Dataset):
     """
     MidiClassicMusic dataset for PyTorch
     """
-    def __init__(self, folder_path="./data/midi_files_npy_8_40", composers=['Brahms'], mode=Mode.TRAIN, slices=7, add_noise=True, unsqueeze=True, cv_cycle=0):
+    def __init__(self, folder_path="./data/midi_files_npy_8_40", run_type='composers', composers=['Brahms'], mode=Mode.TRAIN, slices=7, add_noise=True, unsqueeze=True, cv_cycle=0):
         """
         :param folder_path: The folder in which the .npy files can be found
+        :param run_type: The way the classifier will be trained  composers/era/country/year
         :param composers: A list of names of composers that should be loaded
         :param mode: How this dataset is used train/validation/test
         :param slices: The amount of slices that should be concatenated for one data sample
@@ -35,7 +36,15 @@ class MidiClassicMusic(Dataset):
         self.data_array, self.song_idxs_array = self.load_npy_files(folder_path, cv_cycle)
         self.add_noise = add_noise
         self.unsqueeze = unsqueeze
-
+# -----------------------------------------------------------------------------------------------------
+        self.run_type = run_type
+        self.classes = []
+        if run_type != 'composers':
+            self.data_composers = np.loadtxt('./data/data_composers.csv', dtype= 'str', delimiter=',')
+            self.make_classes()
+        else:
+            self.classes = composers
+# -----------------------------------------------------------------------------------------------------
         if self.mode != Mode.TRAIN:
             self.songs_to_simple_dataset_for_validations()
 
@@ -81,8 +90,9 @@ class MidiClassicMusic(Dataset):
 
         if self.unsqueeze:
             torch_data = torch_data.unsqueeze(0)
-
-        return torch_data, label
+# -----------------------------------------------------------------------------------------------------
+        return torch_data, self.get_label(label)
+# -----------------------------------------------------------------------------------------------------
 
     def load_npy_files(self, folder_path, cv_cycle):
         data_filenames = ["{}_data.npy".format(composer) for composer in self.composers]
@@ -180,3 +190,38 @@ class MidiClassicMusic(Dataset):
                 nth_songs = nth_song if nth_songs is None else np.concatenate((nth_songs, nth_song))
                 songs, song_idxs = self.remove_song(idx, songs, song_idxs)
         return songs, song_idxs, nth_songs, np.array(nth_song_idxs)
+
+# -----------------------------------------------------------------------------------------------------
+    def get_label(self, composer_index):
+        if self.run_type == 'era':
+            return self.classes.index(self.composer_to_era(self.composers[composer_index]))
+        if self.run_type == 'country':
+            return self.classes.index(self.composer_to_country[self.composers(composer_index)])
+        if self.run_type == 'year':
+            return self.classes.index(self.composer_to_year[self.composers(composer_index)])
+        if self.run_type == 'composers':
+            return composer_index
+
+    def make_classes(self):
+        for composer in self.composers:
+            if self.run_type == 'era':
+                if self.classes.count(self.composer_to_era(composer)) == 0:
+                    self.classes.append(self.composer_to_era(composer))
+            if self.run_type == 'country':
+                if self.classes.count(self.composer_to_country(composer)) == 0:
+                    self.classes.append(self.composer_to_country(composer))
+
+    def composer_to_year(self, composer):
+        year = self.data_composers[np.where(self.data_composers[:, 0] == composer)][0, 1]
+        return year
+
+    def composer_to_era(self, composer):
+        era = self.data_composers[np.where(self.data_composers[:, 0] == composer)][0, 2]
+        return era
+
+    def composer_to_country(self, composer):
+        country = self.data_composers[np.where(self.data_composers[:, 0] == composer)][0, 3]
+        return country
+# -----------------------------------------------------------------------------------------------------
+
+

@@ -13,7 +13,7 @@ from stupid_overwrites import densenet121
 
 
 class BaseNet:
-    def __init__(self, epochs, composers, batch_size=100, optimizer='Adadelta', verbose=True, cv_cycle=0):
+    def __init__(self, epochs, composers, run_type= 'composers', batch_size=100, optimizer='Adadelta', verbose=True, cv_cycle=0):
         """
         :param epochs: The amount of epochs this network will be trained for when run() is called
         :param composers: The names of the composers that should be loaded as dataset
@@ -23,7 +23,9 @@ class BaseNet:
         :param cv_cycle: How many steps the dataset should be cycled for the cross-validation to work
         """
         self.epochs = epochs
-
+# -----------------------------------------------------------------------------------------------------
+        self.run_type = run_type
+# -----------------------------------------------------------------------------------------------------
         self.composers = composers
         print("Loading datasets")
         self.train_loader, self.val_loader, self.test_loader = self.get_data_loaders(batch_size, cv_cycle)
@@ -46,19 +48,19 @@ class BaseNet:
     def get_data_loaders(self, batch_size, cv_cyle):
         train_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TRAIN, slices=40, composers=self.composers,
-                             cv_cycle=cv_cyle),
+                             run_type=self.run_type, cv_cycle=cv_cyle),
             batch_size=batch_size,
             shuffle=True
         )
         val_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.VALIDATION, slices=40,
-                             composers=self.composers, cv_cycle=cv_cyle),
+                             run_type=self.run_type, composers=self.composers, cv_cycle=cv_cyle),
             batch_size=batch_size,
             shuffle=False
         )
         test_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TEST, slices=40, composers=self.composers,
-                             cv_cycle=cv_cyle),
+                             run_type=self.run_type, cv_cycle=cv_cyle),
             batch_size=batch_size,
             shuffle=False
         )
