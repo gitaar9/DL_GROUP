@@ -1,5 +1,6 @@
 import argparse
 
+import numpy as np
 import torch
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 from torch.utils.data import DataLoader
@@ -41,8 +42,7 @@ class CurrentNetwork(OurDenseNet):
                     acc.append(
                         self.calculate_metric(metric, y.cpu(), predicted_classes.cpu())
                     )
-        print(hist)
-        return val_losses, precision, recall, f1, accuracy
+        return val_losses, precision, recall, f1, accuracy, np.array(hist)
 
 
 def parse_arguments():
@@ -75,12 +75,17 @@ if __name__ == '__main__':
             shuffle=False
         )
         print("size of testset: {}".format(len(test_loader)))
+        hist = np.zeros((1, 11))
         for network_name in ["best_models/{}_run{}".format(filename, file_number) for file_number in range(amount_of_files)]:
             net.load_model(network_name)
-            _, _, _, _, acc_list = net.validate(test_loader)
+            _, _, _, _, acc_list, ret_hist = net.validate(test_loader)
+            hist += ret_hist
             acc += sum(acc_list)/len(test_loader)
+        hist /= 4
+        print('all answers: ', hist)
         composers_accuracies.append(acc / 4)
 
+    print('\n')
     for name, accuracy in zip(composers, composers_accuracies):
         print("{}: {}".format(name, accuracy))
 
