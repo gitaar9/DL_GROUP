@@ -12,7 +12,7 @@ from stupid_overwrites import DenseNet
 from util import format_filename
 
 
-class PretrainedDenseNetWithoutFC(DenseNet):
+class PretrainedDenseNet(DenseNet):
     """
     Overwrite of Densenet that doesnt have a fully connected layer, so this just always has outputsize 1024.
     """
@@ -22,10 +22,15 @@ class PretrainedDenseNetWithoutFC(DenseNet):
         pretrained = kwargs.pop('pretrained', False)
         kwargs['num_classes'] = 18
         super().__init__(*args, **kwargs)
+
         # Load pretrained network
         if pretrained:
             self.load_state_dict(torch.load('pretrained_models/densenet_test_precision8_75_adadelta'))
 
+        self.classifier = nn.Linear(self.output_size, num_classes)
+
+
+class PretrainedDenseNetWithoutFC(PretrainedDenseNet):
     def forward(self, x):
         # Overwrite densenet to not use its classifier
         features = self.features(x)
@@ -42,10 +47,11 @@ class PretrainedLSTM(nn.LSTM):
             nl = kwargs['num_layers']
             hs = kwargs['hidden_size']
         super().__init__(*args, **kwargs)
+
         # Load pretrained network
         if pretrained:
+            path = 'pretrained_models/advanced_lstm_test_precision8_75_Adadelta_{}_{}_0.8_20_only_lstm'.format(nl, hs)
             try:
-                path = 'pretrained_models/advanced_lstm_test_precision8_75_Adadelta_{}_{}_0.8_20_only_lstm'.format(nl, hs)
                 self.load_state_dict(torch.load(path))
             except:
                 raise Exception('Didnt find pretrained model')
