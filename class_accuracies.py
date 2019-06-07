@@ -16,14 +16,20 @@ class CurrentNetwork(OurDenseNet):
         if self.cuda_available:
             self.model.cuda()
 
+        hist = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         with torch.no_grad():
             for i, data in enumerate(data_loader):
                 X, y = data[0].to(self.device), data[1].to(self.device)
 
                 outputs = self.model(X)  # this get's the prediction from the network
-                print(outputs.shape)
                 for output in outputs:
-                    print(output)
+                    max = -9999
+                    max_idx = -1
+                    for idx, node in enumerate(output):
+                        if node > max:
+                            max = node
+                            max_idx = idx
+                    hist[max_idx] += 1
 
                 val_losses += self.loss_function(outputs, y)
 
@@ -35,6 +41,7 @@ class CurrentNetwork(OurDenseNet):
                     acc.append(
                         self.calculate_metric(metric, y.cpu(), predicted_classes.cpu())
                     )
+        print(hist)
         return val_losses, precision, recall, f1, accuracy
 
 
