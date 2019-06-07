@@ -13,9 +13,6 @@ from util import format_filename
 
 
 class PretrainedDenseNet(DenseNet):
-    """
-    Overwrite of Densenet that doesnt have a fully connected layer, so this just always has outputsize 1024.
-    """
 
     def __init__(self, *args, **kwargs):
         num_classes = kwargs.pop('num_classes', 11)
@@ -31,6 +28,9 @@ class PretrainedDenseNet(DenseNet):
 
 
 class PretrainedDenseNetWithoutFC(PretrainedDenseNet):
+    """
+    Overwrite of Densenet that doesnt have a fully connected layer, so this just always has outputsize 1024.
+    """
     def forward(self, x):
         # Overwrite densenet to not use its classifier
         features = self.features(x)

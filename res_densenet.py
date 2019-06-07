@@ -43,8 +43,6 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description='Train a densenet.')
     parser.add_argument('--epochs', type=int, default=400,
                         help='The amount of epochs that the model will be trained.')
-    parser.add_argument('--feature_extract', default=False, action='store_true',
-                        help='When this argument is supplied feature extraction instead of fine-tuing is used.')
     parser.add_argument('--pretrain', default=False, action='store_true',
                         help='Use a pretrained model?.')
     parser.add_argument('--optimizer', type=str, default='Adadelta',
@@ -52,7 +50,7 @@ def parse_arguments():
 
     args = parser.parse_args()
 
-    return args.epochs, args.optimizer, args.feature_extract, args.pretrain
+    return args.epochs, args.optimizer, args.pretrain
 
 
 if __name__ == '__main__':
@@ -61,7 +59,7 @@ if __name__ == '__main__':
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
     file_name = format_filename("densenet_test", ("precision8",) + arguments)
 
-    epochs, optimizer, feature_extract, pretrain = arguments
+    epochs, optimizer, pretrain = arguments
     cv = CrossValidator(
         model_class=OurDenseNet,
         file_name=file_name,
@@ -69,7 +67,6 @@ if __name__ == '__main__':
         num_classes=len(composers),
         epochs=epochs,
         batch_size=100,
-        feature_extract=feature_extract,
         pretrained=pretrain,
         optimizer=optimizer,
         verbose=False
