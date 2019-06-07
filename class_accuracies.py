@@ -24,11 +24,13 @@ if __name__ == '__main__':
 
     composers_accuracies = []
     for composer in composers:
+        print("Getting accuracy for {}".format(composers))
         acc = 0
         net.change_data_loaders(batch_size=100, cv_cycle=0, composers=[composer])
         for network_name in ["best_models/{}_run{}".format(filename, file_number) for file_number in range(amount_of_files)]:
             net.load_model(network_name)
-            acc += net.validate(net.test_loader)
+            _, _, _, _, add_acc = net.validate(net.test_loader)
+            acc += add_acc
         composers_accuracies.append(acc / 4)
 
     for name, accuracy in zip(composers, composers_accuracies):
