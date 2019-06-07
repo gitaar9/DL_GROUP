@@ -82,7 +82,7 @@ if __name__ == '__main__':
             acc += sum(acc_list)/len(test_loader)
         hist /= 4
         print('all answers: ', hist.astype(int))
-        pairs = list(zip(composers, hist))
+        pairs = list(zip(composers, hist[0]))
         top_three = sorted(pairs, key=lambda p: p[1], reverse=True)[:3]
         print([composer for composer, _ in top_three])
         composers_accuracies.append(acc / 4)
