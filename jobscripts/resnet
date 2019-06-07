@@ -10,4 +10,4 @@ ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u res_densenet.py --epochs 10 --pretrain
+python -u res_densenet.py --epochs 4 --pretrain
