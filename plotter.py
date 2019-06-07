@@ -18,15 +18,8 @@ def read_in_file(filename):
 
 
 def read_in_files_to_average(filename, amount_of_files):
-    all_data = [read_in_file("{}_run{}".format(filename, file_number)) for file_number in range(amount_of_files)]
-
-    # u = E(x) / n
-    averages = sum(all_data) / amount_of_files
-
-    # std = sqrt( E((x - u)^2) / n)
-    stds = np.sqrt(sum(map(lambda d: np.square(d-averages), all_data)) / amount_of_files)
-
-    return averages, stds
+    all_data = np.array([read_in_file("{}_run{}".format(filename, file_number)) for file_number in range(amount_of_files)])
+    return np.average(all_data, axis=0), np.std(all_data, axis=0)
 
 
 def plot_collumns(list_of_metrics, collumns, y_label, legend_names, colors=None):
