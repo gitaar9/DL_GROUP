@@ -115,6 +115,7 @@ class BaseNet:
                 X, y = data[0].to(self.device), data[1].to(self.device)
 
                 outputs = self.model(X)  # this get's the prediction from the network
+                print(outputs.shape)
 
                 val_losses += self.loss_function(outputs, y)
 
