@@ -55,7 +55,7 @@ if __name__ == '__main__':
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Vivaldi', 'Clementi', 'Beethoven', 'Haendel',
                  'Bach', 'Chopin']
 
-    net = OurDenseNet(epochs=1, save_path="-", num_classes=11, batch_size=100, composers=['Brahms'])
+    net = CurrentNetwork(epochs=1, save_path="-", num_classes=11, batch_size=100, composers=['Brahms'])
 
     composers_accuracies = []
     for label, composer in enumerate(composers):
