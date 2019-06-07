@@ -104,11 +104,9 @@ def parse_arguments():
                         help='The amount of blocks in every lstm layer.')
     parser.add_argument('--dropout', type=float, default=.5,
                         help='The dropout rate after each lstm layer.')
-    parser.add_argument('--block_config', type=int, default=[2, 2], nargs='+',
-                        help='The configuration of the dense blocks.')
     args = parser.parse_args()
 
-    return args.epochs, args.num_layers, args.hidden_size, args.dropout, args.block_config
+    return args.epochs, args.num_layers, args.hidden_size, args.dropout
 
 
 if __name__ == '__main__':
@@ -116,12 +114,13 @@ if __name__ == '__main__':
     arguments = parse_arguments()
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    # block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
     # file_name = "lstm_cnn_test_precision8_{}_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout, block_config_string)
     # file_name += date.today().strftime("_%b_%-d_%H")
     # filename = format_filename('lstm_cnn_test_precision8',)
+
     file_name = format_filename("lstm_cnn_test_precision8", ("precision8",) + arguments)
-    epochs, num_layers, hidden_size = arguments
+    epochs, num_layers, hidden_size, dropout = arguments
+
     cv = CrossValidator(
         model_class=Our_lstm_cnn,
         file_name=file_name,
