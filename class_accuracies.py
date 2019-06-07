@@ -74,7 +74,6 @@ if __name__ == '__main__':
             batch_size=10,
             shuffle=False
         )
-        print("size of testset: {}".format(len(test_loader)))
         hist = np.zeros((1, 11))
         for network_name in ["best_models/{}_run{}".format(filename, file_number) for file_number in range(amount_of_files)]:
             net.load_model(network_name)
