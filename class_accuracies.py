@@ -81,7 +81,7 @@ if __name__ == '__main__':
             hist += ret_hist
             acc += sum(acc_list)/len(test_loader)
         hist /= 4
-        print('all answers: ', [int(h) for h in hist])
+        print('all answers: ', hist.astype(int))
         pairs = list(zip(composers, hist))
         top_three = sorted(pairs, key=lambda p: p[1], reverse=True)[:3]
         print([composer for composer, _ in top_three])
