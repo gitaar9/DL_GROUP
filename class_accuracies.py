@@ -29,8 +29,9 @@ if __name__ == '__main__':
         net.change_data_loaders(batch_size=100, cv_cycle=0, composers=[composer])
         for network_name in ["best_models/{}_run{}".format(filename, file_number) for file_number in range(amount_of_files)]:
             net.load_model(network_name)
-            _, _, _, _, add_acc = net.validate(net.test_loader)
-            acc += add_acc
+            _, _, _, _, acc_list = net.validate(net.test_loader)
+            print(acc_list)
+            acc += sum(acc_list)/len(net.test_loader)
         composers_accuracies.append(acc / 4)
 
     for name, accuracy in zip(composers, composers_accuracies):
