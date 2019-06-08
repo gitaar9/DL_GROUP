@@ -183,7 +183,7 @@ class BaseNet:
 
     @staticmethod
     def save_metrics(name, metrics):
-        path = Path(name)
+        path = Path(name).parent
         if not path.is_dir():
             path.mkdir(parents=True)
         with open(name, 'w') as f:
