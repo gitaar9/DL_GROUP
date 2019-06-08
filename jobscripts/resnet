@@ -3,11 +3,11 @@
 #SBATCH --time=60:55:00
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:v100:1
-#SBATCH --mem=16GB
+#SBATCH --mem=96GB
 
 ml Python/3.6.4-foss-2018a
 ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u res_densenet.py --epochs 400
+python -u res_densenet.py --epochs 30

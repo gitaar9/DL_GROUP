@@ -12,20 +12,25 @@ from stupid_overwrites import DenseNet
 from util import format_filename
 
 
-class PretrainedDenseNetWithoutFC(DenseNet):
-    """
-    Overwrite of Densenet that doesnt have a fully connected layer, so this just always has outputsize 1024.
-    """
+class PretrainedDenseNet(DenseNet):
 
     def __init__(self, *args, **kwargs):
         num_classes = kwargs.pop('num_classes', 11)
         pretrained = kwargs.pop('pretrained', False)
         kwargs['num_classes'] = 18
         super().__init__(*args, **kwargs)
+
         # Load pretrained network
         if pretrained:
             self.load_state_dict(torch.load('pretrained_models/densenet_test_precision8_75_adadelta'))
 
+        self.classifier = nn.Linear(self.output_size, num_classes)
+
+
+class PretrainedDenseNetWithoutFC(PretrainedDenseNet):
+    """
+    Overwrite of Densenet that doesnt have a fully connected layer, so this just always has outputsize 1024.
+    """
     def forward(self, x):
         # Overwrite densenet to not use its classifier
         features = self.features(x)
@@ -42,10 +47,11 @@ class PretrainedLSTM(nn.LSTM):
             nl = kwargs['num_layers']
             hs = kwargs['hidden_size']
         super().__init__(*args, **kwargs)
+
         # Load pretrained network
         if pretrained:
+            path = 'pretrained_models/advanced_lstm_test_precision8_75_Adadelta_{}_{}_0.8_20_only_lstm'.format(nl, hs)
             try:
-                path = 'pretrained_models/advanced_lstm_test_precision8_75_Adadelta_{}_{}_0.8_20_only_lstm'.format(nl, hs)
                 self.load_state_dict(torch.load(path))
             except:
                 raise Exception('Didnt find pretrained model')
@@ -172,14 +178,16 @@ def parse_arguments():
 if __name__ == '__main__':
     arguments = parse_arguments()
 
-    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
+    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Vivaldi', 'Clementi', 'Beethoven', 'Haendel',
+                 'Bach', 'Chopin']
 
-    file_name = format_filename("parallel_cnn_lstm_test_precision8", ("precision8", ) + arguments)
+    file_name = format_filename("parallel_cnn_lstm_11", arguments)
 
     epochs, num_layers, hidden_size, dropout = arguments
     cv = CrossValidator(
         model_class=OurParallelCNNLSTM,
         file_name=file_name,
+        folder='final_results',
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
