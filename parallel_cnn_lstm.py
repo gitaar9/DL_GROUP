@@ -178,14 +178,16 @@ def parse_arguments():
 if __name__ == '__main__':
     arguments = parse_arguments()
 
-    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
+    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Vivaldi', 'Clementi', 'Beethoven', 'Haendel',
+                 'Bach', 'Chopin']
 
-    file_name = format_filename("parallel_cnn_lstm_test_precision8", ("precision8", ) + arguments)
+    file_name = format_filename("parallel_cnn_lstm_11", arguments)
 
     epochs, num_layers, hidden_size, dropout = arguments
     cv = CrossValidator(
         model_class=OurParallelCNNLSTM,
         file_name=file_name,
+        folder='final_results',
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,

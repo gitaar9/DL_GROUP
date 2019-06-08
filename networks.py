@@ -62,12 +62,14 @@ class BaseNet:
         print("Done loading datasets")
         return train_loader, val_loader, test_loader
 
-    def change_data_loaders(self, batch_size, cv_cycle):
+    def change_data_loaders(self, batch_size, cv_cycle, composers=None):
         del self.train_loader
         del self.val_loader
         del self.test_loader
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
+
+        self.composers = composers or self.composers
         self.train_loader, self.val_loader, self.test_loader = self.get_data_loaders(batch_size, cv_cycle)
 
     def freeze_all_layers(self):

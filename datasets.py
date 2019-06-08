@@ -17,7 +17,8 @@ class MidiClassicMusic(Dataset):
     """
     MidiClassicMusic dataset for PyTorch
     """
-    def __init__(self, folder_path="./data/midi_files_npy_8_40", composers=['Brahms'], mode=Mode.TRAIN, slices=7, add_noise=True, unsqueeze=True, cv_cycle=0):
+    def __init__(self, always_same_label= None, folder_path="./data/midi_files_npy_8_40", composers=['Brahms'],
+                 mode=Mode.TRAIN, slices=7, add_noise=True, unsqueeze=True, cv_cycle=0):
         """
         :param folder_path: The folder in which the .npy files can be found
         :param composers: A list of names of composers that should be loaded
@@ -35,9 +36,10 @@ class MidiClassicMusic(Dataset):
         self.data_array, self.song_idxs_array = self.load_npy_files(folder_path, cv_cycle)
         self.add_noise = add_noise
         self.unsqueeze = unsqueeze
+        self.always_same_label = always_same_label
 
         # if self.mode != Mode.TRAIN:
-        self.songs_to_simple_dataset_for_validations(step_size=None if self.mode != mode.TRAIN else 1)
+        self.songs_to_simple_dataset_for_validations(step_size=int(self.slices / 8) if self.mode != mode.TRAIN else 1)
 
     def __len__(self):
         # if self.mode == Mode.TRAIN:
@@ -82,7 +84,7 @@ class MidiClassicMusic(Dataset):
         if self.unsqueeze:
             torch_data = torch_data.unsqueeze(0)
 
-        return torch_data, label
+        return torch_data, self.always_same_label if self.always_same_label else label
 
     def load_npy_files(self, folder_path, cv_cycle):
         data_filenames = ["{}_data.npy".format(composer) for composer in self.composers]
@@ -124,9 +126,8 @@ class MidiClassicMusic(Dataset):
 
         return data_array, song_idxs_array
 
-    def songs_to_simple_dataset_for_validations(self, step_size=None):
+    def songs_to_simple_dataset_for_validations(self, step_size):
         # For validation data we keep it a little bit simpler
-        step_size = step_size or int(self.slices / 8)
         validation_data = []
         self.validation_labels = []
         for composer_idx, song_idxs in enumerate(self.song_idxs_array):
