@@ -1,5 +1,6 @@
 import inspect
 import time
+from pathlib import Path
 
 import torch
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
@@ -182,6 +183,9 @@ class BaseNet:
 
     @staticmethod
     def save_metrics(name, metrics):
+        path = Path(name)
+        if not path.is_dir():
+            path.mkdir(parents=True)
         with open(name, 'w') as f:
             f.write('training_loss,validation_loss,precision,recall,f1,accuracy,test_accuracy\n')
             for training_loss, validation_loss, precision, recall, f1, accuracy, test_accuracy in metrics:
