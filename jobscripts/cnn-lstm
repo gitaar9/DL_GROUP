@@ -12,4 +12,4 @@ python -m venv ../venv
 source ../venv/bin/activate
 pip install -r requirements.txt
 
-python -u cnn-lstm.py --epochs 30 --dropout 0.5
+python -u cnn-lstm.py --epochs 30 --dropout 0.5 --n_chunks 20 --lstm_input_size 64 --lstm_hidden_size 256
