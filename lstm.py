@@ -140,7 +140,7 @@ if __name__ == '__main__':
     file_name = format_filename("lstm_11", arguments)
 
     # Unpack the commandline arguments for use
-    epochs, optimizer, num_layers, hidden_size, dropout, chunks, pretrain = arguments
+    epochs, num_layers, hidden_size, dropout, pretrain = arguments
 
     cv = CrossValidator(
         model_class=OurLSTM,
