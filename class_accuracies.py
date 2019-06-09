@@ -101,7 +101,7 @@ if __name__ == '__main__':
         print("%s\t%s%0.2f\t%s" % (composer, "\t" if len(composer) < 8 else "", (hist[label] / sum(hist)) * 100,
                                    top_three_string(composers, hist)))
 
-    print("\nAll\t\t%s\t%s" % ("{}%".format(score[0] / score[1] * 100), top_three_string(composers, total_hist)))
+    print("\nAll\t\t%s\t%s" % ("%0.2f" % (score[0] / score[1] * 100) + "%", top_three_string(composers, total_hist)))
 
     # print('\n')
     # for name, accuracy in zip(composers, composers_accuracies):
