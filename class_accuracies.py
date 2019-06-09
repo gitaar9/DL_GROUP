@@ -91,20 +91,14 @@ if __name__ == '__main__':
             acc += sum(acc_list)/len(test_loader)
 
         if label == 0:  # Only to get it under the stupid warnings
-            print('\nComposer\tAcc\tTop three')
+            print('\nComposer\tAccuracy\tTop three')
 
         composers_accuracies.append(acc / 4)
         score[0] += hist[label]
         score[1] += sum(hist)
         total_hist += hist
 
-        print("%s\t%s%0.2f\t%s" % (composer, "\t" if len(composer) < 8 else "", (hist[label] / sum(hist)) * 100,
-                                   top_three_string(composers, hist)))
+        print("%s\t%s%s\t\t%s" % (composer, "\t" if len(composer) < 8 else "",
+                                "%0.2f" % ((hist[label] / sum(hist)) * 100) + "%", top_three_string(composers, hist)))
 
-    print("\nAll\t\t%s\t%s" % ("%0.2f" % (score[0] / score[1] * 100) + "%", top_three_string(composers, total_hist)))
-
-    # print('\n')
-    # for name, accuracy in zip(composers, composers_accuracies):
-    #     print("{}: {}".format(name, accuracy))
-    #
-    # print("Overall accuracy {}".format(sum(composers_accuracies)/len(composers)))
+    print("\nAll\t\t%s\t\t%s" % ("%0.2f" % (score[0] / score[1] * 100) + "%", top_three_string(composers, total_hist)))
