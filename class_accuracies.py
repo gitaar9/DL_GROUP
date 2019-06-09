@@ -45,6 +45,12 @@ class CurrentNetwork(OurDenseNet):
         return val_losses, precision, recall, f1, accuracy, np.array(hist)
 
 
+def top_three_string(composers, hist):
+    pairs = list(zip(composers, hist))
+    top_three = sorted(pairs, key=lambda p: p[1], reverse=True)[:3]
+    return ", ".join(["%s(%0.2f" % (composer, (amount/sum(hist)) * 100) + "%)" for composer, amount in top_three])
+
+
 def parse_arguments():
     parser = argparse.ArgumentParser(description='FILL IN LATER')
     parser.add_argument('filename', type=str,
@@ -75,7 +81,7 @@ if __name__ == '__main__':
             shuffle=False
         )
 
-        hist = np.zeros((1, 11))
+        hist = np.zeros(11)
 
         for network_name in ["best_models/{}_run{}".format(filename, file_number) for file_number in range(amount_of_files)]:
             net.load_model(network_name)
@@ -86,12 +92,9 @@ if __name__ == '__main__':
         composers_accuracies.append(acc / 4)
 
         hist /= 4
-        hist = hist[0]
-        pairs = list(zip(composers, hist))
-        top_three = sorted(pairs, key=lambda p: p[1], reverse=True)[:3]
 
         print("%s\t%s%0.2f\t%s" % (composer, "\t" if len(composer) < 8 else "", (acc / 4) * 100,
-                                   ", ".join(["%s(%0.2f" % (composer, (amount/sum(hist)) * 100) + "%)" for composer, amount in top_three])))
+                                   top_three_string(composer, hist)))
 
     # print('\n')
     # for name, accuracy in zip(composers, composers_accuracies):
