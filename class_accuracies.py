@@ -71,6 +71,8 @@ if __name__ == '__main__':
     net = CurrentNetwork(epochs=1, save_path="-", num_classes=11, batch_size=100, composers=['Brahms'])
 
     composers_accuracies = []
+    total_hist = np.zeros(11)
+    score = (0, 0)
     print('Composer\tAcc\tTop three')
     for label, composer in enumerate(composers):
         test_loader = DataLoader(
@@ -90,12 +92,13 @@ if __name__ == '__main__':
             acc += sum(acc_list)/len(test_loader)
 
         composers_accuracies.append(acc / 4)
-
-        print(hist)
-        hist /= 4
+        score += (hist[label], sum(hist))
+        total_hist += hist
 
         print("%s\t%s%0.2f\t%s" % (composer, "\t" if len(composer) < 8 else "", (acc / 4) * 100,
                                    top_three_string(composers, hist)))
+
+    print("All\t\t%s\t%s" % ("{}%".format(score[0] / score[1] * 100), top_three_string(composers, total_hist)))
 
     # print('\n')
     # for name, accuracy in zip(composers, composers_accuracies):
