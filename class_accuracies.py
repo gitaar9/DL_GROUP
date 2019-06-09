@@ -73,7 +73,6 @@ if __name__ == '__main__':
     composers_accuracies = []
     print('Composer\tAcc\tTop three')
     for label, composer in enumerate(composers):
-        acc = 0
         test_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TEST, slices=40,
                              composers=[composer], cv_cycle=0, always_same_label=label),
@@ -82,6 +81,7 @@ if __name__ == '__main__':
         )
 
         hist = np.zeros(11)
+        acc = 0
 
         for network_name in ["best_models/{}_run{}".format(filename, file_number) for file_number in range(amount_of_files)]:
             net.load_model(network_name)
@@ -91,10 +91,11 @@ if __name__ == '__main__':
 
         composers_accuracies.append(acc / 4)
 
+        print(hist)
         hist /= 4
 
         print("%s\t%s%0.2f\t%s" % (composer, "\t" if len(composer) < 8 else "", (acc / 4) * 100,
-                                   top_three_string(composer, hist)))
+                                   top_three_string(composers, hist)))
 
     # print('\n')
     # for name, accuracy in zip(composers, composers_accuracies):
