@@ -92,10 +92,11 @@ if __name__ == '__main__':
             acc += sum(acc_list)/len(test_loader)
 
         composers_accuracies.append(acc / 4)
-        score += (hist[label], sum(hist))
+        score[0] += hist[label]
+        score[1] += sum(hist)
         total_hist += hist
 
-        print("%s\t%s%0.2f\t%s" % (composer, "\t" if len(composer) < 8 else "", (acc / 4) * 100,
+        print("%s\t%s%0.2f\t%s" % (composer, "\t" if len(composer) < 8 else "", (hist[label] / sum(hist)) * 100,
                                    top_three_string(composers, hist)))
 
     print("All\t\t%s\t%s" % ("{}%".format(score[0] / score[1] * 100), top_three_string(composers, total_hist)))
