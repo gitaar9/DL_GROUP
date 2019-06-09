@@ -72,8 +72,7 @@ if __name__ == '__main__':
 
     composers_accuracies = []
     total_hist = np.zeros(11)
-    score = (0, 0)
-    print('Composer\tAcc\tTop three')
+    score = [0, 0]
     for label, composer in enumerate(composers):
         test_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TEST, slices=40,
@@ -91,6 +90,9 @@ if __name__ == '__main__':
             hist += ret_hist
             acc += sum(acc_list)/len(test_loader)
 
+        if label == 0:  # Only to get it under the stupid warnings
+            print('\nComposer\tAcc\tTop three')
+
         composers_accuracies.append(acc / 4)
         score[0] += hist[label]
         score[1] += sum(hist)
@@ -99,7 +101,7 @@ if __name__ == '__main__':
         print("%s\t%s%0.2f\t%s" % (composer, "\t" if len(composer) < 8 else "", (hist[label] / sum(hist)) * 100,
                                    top_three_string(composers, hist)))
 
-    print("All\t\t%s\t%s" % ("{}%".format(score[0] / score[1] * 100), top_three_string(composers, total_hist)))
+    print("\nAll\t\t%s\t%s" % ("{}%".format(score[0] / score[1] * 100), top_three_string(composers, total_hist)))
 
     # print('\n')
     # for name, accuracy in zip(composers, composers_accuracies):
