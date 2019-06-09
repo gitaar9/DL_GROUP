@@ -54,11 +54,12 @@ class SinglePassCnnLstmModel(nn.Module):
 
 class CnnLstmModel(nn.Module):
     def __init__(self, num_classes, input_size, cnn_pretrained, feature_extract,
-                 lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout):
+                 lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout, n_chunks):
         super().__init__()
         self.lstm_hidden_size = lstm_hidden_size
         self.num_lstm_layers = num_lstm_layers
         self.dropout = dropout
+        self.n_chunks = n_chunks
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.cnn_lstm = SinglePassCnnLstmModel(cnn_pretrained=cnn_pretrained,
@@ -92,8 +93,7 @@ class CnnLstmModel(nn.Module):
         c = torch.zeros(self.num_lstm_layers, x.size(0), self.lstm_hidden_size).to(self.device)
 
         # We divide the input data into chunks, then run them through the cnn_lstm model 1 by 1
-        n_chunks = 20
-        for chunk in torch.chunk(x, n_chunks, 3):
+        for chunk in torch.chunk(x, self.n_chunks, 3):
             output, (h, c) = self.cnn_lstm((chunk, (h, c)))
         # TODO: dropout should be here?
         # Dropout over the output of the lstm
@@ -112,7 +112,7 @@ class CnnLstmModel(nn.Module):
 class OurCnnLstm(BaseNet):
     def __init__(self, num_classes=10, input_size=72, cnn_pretrained=False,
                  feature_extract=False, lstm_input_size=512, lstm_hidden_size=256,
-                 num_lstm_layers=1, dropout=0.5, **kwargs):
+                 num_lstm_layers=1, dropout=0.5, n_chunks=20, **kwargs):
         # load the model
         self.model = CnnLstmModel(
             num_classes=num_classes,
@@ -122,7 +122,8 @@ class OurCnnLstm(BaseNet):
             lstm_input_size=lstm_input_size,
             lstm_hidden_size=lstm_hidden_size,
             num_lstm_layers=num_lstm_layers,
-            dropout=dropout
+            dropout=dropout,
+            n_chunks=n_chunks
         )
 
         super().__init__(**kwargs)
@@ -144,22 +145,25 @@ def parse_arguments():
     #                     help='If the CNN freezes the weights so no more training.')
     parser.add_argument('--lstm_input_size', type=int, default=512,
                         help='The output size of the CNN, as well as the input size of the LSTM.')
+    parser.add_argument('--n_chunks', type=int, default=20,
+                        help='The number of chunks that data will be divided into.')
     args = parser.parse_args()
 
-    return args.epochs, args.num_lstm_layers, args.lstm_hidden_size, args.dropout, args.lstm_input_size
+    return args.epochs, args.num_lstm_layers, args.lstm_hidden_size, args.dropout, args.lstm_input_size, args.n_chunks
 
 
 if __name__ == '__main__':
     saved_results_path = "diego-cnn-lstm"
-    epochs, num_lstm_layers, lstm_hidden_size, dropout, lstm_input_size = parse_arguments()
+    epochs, num_lstm_layers, lstm_hidden_size, dropout, lstm_input_size, n_chunks = parse_arguments()
 
     composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    file_name = "cnn_lstm_test_precision8_{}_{}_{}_{}_{}".format(epochs,
-                                                                 num_lstm_layers,
-                                                                 lstm_input_size,
-                                                                 lstm_hidden_size,
-                                                                 dropout)
+    file_name = "cnn_lstm_test_precision8_{}_{}_{}_{}_{}_{}".format(epochs,
+                                                                    n_chunks,
+                                                                    num_lstm_layers,
+                                                                    lstm_input_size,
+                                                                    lstm_hidden_size,
+                                                                    dropout)
 
     cv = CrossValidator(
         model_class=OurCnnLstm,
@@ -169,6 +173,7 @@ if __name__ == '__main__':
         num_classes=len(composers),
         epochs=epochs,
         batch_size=100,
+        n_chunks=n_chunks,
         num_lstm_layers=num_lstm_layers,
         lstm_hidden_size=lstm_hidden_size,
         dropout=dropout,
