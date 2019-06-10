@@ -10,4 +10,4 @@ ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u class_accuracies.py densenet_11_10_Adadelta_True_Jun_7 --amount_of_files 4
+python -u class_accuracies.py densenet_11_30_Adadelta_True_Jun_7 --amount_of_files 4

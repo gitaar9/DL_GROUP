@@ -45,6 +45,12 @@ class CurrentNetwork(OurDenseNet):
         return val_losses, precision, recall, f1, accuracy, np.array(hist)
 
 
+def top_three_string(composers, hist):
+    pairs = list(zip(composers, hist))
+    top_three = sorted(pairs, key=lambda p: p[1], reverse=True)[:3]
+    return ", ".join(["%s(%0.2f" % (composer, (amount/sum(hist)) * 100) + "%)" for composer, amount in top_three])
+
+
 def parse_arguments():
     parser = argparse.ArgumentParser(description='FILL IN LATER')
     parser.add_argument('filename', type=str,
@@ -65,9 +71,9 @@ if __name__ == '__main__':
     net = CurrentNetwork(epochs=1, save_path="-", num_classes=11, batch_size=100, composers=['Brahms'])
 
     composers_accuracies = []
-    print('Composer\tAcc\tTop three')
+    total_hist = np.zeros(11)
+    score = [0, 0]
     for label, composer in enumerate(composers):
-        acc = 0
         test_loader = DataLoader(
             MidiClassicMusic(folder_path="./data/midi_files_npy_8_40", mode=Mode.TEST, slices=40,
                              composers=[composer], cv_cycle=0, always_same_label=label),
@@ -75,7 +81,8 @@ if __name__ == '__main__':
             shuffle=False
         )
 
-        hist = np.zeros((1, 11))
+        hist = np.zeros(11)
+        acc = 0
 
         for network_name in ["best_models/{}_run{}".format(filename, file_number) for file_number in range(amount_of_files)]:
             net.load_model(network_name)
@@ -83,18 +90,15 @@ if __name__ == '__main__':
             hist += ret_hist
             acc += sum(acc_list)/len(test_loader)
 
+        if label == 0:  # Only to get it under the stupid warnings
+            print('\nComposer\tAccuracy\tTop three')
+
         composers_accuracies.append(acc / 4)
+        score[0] += hist[label]
+        score[1] += sum(hist)
+        total_hist += hist
 
-        hist /= 4
-        hist = hist[0]
-        pairs = list(zip(composers, hist))
-        top_three = sorted(pairs, key=lambda p: p[1], reverse=True)[:3]
+        print("%s\t%s%s\t\t%s" % (composer, "\t" if len(composer) < 8 else "",
+                                  "%0.2f" % ((hist[label] / sum(hist)) * 100) + "%", top_three_string(composers, hist)))
 
-        print("%s\t%s%0.2f\t%s" % (composer, "\t" if len(composer) < 8 else "", (acc / 4) * 100,
-                                   ", ".join(["%s(%0.2f" % (composer, (amount/sum(hist)) * 100) + "%)" for composer, amount in top_three])))
-
-    # print('\n')
-    # for name, accuracy in zip(composers, composers_accuracies):
-    #     print("{}: {}".format(name, accuracy))
-    #
-    # print("Overall accuracy {}".format(sum(composers_accuracies)/len(composers)))
+    print("\nAll\t\t%s\t\t%s" % ("%0.2f" % (score[0] / score[1] * 100) + "%", top_three_string(composers, total_hist)))
