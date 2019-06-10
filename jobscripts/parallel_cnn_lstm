@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#SBATCH --time=55:55:00
+#SBATCH --time=23:55:00
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:v100:1
-#SBATCH --mem=96GB
+#SBATCH --mem=100GB
 
 ml Python/3.6.4-foss-2018a
 ml CUDA/9.1.85
