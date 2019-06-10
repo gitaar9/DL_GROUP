@@ -99,6 +99,6 @@ if __name__ == '__main__':
         total_hist += hist
 
         print("%s\t%s%s\t\t%s" % (composer, "\t" if len(composer) < 8 else "",
-                                "%0.2f" % ((hist[label] / sum(hist)) * 100) + "%", top_three_string(composers, hist)))
+                                  "%0.2f" % ((hist[label] / sum(hist)) * 100) + "%", top_three_string(composers, hist)))
 
     print("\nAll\t\t%s\t\t%s" % ("%0.2f" % (score[0] / score[1] * 100) + "%", top_three_string(composers, total_hist)))
