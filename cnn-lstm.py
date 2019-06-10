@@ -7,6 +7,7 @@ import torchvision.models as models
 
 from cross_validator import CrossValidator
 from networks import BaseNet
+from util import format_filename
 
 
 class SinglePassCnnLstmModel(nn.Module):
@@ -149,21 +150,19 @@ def parse_arguments():
                         help='The number of chunks that data will be divided into.')
     args = parser.parse_args()
 
-    return args.epochs, args.num_lstm_layers, args.lstm_hidden_size, args.dropout, args.lstm_input_size, args.n_chunks
+    return args.epochs, args.n_chunks, args.num_lstm_layers, args.lstm_input_size, args.lstm_hidden_size, args.dropout
 
 
 if __name__ == '__main__':
+    arguments = parse_arguments()
+
     saved_results_path = "diego-cnn-lstm"
-    epochs, num_lstm_layers, lstm_hidden_size, dropout, lstm_input_size, n_chunks = parse_arguments()
+    epochs, n_chunks, num_lstm_layers, lstm_input_size, lstm_hidden_size, dropout = arguments
 
-    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
+    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Vivaldi',
+                 'Clementi', 'Beethoven', 'Haendel', 'Bach', 'Chopin']
 
-    file_name = "cnn_lstm_test_precision8_{}_{}_{}_{}_{}_{}".format(epochs,
-                                                                    n_chunks,
-                                                                    num_lstm_layers,
-                                                                    lstm_input_size,
-                                                                    lstm_hidden_size,
-                                                                    dropout)
+    file_name = format_filename("cnn_lstm_11", arguments)
 
     cv = CrossValidator(
         model_class=OurCnnLstm,
