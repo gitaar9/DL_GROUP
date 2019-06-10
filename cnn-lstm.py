@@ -17,7 +17,7 @@ class SinglePassCnnLstmModel(nn.Module):
         # We build the convolution network for our model.
         self.cnn_model = self.build_cnn(cnn_pretrained, feature_extract, lstm_input_size)
         # We build a LSTM network for our model.
-        self.lstm_model = nn.LSTM(lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout=dropout)
+        self.lstm_model = nn.LSTM(lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout=dropout, bidirectional=True)
 
         self.add_module('cnn', self.cnn_model)
         self.add_module('lstm', self.lstm_model)
