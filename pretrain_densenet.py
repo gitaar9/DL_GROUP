@@ -3,7 +3,7 @@ from res_densenet import OurDenseNet
 from util import format_filename
 
 
-epochs = 75
+epochs = 50
 batch_size = 100
 composers = ['Scarlatti', 'Rachmaninov', 'Grieg', 'Buxehude', 'Debussy', 'Albéniz', 'Schumann', 'German', 'Skriabin',
              'Tchaikovsky', 'Chaminade', 'Burgmuller', 'Paganini', 'Hummel', 'Czerny', 'Joplin', 'Liszt', 'Dvorak']
