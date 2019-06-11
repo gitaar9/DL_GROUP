@@ -25,6 +25,7 @@ def composer_with_at_least(folder_path, slices, songs, less_than_songs=999):
             qualified_composers.append(data_filename.split('_')[0])
             total_slices += qualified_slices
             total_songs += qualified_songs
+            print("{}: {} songs, {} slices".format(data_filename, qualified_songs, qualified_slices))
     return qualified_composers, total_slices, total_songs
 
 

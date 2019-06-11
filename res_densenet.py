@@ -29,7 +29,7 @@ class OurDenseNet(BaseNet):
         self.model = densenet121(pretrained=False, num_classes=18)
 
         if pretrained:
-            self.load_model('pretrained_models/densenet_test_precision8_75_adadelta')
+            self.load_model('pretrained_models/densenet_smaller_kernel_50')
 
         if feature_extract:
             self.freeze_all_layers()
