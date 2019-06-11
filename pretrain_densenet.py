@@ -8,7 +8,7 @@ batch_size = 100
 composers = ['Scarlatti', 'Rachmaninov', 'Grieg', 'Buxehude', 'Debussy', 'Albéniz', 'Schumann', 'German', 'Skriabin',
              'Tchaikovsky', 'Chaminade', 'Burgmuller', 'Paganini', 'Hummel', 'Czerny', 'Joplin', 'Liszt', 'Dvorak']
 
-file_name = format_filename("densenet_test", ("precision8", epochs, "adadelta"), add_date=False)
+file_name = format_filename("densenet_smaller_kernel", (epochs,), add_date=False)
 
 pretrainer = Pretrainer(
     model_class=OurDenseNet,
