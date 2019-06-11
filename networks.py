@@ -143,7 +143,8 @@ class BaseNet:
 
             if sum(accuracy) / val_batches > best_val_accuracy:
                 best_val_accuracy = sum(accuracy) / val_batches
-                self.save_model(self.save_path)
+                if self.save_path:
+                    self.save_model(self.save_path)
                 _, _, _, _, test_accuracy = self.validate(self.test_loader)
                 current_test_accuracy = sum(test_accuracy) / test_batches
 
