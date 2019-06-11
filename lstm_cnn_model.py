@@ -112,8 +112,8 @@ def parse_arguments():
 if __name__ == '__main__':
 
     arguments = parse_arguments()
-    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
-
+    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Vivaldi', 'Clementi', 'Beethoven', 'Haendel',
+                 'Bach', 'Chopin']
     # file_name = "lstm_cnn_test_precision8_{}_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout, block_config_string)
     # file_name += date.today().strftime("_%b_%-d_%H")
     # filename = format_filename('lstm_cnn_test_precision8',)
