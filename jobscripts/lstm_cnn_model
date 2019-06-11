@@ -10,4 +10,4 @@ ml CUDA/9.1.85
 
 source ../venv/bin/activate
 
-python -u lstm_cnn_model.py --num_layers 2 --hidden_size 128 --epochs 30 --dropout 0
+python -u lstm_cnn_model.py --num_layers 1 --hidden_size 128 --epochs 30 --dropout 0
