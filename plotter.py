@@ -18,8 +18,21 @@ def read_in_file(filename):
 
 
 def read_in_files_to_average(filename, amount_of_files):
-    all_data = np.array([read_in_file("{}_run{}".format(filename, file_number)) for file_number in range(amount_of_files)])
-    return np.average(all_data, axis=0), np.std(all_data, axis=0)
+    all_data = []
+    for file_path in ["{}_run{}".format(filename, file_number) for file_number in range(amount_of_files)]:
+        try:
+            all_data.append(read_in_file(file_path))
+        except FileNotFoundError:
+            print("\nWARNING: {} is missing so not plotting all folds.\n".format(file_path))
+    all_data = np.array(all_data)
+
+    averages = np.average(all_data, axis=0)
+    averages[:, 5:8] *= 100  # Back to percentages
+
+    stds = np.std(all_data, axis=0)
+    stds[:, 5:8] *= 100  # Back to percentages
+
+    return averages, stds
 
 
 def plot_collumns(list_of_metrics, collumns, y_label, legend_names, colors=None):
@@ -60,15 +73,17 @@ def plot_multiple_loss(list_of_averages, legend_names, colors=None):
     plt.show()
 
 
-def print_summary(filenames, amount_of_files):
-    # Print final accuracies + stds
-    print("\t\t\t\t\t\t\ttraining_loss\tvalidation_loss\tprecision\trecall\t\tf1\t\taccuracy\ttest_accuracy\tbest")
+def print_summary(filenames, amount_of_files, legend_names=None):
+    legend_names = legend_names or map(lambda f: f.replace('advanced_lstm', 'a_lstm'), filenames)
     averages_and_stds = [read_in_files_to_average(filename, amount_of_files) for filename in filenames]
-    filenames = map(lambda f: f.replace('advanced_lstm_test', 'a_lstm'), filenames)
-    for filename, (averages, stds) in zip(filenames, averages_and_stds):
-        s = filename.split('/')[-1] + "\t" + ("\t" if "precision8" not in filename else "")
+
+    # Print final accuracies + stds
+    print("\t\t\t\ttraining_loss\tvalidation_loss\tprecision\trecall\t\tf1\t\taccuracy\ttest_accuracy\tbest")
+    for filename, (averages, stds) in zip(legend_names, averages_and_stds):
+        s = filename.split('/')[-1]
+        s += "\t" * (4 - int(len(s) / 8))
         for average, std in zip(averages[-1, :], stds[-1, :]):
-            s += "%0.3f+/-%0.3f\t" % (average, std)
+            s += "%0.2f+/-%0.2f\t" % (average, std)
         print(s)
 
 
@@ -106,8 +121,7 @@ def parse_arguments():
 if __name__ == '__main__':
     amount_of_files, filenames, legend_names, summary = parse_arguments()
 
-    plot_selecting(filenames, amount_of_files, legend_names)
-
     if summary:
-        print_summary(filenames, amount_of_files)
+        print_summary(filenames, amount_of_files, legend_names)
 
+    plot_selecting(filenames, amount_of_files, legend_names)
