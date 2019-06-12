@@ -5,6 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.models as models
 
+from stupid_overwrites import densenet121
 from cross_validator import CrossValidator
 from networks import BaseNet
 from util import format_filename
@@ -41,16 +42,28 @@ class SinglePassCnnLstmModel(nn.Module):
         return output, (h_n, c_n)
 
     def build_cnn(self, cnn_pretrained, feature_extract, lstm_input_size):
-        # TODO: try building our own simple convolution layers (just a couple)
-        model = models.resnet18(pretrained=cnn_pretrained)  # TODO: use densenet
-        # model = models.resnet50(pretrained=cnn_pretrained)
-        # Change input layer to 1 channel
-        model.conv1 = nn.Conv2d(1, 64, kernel_size=12, stride=2, padding=3, bias=False)
+
+        model = densenet121(pretrained=False, num_classes=18)
+
+        if cnn_pretrained:
+            self.load_model('pretrained_models/densenet_test_precision8_75_adadelta')
+
         if feature_extract:
             self.freeze_all_layers()
-        # Change output layer
-        model.fc = nn.Linear(512, lstm_input_size)  # 512 for resnet18, 2048 for resnet50
+
+        model.classifier = nn.Linear(1024, lstm_input_size)
         return model
+
+        # # TODO: try building our own simple convolution layers (just a couple)
+        # model = models.resnet18(pretrained=cnn_pretrained)  # TODO: use densenet
+        # # model = models.resnet50(pretrained=cnn_pretrained)
+        # # Change input layer to 1 channel
+        # model.conv1 = nn.Conv2d(1, 64, kernel_size=12, stride=2, padding=3, bias=False)
+        # if feature_extract:
+        #     self.freeze_all_layers()
+        # # Change output layer
+        # model.fc = nn.Linear(512, lstm_input_size)  # 512 for resnet18, 2048 for resnet50
+        # return model
 
 
 class CnnLstmModel(nn.Module):
