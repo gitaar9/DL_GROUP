@@ -118,7 +118,7 @@ if __name__ == '__main__':
     # file_name += date.today().strftime("_%b_%-d_%H")
     # filename = format_filename('lstm_cnn_test_precision8',)
 
-    file_name = format_filename("lstm_cnn_test_precision8", ("precision8",) + arguments)
+    file_name = format_filename("lstm_cnn_pre8_11com", ("precision8",) + arguments)
     epochs, num_layers, hidden_size, dropout = arguments
 
     cv = CrossValidator(
