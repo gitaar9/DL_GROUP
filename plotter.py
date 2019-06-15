@@ -78,10 +78,11 @@ def print_summary(filenames, amount_of_files, legend_names=None):
     averages_and_stds = [read_in_files_to_average(filename, amount_of_files) for filename in filenames]
 
     # Print final accuracies + stds
-    print("\t\t\t\ttraining_loss\tvalidation_loss\tprecision\trecall\t\tf1\t\taccuracy\ttest_accuracy\tbest")
+    tabs = 7
+    print("\t" * tabs + "training_loss\tvalidation_loss\tprecision\trecall\t\tf1\t\taccuracy\ttest_accuracy\tbest")
     for filename, (averages, stds) in zip(legend_names, averages_and_stds):
         s = filename.split('/')[-1]
-        s += "\t" * (4 - int(len(s) / 8))
+        s += "\t" * (tabs - int(len(s) / 8))
         for average, std in zip(averages[-1, :], stds[-1, :]):
             s += "%0.2f+/-%0.2f\t" % (average, std)
         print(s)
