@@ -5,6 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.models as models
 
+from parallel_cnn_lstm import PretrainedDenseNet, PretrainedDenseNetWithoutFC
 from stupid_overwrites import densenet121
 from cross_validator import CrossValidator
 from networks import BaseNet
@@ -16,9 +17,11 @@ class SinglePassCnnLstmModel(nn.Module):
                  lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout):
         super().__init__()
         # We build the convolution network for our model.
-        self.cnn_model = self.build_cnn(cnn_pretrained, feature_extract, lstm_input_size)
+        self.cnn_model = PretrainedDenseNetWithoutFC(num_init_features=64, growth_rate=32, block_config=(6, 12, 24, 16),
+                                                     num_classes=1024, pretrained=True)  # Num classes is not used
+        #self.build_cnn(cnn_pretrained, feature_extract, lstm_input_size)
         # We build a LSTM network for our model.
-        self.lstm_model = nn.LSTM(lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout=dropout)
+        self.lstm_model = nn.LSTM(self.cnn_model.output_size, lstm_hidden_size, num_lstm_layers, dropout=dropout)
 
         self.add_module('cnn', self.cnn_model)
         self.add_module('lstm', self.lstm_model)
@@ -149,9 +152,9 @@ class OurCnnLstm(BaseNet):
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Test different cnn-lstm models on the midi database.')
-    parser.add_argument('--epochs', type=int, default=100,
+    parser.add_argument('--epochs', type=int, default=30,
                         help='The amount of epochs that the model will be trained.')
-    parser.add_argument('--num_lstm_layers', type=int, default=1,
+    parser.add_argument('--num_lstm_layers', type=int, default=2,
                         help='The number of lstm layers.')
     parser.add_argument('--lstm_hidden_size', type=int, default=256,
                         help='The amount of blocks in every lstm layer.')
