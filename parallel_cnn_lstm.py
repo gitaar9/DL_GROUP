@@ -22,7 +22,7 @@ class PretrainedDenseNet(DenseNet):
 
         # Load pretrained network
         if pretrained:
-            self.load_state_dict(torch.load('pretrained_models/densenet_test_precision8_75_adadelta'))
+            self.load_state_dict(torch.load('pretrained_models/densenet_smaller_kernel_50'))
 
         self.classifier = nn.Linear(self.output_size, num_classes)
 
