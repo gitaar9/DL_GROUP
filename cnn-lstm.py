@@ -198,7 +198,7 @@ if __name__ == '__main__':
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        batch_size=25,
+        batch_size=50,
         chunk_size=chunk_size,
         chunk_stride=chunk_stride,
         num_lstm_layers=num_lstm_layers,
