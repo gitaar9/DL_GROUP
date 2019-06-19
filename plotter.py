@@ -2,6 +2,7 @@ import argparse
 import numpy as np
 import csv
 import matplotlib.pyplot as plt
+from scipy.interpolate import make_interp_spline, BSpline
 
 
 def read_in_file(filename):
@@ -47,9 +48,17 @@ def plot_collumns(list_of_metrics, collumns, y_label, legend_names, colors=None)
     plt.show()
 
 
+def smooth_line(data, k=2, definition=100):
+    xnew = np.linspace(0, len(data) - 1, definition)
+    spl = make_interp_spline(list(range(len(data))), data, k=k)
+    return xnew, spl(xnew)
+
+
 def plot_multiple_accuracies(list_of_averages, legend_names, colors=None):
     colors = colors or plt.rcParams['axes.prop_cycle'].by_key()['color']
     for idx, averages in enumerate(list_of_averages):
+        # xnew, smooth_data = smooth_line(averages[:, 5], definition=300)
+        # plt.plot(xnew, smooth_data, colors[idx], label=legend_names[idx])
         plt.plot(averages[:, 5], colors[idx], label=legend_names[idx])
         if averages.shape[1] > 6:
             plt.plot(averages[:, 6], colors[idx], linestyle='--')
