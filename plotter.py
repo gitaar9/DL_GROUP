@@ -126,3 +126,6 @@ if __name__ == '__main__':
         print_summary(filenames, amount_of_files, legend_names)
 
     plot_selecting(filenames, amount_of_files, legend_names)
+
+
+# python plotter.py diego-cnn-lstm/cnn_lstm_11_30_160_80_1_512_1024_0.0_Jun_17 diego-cnn-lstm/cnn_lstm_11_30_160_80_1_512_1024_0.5_Jun_17 diego-cnn-lstm/cnn_lstm_11_30_160_80_2_512_128_0.0_Jun_17 diego-cnn-lstm/cnn_lstm_11_30_160_80_2_512_128_0.5_Jun_17 diego-cnn-lstm/cnn_lstm_11_30_160_80_2_512_512_0.0_Jun_17 diego-cnn-lstm/cnn_lstm_11_30_160_80_2_512_512_0.5_Jun_17 --amount_of_files 4 --print_summary
