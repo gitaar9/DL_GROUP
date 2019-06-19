@@ -1,8 +1,9 @@
 import argparse
-import numpy as np
 import csv
+
 import matplotlib.pyplot as plt
-from scipy.interpolate import make_interp_spline, BSpline
+import numpy as np
+from scipy.interpolate import make_interp_spline
 
 
 def read_in_file(filename):
