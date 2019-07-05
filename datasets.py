@@ -196,9 +196,9 @@ class MidiClassicMusic(Dataset):
         if self.run_type == 'era':
             return self.classes.index(self.composer_to_era(self.composers[composer_index]))
         if self.run_type == 'country':
-            return self.classes.index(self.composer_to_country[self.composers(composer_index)])
+            return self.classes.index(self.composer_to_country(self.composers(composer_index)))
         if self.run_type == 'year':
-            return self.classes.index(self.composer_to_year[self.composers(composer_index)])
+            return self.composer_to_year(self.composer_to_year(composer_index))
         if self.run_type == 'composers':
             return composer_index
 
@@ -210,6 +210,9 @@ class MidiClassicMusic(Dataset):
             if self.run_type == 'country':
                 if self.classes.count(self.composer_to_country(composer)) == 0:
                     self.classes.append(self.composer_to_country(composer))
+            if self.run_type == 'year':
+                if self.classes.count(self.composer_to_year(composer)) == 0:
+                    self.classes.append(self.composer_to_year(composer))
 
     def composer_to_year(self, composer):
         year = self.data_composers[np.where(self.data_composers[:, 0] == composer)][0, 1]

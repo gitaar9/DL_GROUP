@@ -30,7 +30,10 @@ class BaseNet:
         print("Loading datasets")
         self.train_loader, self.val_loader, self.test_loader = self.get_data_loaders(batch_size, cv_cycle)
         print("Done loading datasets")
-        self.loss_function = nn.CrossEntropyLoss()  # cross entropy works well for multi-class problems
+        if run_type != 'year':
+            self.loss_function = nn.CrossEntropyLoss()  # cross entropy works well for multi-class problems
+        else:
+            self.loss_function = nn.MSELoss()
 
         # optimizer: Adadelta or Adam
         if optimizer == "Adadelta":
@@ -107,6 +110,7 @@ class BaseNet:
                 X, y = data[0].to(self.device), data[1].to(self.device)
 
                 outputs = self.model(X)  # this get's the prediction from the network
+                print(outputs)
 
                 val_losses += self.loss_function(outputs, y)
 
