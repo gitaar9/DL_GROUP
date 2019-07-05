@@ -11,6 +11,7 @@ from networks import BaseNet
 from stupid_overwrites import DenseNet
 from datetime import date
 from util import format_filename
+from parallel_cnn_lstm import PretrainedLSTM
 
 class LSTM_CNN_model(nn.Module):
     def __init__(self, num_classes, input_size, hidden_size, num_layers, dropout):
@@ -21,8 +22,11 @@ class LSTM_CNN_model(nn.Module):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # LSTM
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
+        self.lstm = PretrainedLSTM(input_size, hidden_size=hidden_size, num_layers=num_layers, dropout=dropout,
+                                   pretrained=True, batch_first=True)
         self.add_module('lstm', self.lstm)
+        # self.lstm = nn.LSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
+        # self.add_module('lstm', self.lstm)
 
         # DenseNet
         self.dense_net = DenseNet(num_init_features=64, growth_rate=32, block_config=(6, 12, 24, 16), num_classes=num_classes)
@@ -39,7 +43,7 @@ class LSTM_CNN_model(nn.Module):
 
         # LSTM layers
         lstm_activation, _ = self.lstm(lstm_input, (h0, c0))
-        #lstm_activation = F.dropout(lstm_activation, p=self.dropout,
+        # lstm_activation = F.dropout(lstm_activation, p=self.dropout,
         #                            training=self.training)  # Dropout over the output of the lstm
 
         lstm_output = lstm_activation
@@ -100,21 +104,22 @@ def parse_arguments():
                         help='The amount of blocks in every lstm layer.')
     parser.add_argument('--dropout', type=float, default=.5,
                         help='The dropout rate after each lstm layer.')
-    parser.add_argument('--block_config', type=int, default=[2, 2], nargs='+',
-                        help='The configuration of the dense blocks.')
     args = parser.parse_args()
 
-    return args.epochs, args.num_layers, args.hidden_size, args.dropout, args.block_config
+    return args.epochs, args.num_layers, args.hidden_size, args.dropout
 
 
 if __name__ == '__main__':
-    epochs, num_layers, hidden_size, dropout, block_config = parse_arguments()
-    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
 
-    block_config_string = '(' + ','.join([str(i) for i in block_config]) + ')'
-    file_name = "lstm_cnn_test_precision8_{}_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout, block_config_string)
-    file_name += date.today().strftime("_%b_%-d_%H")
-    #filename = format_filename('lstm_cnn_test_precision8',)
+    arguments = parse_arguments()
+    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Vivaldi', 'Clementi', 'Beethoven', 'Haendel',
+                 'Bach', 'Chopin']
+    # file_name = "lstm_cnn_test_precision8_{}_{}_{}_{}_{}".format(epochs, num_layers, hidden_size, dropout, block_config_string)
+    # file_name += date.today().strftime("_%b_%-d_%H")
+    # filename = format_filename('lstm_cnn_test_precision8',)
+
+    file_name = format_filename("lstm_cnn_test_precision8", ("precision8",) + arguments)
+    epochs, num_layers, hidden_size, dropout = arguments
 
     cv = CrossValidator(
         model_class=Our_lstm_cnn,
@@ -122,7 +127,7 @@ if __name__ == '__main__':
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        batch_size=50,
+        batch_size=25,
         num_layers=num_layers,
         hidden_size=hidden_size,
         dropout=0,

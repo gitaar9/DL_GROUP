@@ -8,6 +8,7 @@ from torch.utils.data import DataLoader
 from cross_validator import CrossValidator
 from datasets import Mode, MidiClassicMusic
 from networks import BaseNet
+from parallel_cnn_lstm import PretrainedLSTM
 from util import format_filename
 
 
@@ -61,7 +62,7 @@ class LSTM(nn.Module):
 
 class OurLSTM(BaseNet):
     def __init__(self, num_classes=10, input_size=72, hidden_size=8, num_layers=1, dropout=0.5, n_chunks=10,
-                 pretrained=False, pretrained_model_name=None, **kwargs):
+                 pretrained=False, **kwargs):
         # load the model
         self.model = LSTM(
             num_classes=18,
@@ -72,8 +73,8 @@ class OurLSTM(BaseNet):
             n_chunks=n_chunks
         )
 
-        if pretrained and pretrained_model_name:
-            self.load_model('pretrained_models/{}'.format(pretrained_model_name))
+        if pretrained:
+            self.model.lstm = PretrainedLSTM(input_size, hidden_size, num_layers, dropout=dropout, batch_first=True)
         self.model.fc2 = nn.Linear(256, num_classes)
         self.model.add_module('fc2', self.model.fc2)
 
@@ -121,23 +122,22 @@ def parse_arguments():
                         help='Please decide which optimizer you want to use: Adam or Adadelta')
     parser.add_argument('--pretrain', default=False, action='store_true',
                         help='Use a pretrained model?.')
-    parser.add_argument('--model_name', type=str, default=None,
-                        help='The name of the pretrained model to load.')
 
     args = parser.parse_args()
 
-    return args.epochs, args.optimizer, args.num_layers, args.hidden_size, args.dropout, args.chunks, args.pretrain, args.model_name
+    return args.epochs, args.optimizer, args.num_layers, args.hidden_size, args.dropout, args.chunks, args.pretrain
 
 
 if __name__ == '__main__':
     arguments = parse_arguments()
 
-    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
+    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Vivaldi', 'Clementi', 'Beethoven', 'Haendel',
+                 'Bach', 'Chopin']
 
-    file_name = format_filename("advanced_lstm_test", ("precision8", ) + arguments)
+    file_name = format_filename("advanced_lstm_11", arguments)
 
     # Unpack the commandline arguments for use
-    epochs, optimizer, num_layers, hidden_size, dropout, chunks, pretrain, model_name = arguments
+    epochs, optimizer, num_layers, hidden_size, dropout, chunks, pretrain = arguments
 
     cv = CrossValidator(
         model_class=OurLSTM,
@@ -152,7 +152,6 @@ if __name__ == '__main__':
         n_chunks=chunks,
         optimizer=optimizer,
         pretrained=pretrain,
-        pretrained_model_name=model_name,
         verbose=False
     )
 

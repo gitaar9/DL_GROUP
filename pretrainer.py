@@ -16,7 +16,7 @@ class Pretrainer:
             print("{}\nFold {} for {}\n{}".format('#' * 30, fold, self.file_name, '#' * 30))
 
             if net is None:
-                net = self.model_class(cv_cycle=fold, **self.model_kwargs)
+                net = self.model_class(cv_cycle=fold, save_path=None, **self.model_kwargs)
             else:
                 net.change_data_loaders(self.model_kwargs['batch_size'], fold)
 

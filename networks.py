@@ -1,5 +1,6 @@
 import inspect
 import time
+from pathlib import Path
 
 import torch
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
@@ -62,12 +63,14 @@ class BaseNet:
         print("Done loading datasets")
         return train_loader, val_loader, test_loader
 
-    def change_data_loaders(self, batch_size, cv_cycle):
+    def change_data_loaders(self, batch_size, cv_cycle, composers=None):
         del self.train_loader
         del self.val_loader
         del self.test_loader
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
+
+        self.composers = composers or self.composers
         self.train_loader, self.val_loader, self.test_loader = self.get_data_loaders(batch_size, cv_cycle)
 
     def freeze_all_layers(self):
@@ -141,7 +144,8 @@ class BaseNet:
 
             if sum(accuracy) / val_batches > best_val_accuracy:
                 best_val_accuracy = sum(accuracy) / val_batches
-                self.save_model(self.save_path)
+                if self.save_path:
+                    self.save_model(self.save_path)
                 _, _, _, _, test_accuracy = self.validate(self.test_loader)
                 current_test_accuracy = sum(test_accuracy) / test_batches
 
@@ -180,6 +184,9 @@ class BaseNet:
 
     @staticmethod
     def save_metrics(name, metrics):
+        path = Path(name).parent
+        if not path.is_dir():
+            path.mkdir(parents=True)
         with open(name, 'w') as f:
             f.write('training_loss,validation_loss,precision,recall,f1,accuracy,test_accuracy\n')
             for training_loss, validation_loss, precision, recall, f1, accuracy, test_accuracy in metrics:

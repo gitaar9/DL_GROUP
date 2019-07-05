@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#SBATCH --time=01:55:00
+#SBATCH --partition=gpu
+#SBATCH --gres=gpu:v100:1
+#SBATCH --mem=96GB
+
+ml Python/3.6.4-foss-2018a
+ml CUDA/9.1.85
+
+source ../venv/bin/activate
+
+python -u class_accuracies.py densenet_11_smaller_kernel_30_Adadelta_True_Jun_12 --amount_of_files 4

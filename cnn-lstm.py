@@ -5,8 +5,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.models as models
 
+from parallel_cnn_lstm import PretrainedDenseNet, PretrainedDenseNetWithoutFC
+from stupid_overwrites import densenet121
 from cross_validator import CrossValidator
 from networks import BaseNet
+from util import format_filename
 
 
 class SinglePassCnnLstmModel(nn.Module):
@@ -14,9 +17,11 @@ class SinglePassCnnLstmModel(nn.Module):
                  lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout):
         super().__init__()
         # We build the convolution network for our model.
-        self.cnn_model = self.build_cnn(cnn_pretrained, feature_extract, lstm_input_size)
+        self.cnn_model = PretrainedDenseNetWithoutFC(num_init_features=64, growth_rate=32, block_config=(6, 12, 24, 16),
+                                                     num_classes=1024, pretrained=True)  # Num classes is not used
+        #self.build_cnn(cnn_pretrained, feature_extract, lstm_input_size)
         # We build a LSTM network for our model.
-        self.lstm_model = nn.LSTM(lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout=dropout)
+        self.lstm_model = nn.LSTM(self.cnn_model.output_size, lstm_hidden_size, num_lstm_layers, dropout=dropout)
 
         self.add_module('cnn', self.cnn_model)
         self.add_module('lstm', self.lstm_model)
@@ -24,7 +29,7 @@ class SinglePassCnnLstmModel(nn.Module):
     def forward(self, inputs):
         """
         The data is divided into the input data for the CNN
-        (size batch_size x 72 x 1600/n_chunks) and the hidden and cell
+        (size batch_size x 72 x chunk_size) and the hidden and cell
         state of the LSTM from the previous time step. Then it passes this
         data through the CNN-LSTM network.
         Args:
@@ -40,9 +45,19 @@ class SinglePassCnnLstmModel(nn.Module):
         return output, (h_n, c_n)
 
     def build_cnn(self, cnn_pretrained, feature_extract, lstm_input_size):
-        # TODO: try building our own simple convolution layers (just a couple)
-        model = models.resnet18(pretrained=cnn_pretrained)  # TODO: use densenet
-        # model = models.resnet50(pretrained=cnn_pretrained)
+
+        # model = densenet121(pretrained=False, num_classes=18)
+        #
+        # if cnn_pretrained:
+        #     self.load_model('pretrained_models/densenet_test_precision8_75_adadelta')
+        #
+        # if feature_extract:
+        #     self.freeze_all_layers()
+        #
+        # model.classifier = nn.Linear(1024, lstm_input_size)
+        # return model
+
+        model = models.resnet18(pretrained=cnn_pretrained)
         # Change input layer to 1 channel
         model.conv1 = nn.Conv2d(1, 64, kernel_size=12, stride=2, padding=3, bias=False)
         if feature_extract:
@@ -54,11 +69,13 @@ class SinglePassCnnLstmModel(nn.Module):
 
 class CnnLstmModel(nn.Module):
     def __init__(self, num_classes, input_size, cnn_pretrained, feature_extract,
-                 lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout):
+                 lstm_input_size, lstm_hidden_size, num_lstm_layers, dropout, chunk_size, chunk_stride):
         super().__init__()
         self.lstm_hidden_size = lstm_hidden_size
         self.num_lstm_layers = num_lstm_layers
         self.dropout = dropout
+        self.chunk_size = chunk_size
+        self.chunk_stride = chunk_stride
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.cnn_lstm = SinglePassCnnLstmModel(cnn_pretrained=cnn_pretrained,
@@ -91,11 +108,14 @@ class CnnLstmModel(nn.Module):
         h = torch.zeros(self.num_lstm_layers, x.size(0), self.lstm_hidden_size).to(self.device)
         c = torch.zeros(self.num_lstm_layers, x.size(0), self.lstm_hidden_size).to(self.device)
 
-        # We divide the input data into chunks, then run them through the cnn_lstm model 1 by 1
-        n_chunks = 20
-        for chunk in torch.chunk(x, n_chunks, 3):
+        # We divide the input data into chunks, then run them through the cnn_lstm model 1 by 1. We use chunk stride to
+        # overlap chunks of data so we have longer sequences without sacrificing cnn input size
+        for i in range(int(x.size()[-1] / self.chunk_stride)):
+            init_index = i*self.chunk_stride
+            end_index = init_index + self.chunk_size
+            chunk = x[:, :, :, init_index:end_index]
             output, (h, c) = self.cnn_lstm((chunk, (h, c)))
-        # TODO: dropout should be here?
+
         # Dropout over the output of the lstm
         output = output.squeeze(0)
         output = F.dropout(output, p=self.dropout, training=self.training)
@@ -112,7 +132,7 @@ class CnnLstmModel(nn.Module):
 class OurCnnLstm(BaseNet):
     def __init__(self, num_classes=10, input_size=72, cnn_pretrained=False,
                  feature_extract=False, lstm_input_size=512, lstm_hidden_size=256,
-                 num_lstm_layers=1, dropout=0.5, **kwargs):
+                 num_lstm_layers=1, dropout=0.0, chunk_size=80, chunk_stride=40, **kwargs):
         # load the model
         self.model = CnnLstmModel(
             num_classes=num_classes,
@@ -122,7 +142,9 @@ class OurCnnLstm(BaseNet):
             lstm_input_size=lstm_input_size,
             lstm_hidden_size=lstm_hidden_size,
             num_lstm_layers=num_lstm_layers,
-            dropout=dropout
+            dropout=dropout,
+            chunk_size=chunk_size,
+            chunk_stride=chunk_stride
         )
 
         super().__init__(**kwargs)
@@ -130,13 +152,13 @@ class OurCnnLstm(BaseNet):
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Test different cnn-lstm models on the midi database.')
-    parser.add_argument('--epochs', type=int, default=100,
+    parser.add_argument('--epochs', type=int, default=30,
                         help='The amount of epochs that the model will be trained.')
-    parser.add_argument('--num_lstm_layers', type=int, default=1,
+    parser.add_argument('--num_lstm_layers', type=int, default=2,
                         help='The number of lstm layers.')
     parser.add_argument('--lstm_hidden_size', type=int, default=256,
                         help='The amount of blocks in every lstm layer.')
-    parser.add_argument('--dropout', type=float, default=.5,
+    parser.add_argument('--dropout', type=float, default=0.0,
                         help='The dropout rate after each lstm layer.')
     # parser.add_argument('--cnn_pretrained', type=bool, default=False,
     #                     help='If the CNN network uses pretrained weights.')
@@ -144,29 +166,41 @@ def parse_arguments():
     #                     help='If the CNN freezes the weights so no more training.')
     parser.add_argument('--lstm_input_size', type=int, default=512,
                         help='The output size of the CNN, as well as the input size of the LSTM.')
+    parser.add_argument('--chunk_size', type=int, default=80,
+                        help='The size of the chunks that the data will be divided into.')
+    parser.add_argument('--chunk_stride', type=int, default=40,
+                        help='The stride between chunks of data. if chunk_stride==chunk_size then no overlapping')
     args = parser.parse_args()
 
-    return args.epochs, args.num_lstm_layers, args.lstm_hidden_size, args.dropout, args.lstm_input_size
+    return args.epochs, args.chunk_size, args.chunk_stride, args.num_lstm_layers, args.lstm_input_size, args.lstm_hidden_size, args.dropout
 
 
 if __name__ == '__main__':
-    epochs, num_lstm_layers, lstm_hidden_size, dropout, lstm_input_size = parse_arguments()
+    arguments = parse_arguments()
 
-    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Beethoven', 'Bach', 'Chopin']
+    saved_results_path = "diego-cnn-lstm"
+    epochs, chunk_size, chunk_stride, num_lstm_layers, lstm_input_size, lstm_hidden_size, dropout = arguments
 
-    file_name = "cnn_lstm_test_precision8_{}_{}_{}_{}_{}".format(epochs,
-                                                                 num_lstm_layers,
-                                                                 lstm_input_size,
-                                                                 lstm_hidden_size,
-                                                                 dropout)
+    composers = ['Brahms', 'Mozart', 'Schubert', 'Mendelsonn', 'Haydn', 'Vivaldi',
+                 'Clementi', 'Beethoven', 'Haendel', 'Bach', 'Chopin']
+
+    # # To run it in my computer (also change batch_size=8)
+    # lstm_input_size = 128
+    # lstm_hidden_size = 32
+    # composers = ['Pachelbel', 'Bellini', 'Field']
+
+    file_name = format_filename("cnn_lstm_11", arguments)
 
     cv = CrossValidator(
         model_class=OurCnnLstm,
         file_name=file_name,
+        folder=saved_results_path,
         composers=composers,
         num_classes=len(composers),
         epochs=epochs,
-        batch_size=100,
+        batch_size=50,
+        chunk_size=chunk_size,
+        chunk_stride=chunk_stride,
         num_lstm_layers=num_lstm_layers,
         lstm_hidden_size=lstm_hidden_size,
         dropout=dropout,

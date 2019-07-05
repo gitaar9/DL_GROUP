@@ -1,13 +1,15 @@
 #!/bin/bash
 
-#SBATCH --time=48:55:00
+#SBATCH --time=23:55:00
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:v100:1
-#SBATCH --mem=16GB
+#SBATCH --mem=100GB
 
 ml Python/3.6.4-foss-2018a
 ml CUDA/9.1.85
 
+python -m venv ../venv
 source ../venv/bin/activate
+pip install -r requirements.txt
 
-python -u cnn-lstm.py --epochs 400 --dropout 0.8
+python -u cnn-lstm.py --epochs 30 --dropout 0.5 --chunk_size 80 --chunk_stride 40 --lstm_hidden_size 128 --num_lstm_layers 2
